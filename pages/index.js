@@ -21,6 +21,9 @@ export default function Home() {
       <main>
         <Heading>
           <h1>YouTube Date Range Search</h1>
+          <p>
+            {process.env.NEXT_PUBLIC_TEST}
+          </p>
         </Heading>
         <Form />
         <Results />
