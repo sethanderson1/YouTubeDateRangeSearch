@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>YouTube Date Range Search</title>
+        <title>YouTube Date Range Search asdf</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
