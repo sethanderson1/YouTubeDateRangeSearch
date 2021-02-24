@@ -20,7 +20,6 @@ export default function DatePicker({ defaultDate, label }) {
     const [date, setDate] = useState(defaultDate);
 
     return (
-        <form className={classes.container} noValidate>
             <TextField
                 id="date"
                 label={label}
@@ -32,6 +31,5 @@ export default function DatePicker({ defaultDate, label }) {
                 }}
                 onChange={(e) => setDate(e.target.value)}
             />
-        </form>
     );
 }

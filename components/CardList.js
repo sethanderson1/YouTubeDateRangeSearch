@@ -28,6 +28,7 @@ const ResOuterWrap = styled.div`
 
 
 export const CardList = () => {
+    console.log('List')
     const res =
     {
         "kind": "youtube#searchListResponse",
@@ -115,13 +116,14 @@ export const CardList = () => {
 
 
     const [items, setItems] = useState([]);
-    const [order, setOrder] = useState("relavance")
-    const [startDate, setStartDate] = useState("2005-04-23T05:55:00Z")
-    const [endDate, setEndDate] = useState("2005-04-24T05:55:00Z")
+    const [order, setOrder] = useState("relavance");
+    const [startDate, setStartDate] = useState("2005-04-23T05:55:00Z");
+    const [endDate, setEndDate] = useState("2005-04-24T05:55:00Z");
+    const [query, setQuery] = useState('');
     const maxResults = 2;
 
     const params = {
-        key: apiKey,
+        // key: apiKey,
         q: query,
         part: 'snippet',
         maxResults,
@@ -137,7 +139,8 @@ export const CardList = () => {
             .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`);
         return queryItems.join('&');
     }
-    const queryString = formatQueryParams(params)
+    const searchURL = `https://www.googleapis.com/youtube/v3/search`;
+    const queryString = formatQueryParams(params);
     const url = searchURL + '?' + queryString;
 
     const fetchData = async () => {
@@ -149,16 +152,15 @@ export const CardList = () => {
         }
     }
 
-    // responseJson.items[i].snippet.thumbnails.medium.url
-    // "https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}"
-    // responseJson.items[i].snippet.description
-    // responseJson.items[i].snippet.title
 
     
 
+
+
+
     return (
         <ResOuterWrap>
-            {items.map(item=><Card data={item} />)}
+            {items.map(item => <Card data={item} />)}
         </ResOuterWrap>
     )
 }

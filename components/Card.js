@@ -27,7 +27,12 @@ const ResOuterWrap = styled.div`
 
 export const Card = () => {
 
-    
+    // responseJson.items[i].snippet.thumbnails.medium.url
+    // "https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}"
+    // responseJson.items[i].snippet.description
+    // responseJson.items[i].snippet.title
+
+
     return (
         <ResOuterWrap>
             <p>Ima card</p>
