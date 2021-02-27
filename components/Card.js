@@ -18,10 +18,17 @@ import DatePicker from './DatePicker'
 import styled from 'styled-components'
 
 
-const ResOuterWrap = styled.div`
+const CardOuterWrap = styled.div`
     width: 100%;
     border: 1px solid black;
-    margin-top: 20px;
+    /* margin: 20px 10px 0px 10px; */
+    /* padding: 20px 10px 0px 10px; */
+
+    a {
+        display:flex;
+        justify-content:space-around;
+        margin:50px;
+    }
 `
 
 
@@ -42,11 +49,14 @@ export const Card = ({ data }) => {
 
 
     return (
-        <ResOuterWrap>
+        <CardOuterWrap>
             <a href={`https://www.youtube.com/watch?v=${videoId}`} target="_blank">
                 <img src={high.url} />
+                <div>
+                    <h2>{title}</h2>
+                    <p>{description}</p>
+                </div>
             </a>
-            <p>Ima card</p>
-        </ResOuterWrap>
+        </CardOuterWrap>
     )
 }

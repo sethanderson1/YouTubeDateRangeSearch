@@ -23,7 +23,9 @@ import { Card } from './Card';
 const ResOuterWrap = styled.div`
     width: 100%;
     border: 1px solid black;
-    margin-top: 20px;
+    /* margin: 20px 10px 0px 10px; */
+        /* padding: 20px 10px 0px 10px; */
+
 `
 
 
