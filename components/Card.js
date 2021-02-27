@@ -27,8 +27,13 @@ const CardOuterWrap = styled.div`
     a {
         display:flex;
         justify-content:space-around;
-        margin:50px;
+        /* margin:50px; */
     }
+
+`
+
+const TitleAndDescription = styled.div`
+    width: 50%;
 `
 
 
@@ -52,10 +57,10 @@ export const Card = ({ data }) => {
         <CardOuterWrap>
             <a href={`https://www.youtube.com/watch?v=${videoId}`} target="_blank">
                 <img src={high.url} />
-                <div>
+                <TitleAndDescription>
                     <h2>{title}</h2>
                     <p>{description}</p>
-                </div>
+                </TitleAndDescription>
             </a>
         </CardOuterWrap>
     )

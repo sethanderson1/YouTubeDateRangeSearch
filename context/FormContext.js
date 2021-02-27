@@ -6,10 +6,11 @@ export const FormContextProvider = ({ children }) => {
     const [start, setStart] = useState("2005-04-23");
     const [end, setEnd] = useState("2005-04-24");
     const [date, setDate] = useState("");
-    
-    console.log('start in context', start)
-    console.log('end in context', end)
-    console.log('date in context', date)
+    const [res, setRes] = useState([]);
+
+    useEffect(() => {
+
+    }, [start, end, res])
 
     return (
         <FormContext.Provider value={{
@@ -18,7 +19,9 @@ export const FormContextProvider = ({ children }) => {
             date,
             setDate,
             end,
-            setEnd
+            setEnd,
+            res,
+            setRes,
         }}>
             {children}
         </FormContext.Provider>

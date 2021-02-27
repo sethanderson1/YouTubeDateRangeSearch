@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import {
     Button,
     Input,
@@ -18,6 +18,7 @@ import DatePicker from './DatePicker'
 import styled from 'styled-components'
 import axios from 'axios';
 import { Card } from './Card';
+import { FormContext } from '../context/FormContext';
 
 
 const ResOuterWrap = styled.div`
@@ -25,93 +26,93 @@ const ResOuterWrap = styled.div`
     border: 1px solid black;
     /* margin: 20px 10px 0px 10px; */
         /* padding: 20px 10px 0px 10px; */
-
 `
 
-
-
 export const CardList = () => {
-    const res =
-    {
-        "kind": "youtube#searchListResponse",
-        "etag": "M41wy2XEyZf-aPvLPGYlET5UVK0",
-        "nextPageToken": "CAIQAA",
-        "regionCode": "US",
-        "pageInfo": {
-            "totalResults": 1000000,
-            "resultsPerPage": 2
-        },
-        "items": [
-            {
-                "kind": "youtube#searchResult",
-                "etag": "tZhNPCuzqzs8fn-2vMHvUzzMJCw",
-                "id": {
-                    "kind": "youtube#video",
-                    "videoId": "ma67yOdMQfs"
-                },
-                "snippet": {
-                    "publishedAt": "2021-01-23T17:00:15Z",
-                    "channelId": "UC--3c8RqSfAqYBdDjIG3UNA",
-                    "title": "These Were The All-Time Surfing Moments Of The Year | Best Of 2020",
-                    "description": "Well, that was a weird ride. Though it hasn't been easy, at least when we fixed our gaze on the ocean — or favorite place in the world – very little had changed.",
-                    "thumbnails": {
-                        "default": {
-                            "url": "https://i.ytimg.com/vi/ma67yOdMQfs/default.jpg",
-                            "width": 120,
-                            "height": 90
-                        },
-                        "medium": {
-                            "url": "https://i.ytimg.com/vi/ma67yOdMQfs/mqdefault.jpg",
-                            "width": 320,
-                            "height": 180
-                        },
-                        "high": {
-                            "url": "https://i.ytimg.com/vi/ma67yOdMQfs/hqdefault.jpg",
-                            "width": 480,
-                            "height": 360
-                        }
-                    },
-                    "channelTitle": "Red Bull Surfing",
-                    "liveBroadcastContent": "none",
-                    "publishTime": "2021-01-23T17:00:15Z"
-                }
-            },
-            {
-                "kind": "youtube#searchResult",
-                "etag": "OdTFmZoH0Yx40z_Wc8ryq9lqD8Q",
-                "id": {
-                    "kind": "youtube#video",
-                    "videoId": "RC-24Nfr7fc"
-                },
-                "snippet": {
-                    "publishedAt": "2021-02-23T17:49:35Z",
-                    "channelId": "UCqhnX4jA0A5paNd1v-zEysw",
-                    "title": "GoPro: Big Wave Surfing with Kai Lenny at Jaws",
-                    "description": "GoPro Athlete Kai Lenny's winter at Jaws Thanks to GoPro HERO9 Black, you get to witness Mother Nature's raw power from the comfort of your couch ...",
-                    "thumbnails": {
-                        "default": {
-                            "url": "https://i.ytimg.com/vi/RC-24Nfr7fc/default.jpg",
-                            "width": 120,
-                            "height": 90
-                        },
-                        "medium": {
-                            "url": "https://i.ytimg.com/vi/RC-24Nfr7fc/mqdefault.jpg",
-                            "width": 320,
-                            "height": 180
-                        },
-                        "high": {
-                            "url": "https://i.ytimg.com/vi/RC-24Nfr7fc/hqdefault.jpg",
-                            "width": 480,
-                            "height": 360
-                        }
-                    },
-                    "channelTitle": "GoPro",
-                    "liveBroadcastContent": "none",
-                    "publishTime": "2021-02-23T17:49:35Z"
-                }
-            }
-        ]
-    }
+    const { res, setRes } = useContext(FormContext);
+    // const [items, setItems] = useState([])
+    console.log('res', res)
+    // const res =
+    // {
+    //     "kind": "youtube#searchListResponse",
+    //     "etag": "M41wy2XEyZf-aPvLPGYlET5UVK0",
+    //     "nextPageToken": "CAIQAA",
+    //     "regionCode": "US",
+    //     "pageInfo": {
+    //         "totalResults": 1000000,
+    //         "resultsPerPage": 2
+    //     },
+    //     "items": [
+    //         {
+    //             "kind": "youtube#searchResult",
+    //             "etag": "tZhNPCuzqzs8fn-2vMHvUzzMJCw",
+    //             "id": {
+    //                 "kind": "youtube#video",
+    //                 "videoId": "ma67yOdMQfs"
+    //             },
+    //             "snippet": {
+    //                 "publishedAt": "2021-01-23T17:00:15Z",
+    //                 "channelId": "UC--3c8RqSfAqYBdDjIG3UNA",
+    //                 "title": "These Were The All-Time Surfing Moments Of The Year | Best Of 2020",
+    //                 "description": "Well, that was a weird ride. Though it hasn't been easy, at least when we fixed our gaze on the ocean — or favorite place in the world – very little had changed.",
+    //                 "thumbnails": {
+    //                     "default": {
+    //                         "url": "https://i.ytimg.com/vi/ma67yOdMQfs/default.jpg",
+    //                         "width": 120,
+    //                         "height": 90
+    //                     },
+    //                     "medium": {
+    //                         "url": "https://i.ytimg.com/vi/ma67yOdMQfs/mqdefault.jpg",
+    //                         "width": 320,
+    //                         "height": 180
+    //                     },
+    //                     "high": {
+    //                         "url": "https://i.ytimg.com/vi/ma67yOdMQfs/hqdefault.jpg",
+    //                         "width": 480,
+    //                         "height": 360
+    //                     }
+    //                 },
+    //                 "channelTitle": "Red Bull Surfing",
+    //                 "liveBroadcastContent": "none",
+    //                 "publishTime": "2021-01-23T17:00:15Z"
+    //             }
+    //         },
+    //         {
+    //             "kind": "youtube#searchResult",
+    //             "etag": "OdTFmZoH0Yx40z_Wc8ryq9lqD8Q",
+    //             "id": {
+    //                 "kind": "youtube#video",
+    //                 "videoId": "RC-24Nfr7fc"
+    //             },
+    //             "snippet": {
+    //                 "publishedAt": "2021-02-23T17:49:35Z",
+    //                 "channelId": "UCqhnX4jA0A5paNd1v-zEysw",
+    //                 "title": "GoPro: Big Wave Surfing with Kai Lenny at Jaws",
+    //                 "description": "GoPro Athlete Kai Lenny's winter at Jaws Thanks to GoPro HERO9 Black, you get to witness Mother Nature's raw power from the comfort of your couch ...",
+    //                 "thumbnails": {
+    //                     "default": {
+    //                         "url": "https://i.ytimg.com/vi/RC-24Nfr7fc/default.jpg",
+    //                         "width": 120,
+    //                         "height": 90
+    //                     },
+    //                     "medium": {
+    //                         "url": "https://i.ytimg.com/vi/RC-24Nfr7fc/mqdefault.jpg",
+    //                         "width": 320,
+    //                         "height": 180
+    //                     },
+    //                     "high": {
+    //                         "url": "https://i.ytimg.com/vi/RC-24Nfr7fc/hqdefault.jpg",
+    //                         "width": 480,
+    //                         "height": 360
+    //                     }
+    //                 },
+    //                 "channelTitle": "GoPro",
+    //                 "liveBroadcastContent": "none",
+    //                 "publishTime": "2021-02-23T17:49:35Z"
+    //             }
+    //         }
+    //     ]
+    // }
 
     // const [items, setItems] = useState([]);
     // const [order, setOrder] = useState("relavance");
@@ -150,11 +151,25 @@ export const CardList = () => {
     //     }
     // }
 
-    const items = res.items;
+    // useEffect(() => {
+    //     if (res) {
+    //         setItems(res.data)
+    //     }
+    //     renderList();
 
-    return (
-        <ResOuterWrap>
-            {items.map(item => <Card key={item.id.videoId} data={item} />)}
-        </ResOuterWrap>
-    )
+    // }, [res])
+
+
+    let items = res && res.items;
+
+    const renderList = () => {
+        return (
+            <ResOuterWrap>
+                {items && items.map(item => <Card key={item.id.videoId} data={item} />)}
+            </ResOuterWrap>
+        )
+    }
+
+
+    return renderList()
 }
