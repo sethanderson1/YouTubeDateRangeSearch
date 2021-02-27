@@ -85,7 +85,6 @@ const DatesWrap = styled.div`
     justify-content: space-around;
 `
 
-
 export const Form = () => {
     console.log('%cForm renders', 'color:green')
     const [sortOption, setSortOption] = useState("relavance");
@@ -99,7 +98,6 @@ export const Form = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // console.log('e', e)
         console.log('query', query)
         console.log('sortOption', sortOption)
         console.log('start', start)

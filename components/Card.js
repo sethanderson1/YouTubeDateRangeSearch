@@ -25,7 +25,11 @@ const ResOuterWrap = styled.div`
 `
 
 
-export const Card = () => {
+export const Card = ({ data }) => {
+    console.log('data', data)
+
+    const { snippet: { title, description, thumbnails }, id: { videoId } } = data;
+    const { medium, high } = thumbnails
 
     // responseJson.items[i].snippet.thumbnails.medium.url
     // "https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}"
@@ -33,8 +37,15 @@ export const Card = () => {
     // responseJson.items[i].snippet.title
 
 
+
+
+
+
     return (
         <ResOuterWrap>
+            <a href={`https://www.youtube.com/watch?v=${videoId}`} target="_blank">
+                <img src={high.url} />
+            </a>
             <p>Ima card</p>
         </ResOuterWrap>
     )

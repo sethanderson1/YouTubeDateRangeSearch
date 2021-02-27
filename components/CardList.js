@@ -17,6 +17,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import DatePicker from './DatePicker'
 import styled from 'styled-components'
 import axios from 'axios';
+import { Card } from './Card';
 
 
 const ResOuterWrap = styled.div`
@@ -110,55 +111,48 @@ export const CardList = () => {
         ]
     }
 
+    // const [items, setItems] = useState([]);
+    // const [order, setOrder] = useState("relavance");
+    // const [startDate, setStartDate] = useState("2005-04-23T05:55:00Z");
+    // const [endDate, setEndDate] = useState("2005-04-24T05:55:00Z");
+    // const [query, setQuery] = useState('');
+    // const maxResults = 2;
 
+    // const params = {
+    //     // key: apiKey,
+    //     q: query,
+    //     part: 'snippet',
+    //     maxResults,
+    //     type: 'video',
+    //     // order: 'date',
+    //     order,
+    //     publishedAfter: endDate,
+    //     publishedBefore: startDate
+    // };
 
+    // function formatQueryParams(params) {
+    //     const queryItems = Object.keys(params)
+    //         .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`);
+    //     return queryItems.join('&');
+    // }
+    // const searchURL = `https://www.googleapis.com/youtube/v3/search`;
+    // const queryString = formatQueryParams(params);
+    // const url = searchURL + '?' + queryString;
 
-    const [items, setItems] = useState([]);
-    const [order, setOrder] = useState("relavance");
-    const [startDate, setStartDate] = useState("2005-04-23T05:55:00Z");
-    const [endDate, setEndDate] = useState("2005-04-24T05:55:00Z");
-    const [query, setQuery] = useState('');
-    const maxResults = 2;
+    // const fetchData = async () => {
+    //     try {
+    //         const res = await axios(url);
+    //         console.log('res', res)
+    //     } catch (e) {
 
-    const params = {
-        // key: apiKey,
-        q: query,
-        part: 'snippet',
-        maxResults,
-        type: 'video',
-        // order: 'date',
-        order,
-        publishedAfter: endDate,
-        publishedBefore: startDate
-    };
+    //     }
+    // }
 
-    function formatQueryParams(params) {
-        const queryItems = Object.keys(params)
-            .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`);
-        return queryItems.join('&');
-    }
-    const searchURL = `https://www.googleapis.com/youtube/v3/search`;
-    const queryString = formatQueryParams(params);
-    const url = searchURL + '?' + queryString;
-
-    const fetchData = async () => {
-        try {
-            const res = await axios(url);
-            console.log('res', res)
-        } catch (e) {
-
-        }
-    }
-
-
-    
-
-
-
+    const items = res.items;
 
     return (
         <ResOuterWrap>
-            {items.map(item => <Card data={item} />)}
+            {items.map(item => <Card key={item.id.videoId} data={item} />)}
         </ResOuterWrap>
     )
 }
