@@ -11,10 +11,6 @@ export const FormContextProvider = ({ children }) => {
     console.log('end in context', end)
     console.log('date in context', date)
 
-    // useEffect(() => {
-
-    // },)
-
     return (
         <FormContext.Provider value={{
             start,

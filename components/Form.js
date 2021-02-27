@@ -42,8 +42,8 @@ margin: 0 auto;
 `
 
 const FormWrap = styled.form`
-    display: flex;
-    justify-content: center;
+    /* display: flex;
+    justify-content: center; */
 `
 
 const SearchWrap = styled.div`
@@ -73,6 +73,10 @@ const OptionsWrap = styled.div`
 const SortOptionWrap = styled.div`
     display: flex;
     flex-direction: column;
+    .MuiSvgIcon-root {
+        width: 15px;
+        height: 15px;
+    }
 `
 
 const DatesWrap = styled.div`
@@ -86,9 +90,8 @@ export const Form = () => {
     console.log('%cForm renders', 'color:green')
     const [sortOption, setSortOption] = useState("relavance");
     const [query, setQuery] = useState("");
-    // console.log('query', query)
-    // const context = useContext(FormContext);
-    // const { start, setStart, end, setEnd, date, setDate } = context;
+    const context = useContext(FormContext);
+    const { start, setStart, end, setEnd, date, setDate } = context;
 
     useEffect(() => {
 
@@ -97,22 +100,22 @@ export const Form = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         // console.log('e', e)
-        // console.log('query', query)
-        // console.log('sortOption', sortOption)
-        // console.log('start', start)
-        // console.log('end', end)
+        console.log('query', query)
+        console.log('sortOption', sortOption)
+        console.log('start', start)
+        console.log('end', end)
 
         // fetchData(query, sortOptions, start)
     }
 
-    // const fetchData = (query, sortOptions, start) => {
+    const fetchData = (query, sortOptions, start) => {
 
-    // }
+    }
 
     return (
         <OuterWrap>
             <FormWrap onSubmit={(e) => handleSubmit(e)} >
-                <FormControl component="fieldset" >
+                {/* <FormControl component="fieldset" > */}
                     <SearchWrap>
                         <TextField variant="outlined" fullWidth={true} value={query} onChange={(e) => setQuery(e.target.value)} />
                         <Button variant='outlined' type="submit"><SearchIcon /></Button>
@@ -130,7 +133,7 @@ export const Form = () => {
                             <DatePicker label="end" />
                         </DatesWrap>
                     </OptionsWrap>
-                </FormControl>
+                {/* </FormControl> */}
             </FormWrap>
         </OuterWrap >
     )
