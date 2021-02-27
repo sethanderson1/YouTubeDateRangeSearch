@@ -27,22 +27,19 @@ export default function DatePicker({ label }) {
     }, [])
 
     const handleDateChange = (e) => {
-
         if (label === 'start') {
             let start = e.target.value;
             if (!moment(start).isBefore(end)) {
-                start = moment(end).subtract(1, "days").format("YYYY-MM-DD");
+                setEnd(moment(start).add(1,'days').format("YYYY-MM-DD"))
             }
             setStart(start);
         } else {
             let end = e.target.value;
             if (!moment(start).isBefore(end)) {
-                end = moment(start).add(1, "days").format("YYYY-MM-DD");
+                setStart(moment(end).subtract(1, "days").format("YYYY-MM-DD"))
             }
             setEnd(end);
         }
-
-
     }
 
     return (

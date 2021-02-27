@@ -91,7 +91,7 @@ export const Form = () => {
     const context = useContext(FormContext);
     const { start, setStart, end, setEnd, date, setDate, res, setRes } = context;
     const apiKey = process.env.NEXT_PUBLIC_API_KEY;
-    const maxResults = 10;
+    const maxResults = 1;
     let data;
 
     const handleSubmit = async (e) => {
@@ -112,6 +112,7 @@ export const Form = () => {
     const params = {
         key: apiKey,
         q: query,
+        // part: 'contentDetails',
         part: 'snippet',
         maxResults,
         type: 'video',
