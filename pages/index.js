@@ -3,6 +3,7 @@ import { Form } from '../components/Form'
 import styles from '../styles/Home.module.css'
 import styled from 'styled-components'
 import { Results } from '../components/Results'
+import { FormContextProvider } from '../context/FormContext'
 
 const Heading = styled.div`
     display:flex;
@@ -21,12 +22,11 @@ export default function Home() {
       <main>
         <Heading>
           <h1>YouTube Date Range Search</h1>
-          <p>
-            {process.env.NEXT_PUBLIC_TEST}
-          </p>
         </Heading>
-        <Form />
-        <Results />
+        <FormContextProvider>
+          <Form />
+          <Results />
+        </FormContextProvider>
       </main>
     </div>
   )

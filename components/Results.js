@@ -28,6 +28,8 @@ const ResOuterWrap = styled.div`
 
 export const Results = () => {
 
+    
+
     return (
         <ResOuterWrap>
             <CardList />

@@ -28,7 +28,6 @@ const ResOuterWrap = styled.div`
 
 
 export const CardList = () => {
-    console.log('List')
     const res =
     {
         "kind": "youtube#searchListResponse",
@@ -112,7 +111,6 @@ export const CardList = () => {
     }
 
 
-    console.log('res', res)
 
 
     const [items, setItems] = useState([]);
