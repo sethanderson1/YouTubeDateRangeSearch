@@ -14,6 +14,7 @@ import {
 } from '@material-ui/core'
 import styled from 'styled-components'
 import { CardList } from './CardList';
+import { PageNav } from './PageNav';
 
 const ResOuterWrap = styled.div`
     width: 100%;
@@ -25,6 +26,7 @@ export const Results = () => {
     return (
         <ResOuterWrap>
             <CardList />
+            <PageNav />
         </ResOuterWrap>
     )
 }

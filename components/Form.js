@@ -17,6 +17,9 @@ import DatePicker from './DatePicker'
 import styled from 'styled-components'
 import { FormContext } from '../context/FormContext';
 import axios from 'axios';
+// import useFetch from '../hooks/useFetch'
+import fetchData from '../utils/fetchData'
+
 
 const OuterWrap = styled.div`
 margin: 0 auto;
@@ -86,28 +89,38 @@ const DatesWrap = styled.div`
 
 export const Form = () => {
     console.log('%cForm renders', 'color:green')
-    const [sortOption, setSortOption] = useState("relevance");
-    const [query, setQuery] = useState("");
     const context = useContext(FormContext);
-    const { start, setStart, end, setEnd, date, setDate, res, setRes } = context;
-    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
-    const maxResults = 1;
-    let data;
+    const {reset, query, setQuery, sortOption, setSortOption, maxResults, setMaxResults, start, setStart, end, setEnd, date, setDate, res, setRes, pageTokens, setPageTokens } = context;
+    // const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY1;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        // reset page tokens
+        // resetPageTokens();
+        reset();
+        
+
         console.log('query', query)
         console.log('sortOption', sortOption)
         console.log('start', start)
         console.log('end', end)
-        data = await fetchData();
-        console.log('data', data)
+        let pageToken = undefined;
+        const resData = await fetchData({ query, maxResults, sortOption, start, end, pageToken });
+        console.log('resData', resData)
+
+        setRes(resData)
+
     }
 
-    useEffect(() => {
-        setRes(data);
-    }, [data])
-
+    // useEffect(() => {
+    //     const nextPageToken = res?.nextPageToken;
+    //     console.log('res in useeffect', res)
+    //     console.log('nextPageToken', nextPageToken)
+    //     const prevPageToken = res?.prevPageToken;
+    //     console.log('prevPageToken', prevPageToken)
+    //     if (prevPageToken || nextPageToken) setTokens(prevPageToken, nextPageToken)
+    // }, [res])
 
     const params = {
         key: apiKey,
@@ -121,27 +134,26 @@ export const Form = () => {
         publishedBefore: `${end}T05:55:00Z`
     };
 
-    const searchURL = `https://youtube.googleapis.com/youtube/v3/search`;
-    const queryString = formatQueryParams(params);
-    const url = searchURL + '?' + queryString;
     function formatQueryParams(params) {
         const queryItems = Object.keys(params)
             .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`);
         return queryItems.join('&');
     }
 
+    const searchURL = `https://youtube.googleapis.com/youtube/v3/search`;
+    const queryString = formatQueryParams(params);
+    const url = searchURL + '?' + queryString;
 
-    const fetchData = async () => {
-        console.log('url in fetchData', url)
-        try {
-            const res = await axios(url);
-            console.log('res', res)
-            setRes(res.data)
-        } catch (e) {
-            console.log('e', e)
-
-        }
-    }
+    // const setTokens = (prevPageToken, nextPageToken) => {
+    //     if (prevPageToken && pageTokens[0] === 'DUMMY') {
+    //         console.log('setTokens opt 1')
+    //         setPageTokens(formerTokens => [prevPageToken, ...formerTokens])
+    //     } else {
+    //         console.log('setTokens opt 2')
+    //         console.log('pageTokens', pageTokens)
+    //         setPageTokens(formerTokens => [...formerTokens, nextPageToken])
+    //     }
+    // }
 
     return (
         <OuterWrap>

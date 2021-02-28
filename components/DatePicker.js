@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function DatePicker({ label }) {
-    console.log('%cDatePicker renders', 'color:green')
+    // console.log('%cDatePicker renders', 'color:green')
     const classes = useStyles();
     const context = useContext(FormContext);
     const { start, setStart, end, setEnd, date, setDate } = context;
