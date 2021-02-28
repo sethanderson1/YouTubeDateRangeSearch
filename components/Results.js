@@ -18,7 +18,7 @@ import { PageNav } from './PageNav';
 
 const ResOuterWrap = styled.div`
     width: 100%;
-    border: 1px solid blue;
+    /* border: 1px solid blue; */
     margin-top: 20px;
 `
 export const Results = () => {

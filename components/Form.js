@@ -20,8 +20,12 @@ import axios from 'axios';
 // import useFetch from '../hooks/useFetch'
 import fetchData from '../utils/fetchData'
 
+const theme = 'white';
 
 const OuterWrap = styled.div`
+icon {
+    color:${theme};
+}
 margin: 0 auto;
     width: 60vw;
     min-width:320px;
@@ -52,6 +56,7 @@ const SearchWrap = styled.div`
     display:flex;
     justify-content:center;
     margin:0 auto;
+    border: 1px solid ${theme};
     button {
         border-left: rgba(0,0,0,0);
         border-radius: 0 5px 5px 0;
@@ -69,6 +74,8 @@ const OptionsWrap = styled.div`
     margin-top:10px;
     display:flex;
     justify-content:space-around;
+    color: white;
+
     
 `
 
@@ -85,11 +92,19 @@ const DatesWrap = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+
+    label {
+        color: ${theme};
+    }
+    #date {
+        color: ${theme};
+    }
 `
 
 export const Form = () => {
     console.log('%cForm renders', 'color:green')
     const context = useContext(FormContext);
+    console.log('context', context)
     const {
         reset,
         query,

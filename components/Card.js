@@ -20,7 +20,7 @@ import styled from 'styled-components'
 
 const CardOuterWrap = styled.div`
     width: 100%;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     /* margin: 20px 10px 0px 10px; */
     /* padding: 20px 10px 0px 10px; */
 

@@ -14,6 +14,7 @@ export const FormContextProvider = ({ children }) => {
     const [curPage, setCurPage] = useState(1);
     const [pageTokens, setPageTokens] = useState(['DUMMY']);
     const [hasSearched, setHasSearched] = useState(false);
+    console.log('hasSearched', hasSearched)
 
 
     const reset = () => {

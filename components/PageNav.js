@@ -127,7 +127,7 @@ export const PageNav = () => {
             if (!(tokenAlreadyExists(prevPageToken) || tokenAlreadyExists(nextPageToken))) {
                 console.log('setting tokens')
                 if (nextPageToken !== undefined) {
-                    setTokens(prevPageToken, nextPageToken)
+                    setTokens(prevPageToken, nextPageToken);
                 } else {
                     setNextUndef(true);
                 }

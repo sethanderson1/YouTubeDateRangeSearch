@@ -23,7 +23,7 @@ import { FormContext } from '../context/FormContext';
 
 const ResOuterWrap = styled.div`
     width: 100%;
-    border: 1px solid black;
+    /* border: 1px solid black; */
 `
 
 export const CardList = () => {

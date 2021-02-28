@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(1),
         width: 200,
     },
+    color:theme.palette.success,
 }));
 
 export default function DatePicker({ label }) {
@@ -30,7 +31,7 @@ export default function DatePicker({ label }) {
         if (label === 'start') {
             let start = e.target.value;
             if (!moment(start).isBefore(end)) {
-                setEnd(moment(start).add(1,'days').format("YYYY-MM-DD"))
+                setEnd(moment(start).add(1, 'days').format("YYYY-MM-DD"))
             }
             setStart(start);
         } else {
@@ -44,6 +45,8 @@ export default function DatePicker({ label }) {
 
     return (
         <TextField
+            // color="primary"
+            // style={{color:'white'}}
             id="date"
             label={label}
             type="date"
@@ -53,6 +56,8 @@ export default function DatePicker({ label }) {
                 shrink: true,
             }}
             onChange={handleDateChange}
+            // color={classes.color}
+            
         />
     );
 }
