@@ -13,6 +13,7 @@ export const FormContextProvider = ({ children }) => {
     const [res, setRes] = useState([]);
     const [curPage, setCurPage] = useState(1);
     const [pageTokens, setPageTokens] = useState(['DUMMY']);
+    const [hasSearched, setHasSearched] = useState(false);
 
 
     const reset = () => {
@@ -21,10 +22,6 @@ export const FormContextProvider = ({ children }) => {
     }
 
     console.log('%cFormContextProvider ran','color:green')
-
-    useEffect(() => {
-
-    }, [start, end, res])
 
     return (
         <FormContext.Provider value={{
@@ -46,7 +43,9 @@ export const FormContextProvider = ({ children }) => {
             pageTokens,
             setPageTokens,
             curPage,
-            setCurPage
+            setCurPage,
+            hasSearched,
+            setHasSearched
         }}>
             {children}
         </FormContext.Provider>

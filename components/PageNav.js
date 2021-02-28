@@ -25,9 +25,11 @@ const ResOuterWrap = styled.div`
 `
 export const PageNav = () => {
     console.log('%cPageNav renders', 'color:green')
+    const [nextUndef ,setNextUndef] = useState(false)
 
     const context = useContext(FormContext);
     const {
+        reset,
         query,
         setQuery,
         maxResults,
@@ -45,7 +47,9 @@ export const PageNav = () => {
         pageTokens,
         setPageTokens,
         curPage,
-        setCurPage
+        setCurPage,
+        hasSearched,
+        setHasSearched
     } = context;
     console.log('pageTokens', pageTokens)
 
@@ -76,7 +80,9 @@ export const PageNav = () => {
     }
 
     const handleClickPrev = async () => {
-        const prevPageToken = pageTokens[pageTokens.length - 1 - 1];
+        console.log('pageTokens.length - 1 - 1 - 1', pageTokens.length - 1 - 1 - 1)
+        console.log('pageTokens[pageTokens.length - 1 - 1 - 1]', pageTokens[pageTokens.length - 1 - 1 - 1])
+        const prevPageToken = pageTokens[pageTokens.length - 1 - 1 - 1];
         console.log('prevPageToken in PageNav', prevPageToken)
         const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: prevPageToken })
         console.log('res in PageNav', res)
@@ -115,11 +121,16 @@ export const PageNav = () => {
 
         console.log('curPage', curPage)
         console.log('pageTokens.length', pageTokens.length)
+        setNextUndef(false);
 
         if ((prevPageToken || nextPageToken)) {
             if (!(tokenAlreadyExists(prevPageToken) || tokenAlreadyExists(nextPageToken))) {
                 console.log('setting tokens')
-                setTokens(prevPageToken, nextPageToken)
+                if (nextPageToken !== undefined) {
+                    setTokens(prevPageToken, nextPageToken)
+                } else {
+                    setNextUndef(true);
+                }
             }
         }
     }, [res])
@@ -128,12 +139,22 @@ export const PageNav = () => {
         return pageTokens.includes(token);
     }
 
-    return (
-        <ResOuterWrap>
-            <Button onClick={() => handleClickPrev()} disabled={pageTokens.length === 0 ? true : false} >Prev</Button>
-            {pageTokens.map((token, i) => <Button key={i} onClick={() => handleClickPageNum(token, i)} disabled={isCurrentPage(token, i)}>{i + 1}</Button>)}
-            {/* {pageTokensTest.map((token, i) => <Button key={i} onClick={() => handleClickPageNum(token)} disabled={isCurrentPage(token)}>{i + 1}</Button>)} */}
-            <Button onClick={() => handleClickNext()}>Next</Button>
-        </ResOuterWrap>
-    )
+    const renderNav = () => {
+        console.log('hasSearched', hasSearched)
+        if (hasSearched) {
+            console.log('pageTokens.length', pageTokens.length)
+            return (
+                <ResOuterWrap>
+                    <Button onClick={() => handleClickPrev()} disabled={curPage === 1 ? true : false} >Prev</Button>
+                    {pageTokens.map((token, i) => <Button key={i} onClick={() => handleClickPageNum(token, i)} disabled={isCurrentPage(token, i)}>{i + 1}</Button>)}
+                    {/* {pageTokensTest.map((token, i) => <Button key={i} onClick={() => handleClickPageNum(token)} disabled={isCurrentPage(token)}>{i + 1}</Button>)} */}
+                    <Button onClick={() => handleClickNext()} disabled={nextUndef ? true : false}>Next</Button>
+                </ResOuterWrap>
+            )
+        } else {
+            return null;
+        }
+    }
+
+    return renderNav();
 }

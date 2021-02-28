@@ -90,7 +90,28 @@ const DatesWrap = styled.div`
 export const Form = () => {
     console.log('%cForm renders', 'color:green')
     const context = useContext(FormContext);
-    const {reset, query, setQuery, sortOption, setSortOption, maxResults, setMaxResults, start, setStart, end, setEnd, date, setDate, res, setRes, pageTokens, setPageTokens } = context;
+    const {
+        reset,
+        query,
+        setQuery,
+        maxResults,
+        setMaxResults,
+        sortOption,
+        setSortOption,
+        start,
+        setStart,
+        date,
+        setDate,
+        end,
+        setEnd,
+        res,
+        setRes,
+        pageTokens,
+        setPageTokens,
+        curPage,
+        setCurPage,
+        hasSearched,
+        setHasSearched } = context;
     // const apiKey = process.env.NEXT_PUBLIC_API_KEY;
     const apiKey = process.env.NEXT_PUBLIC_API_KEY1;
 
@@ -99,7 +120,7 @@ export const Form = () => {
         // reset page tokens
         // resetPageTokens();
         reset();
-        
+        setHasSearched(true);
 
         console.log('query', query)
         console.log('sortOption', sortOption)
