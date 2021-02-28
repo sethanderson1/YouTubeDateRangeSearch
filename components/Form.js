@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect, useRef } from 'react'
 import {
     Button,
     Input,
@@ -24,7 +24,9 @@ export const Form = () => {
     console.log('%cForm renders', 'color:green')
     const context = useContext(FormContext);
     console.log('context', context)
-
+    const [qry, setQry] = useState('');
+    // const [qry, setQry] = useState('');
+    const queryRef = useRef(null);
 
     const {
         theme,
@@ -106,6 +108,8 @@ export const Form = () => {
                 height: 40px;
                 padding: 0;
                 padding-left: 10px;
+                color: ${theme};
+
             }
         }
     `
@@ -145,7 +149,7 @@ export const Form = () => {
 
 
 
-
+// TODO: change input component to its own component so rerenders more light
 
 
 
@@ -159,60 +163,26 @@ export const Form = () => {
         // reset page tokens
         // resetPageTokens();
         reset();
-        setHasSearched(true);
-
+        console.log('queryRef', queryRef)
+        console.log('e.target', e.target)
+        console.log('e.target.value', e.target.value)
+        console.log('qry', qry)
         console.log('query', query)
         console.log('sortOption', sortOption)
         console.log('start', start)
         console.log('end', end)
         let pageToken = undefined;
-        const resData = await fetchData({ query, maxResults, sortOption, start, end, pageToken });
-        console.log('resData', resData)
+        const resData = await fetchData({ query: qry, maxResults, sortOption, start, end, pageToken });
+        // console.log('resData', resData)
 
-        setRes(resData)
+        setHasSearched(true);
+        setQuery(qry);
+        setRes(resData);
 
     }
 
-    // useEffect(() => {
-    //     const nextPageToken = res?.nextPageToken;
-    //     console.log('res in useeffect', res)
-    //     console.log('nextPageToken', nextPageToken)
-    //     const prevPageToken = res?.prevPageToken;
-    //     console.log('prevPageToken', prevPageToken)
-    //     if (prevPageToken || nextPageToken) setTokens(prevPageToken, nextPageToken)
-    // }, [res])
-
-    const params = {
-        key: apiKey,
-        q: query,
-        // part: 'contentDetails',
-        part: 'snippet',
-        maxResults,
-        type: 'video',
-        order: sortOption,
-        publishedAfter: `${start}T05:55:00Z`,
-        publishedBefore: `${end}T05:55:00Z`
-    };
-
-    function formatQueryParams(params) {
-        const queryItems = Object.keys(params)
-            .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`);
-        return queryItems.join('&');
-    }
-
-    const searchURL = `https://youtube.googleapis.com/youtube/v3/search`;
-    const queryString = formatQueryParams(params);
-    const url = searchURL + '?' + queryString;
-
-    // const setTokens = (prevPageToken, nextPageToken) => {
-    //     if (prevPageToken && pageTokens[0] === 'DUMMY') {
-    //         console.log('setTokens opt 1')
-    //         setPageTokens(formerTokens => [prevPageToken, ...formerTokens])
-    //     } else {
-    //         console.log('setTokens opt 2')
-    //         console.log('pageTokens', pageTokens)
-    //         setPageTokens(formerTokens => [...formerTokens, nextPageToken])
-    //     }
+    // const handleOnChange = (e) => {
+    //     return (e) => setQuery(e.target.value)
     // }
 
     return (
@@ -220,7 +190,9 @@ export const Form = () => {
             <FormWrap onSubmit={(e) => handleSubmit(e)} >
                 {/* <FormControl component="fieldset" > */}
                 <SearchWrap>
-                    <TextField variant="outlined" fullWidth={true} value={query} onChange={(e) => setQuery(e.target.value)} />
+                    {/* <TextField variant="outlined" fullWidth={true}  value={query} onChange={(e) => setQuery(e.target.value)} autoFocus/> */}
+                    <TextField ref={queryRef} variant="outlined" fullWidth={true} value={qry} onChange={(e) => setQry(e.target.value)} autoFocus />
+                    {/* <TextField variant="outlined" fullWidth={true}  autoFocus/> */}
                     <Button variant='outlined' type="submit"><SearchIcon /></Button>
                 </SearchWrap>
                 <OptionsWrap >
