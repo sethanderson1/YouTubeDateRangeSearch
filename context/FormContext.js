@@ -4,6 +4,7 @@ export const FormContext = createContext();
 
 export const FormContextProvider = ({ children }) => {
 
+    const [theme, setTheme] = useState('white');
     const [query, setQuery] = useState("");
     const [maxResults, setMaxResults] = useState(1);
     const [sortOption, setSortOption] = useState('relevance');
@@ -14,6 +15,7 @@ export const FormContextProvider = ({ children }) => {
     const [curPage, setCurPage] = useState(1);
     const [pageTokens, setPageTokens] = useState(['DUMMY']);
     const [hasSearched, setHasSearched] = useState(false);
+
     console.log('hasSearched', hasSearched)
 
 
@@ -22,10 +24,12 @@ export const FormContextProvider = ({ children }) => {
         setCurPage(1);
     }
 
-    console.log('%cFormContextProvider ran','color:green')
+    console.log('%cFormContextProvider ran', 'color:green')
 
     return (
         <FormContext.Provider value={{
+            theme,
+            setTheme,
             reset,
             query,
             setQuery,

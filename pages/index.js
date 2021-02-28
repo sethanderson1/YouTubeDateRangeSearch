@@ -42,7 +42,8 @@ export default function Home() {
 
   const H1 = styled.h1`
     font-weight: 100;
-    color: ${theme};
+    /* color: ${theme}; */
+    color: gray;
 `
 
   const renderVideo = () => {
