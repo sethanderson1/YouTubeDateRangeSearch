@@ -49,7 +49,8 @@ export default function Home() {
   const renderVideo = () => {
     if (!context?.hasSearched) {
       return (<Video autoPlay loop muted id='video' >
-        <source src={'/kitten.mp4'} type="video/mp4" />
+        <source src={'/keyboard_cat.mp4'} type="video/mp4" />
+        {/* <source src={'/kitten.mp4'} type="video/mp4" /> */}
       </Video>)
     } else {
       null

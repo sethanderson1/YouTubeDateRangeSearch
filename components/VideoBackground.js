@@ -35,7 +35,9 @@ export const VideoBackground = () => {
             return (
                 <VideoWrap>
                     <Video autoPlay loop muted id='video' >
-                        <source src={'/kitten.mp4'} type="video/mp4" />
+                        {/* <source src={'/kitten.mp4'} type="video/mp4" /> */}
+                        <source src={'/keyboard_cat.mp4'} type="video/mp4" />
+
                     </Video>
                 </VideoWrap>
             )
