@@ -20,7 +20,7 @@ import styled from 'styled-components'
 
 const CardOuterWrap = styled.div`
     margin-top: 10px;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     display: flex;
     justify-content: center;
     a {
@@ -32,7 +32,7 @@ const CardOuterWrap = styled.div`
 `
 
 const ImgAndTextWrap = styled.div`
-    border: 1px solid blue;
+    /* border: 1px solid blue; */
     @media screen and (min-width: 900px) {
         display: flex;
         justify-content: center;
@@ -51,7 +51,7 @@ const ImageWrap = styled.div`
 `
 
 const TitleAndDescription = styled.div`
-    border: 1px solid red;
+    /* border: 1px solid red; */
     text-align: center;
     margin:20px;
     max-width: 450px;
