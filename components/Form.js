@@ -134,7 +134,7 @@ export const Form = () => {
         <OuterWrap>
             <FormWrap>
                 {/* <FormControl component="fieldset" > */}
-                <Search submitHandler={submitHandler} />
+                <Search submitHandler={submitHandler} hasSearched={hasSearched} />
                 <OptionsWrap >
                     <SortOptionWrap>
                         <RadioGroup aria-label="video sort options" name="sort-options" value={sortOption} onChange={(e) => setSortOption(e.target.value)}>

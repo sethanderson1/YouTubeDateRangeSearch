@@ -13,7 +13,6 @@ const SearchWrap = styled.div`
 display:flex;
 justify-content:center;
 margin:0 auto;
-border:1px solid gray;
 button {
     border-left: rgba(0,0,0,0);
     border-radius: 0 5px 5px 0;
@@ -31,7 +30,7 @@ button {
 }
 `
 
-export const Search = ({submitHandler}) => {
+export const Search = ({ submitHandler, hasSearched }) => {
     console.log('%cSearch renders', 'color:green')
     const [qry, setQry] = useState("");
 
@@ -49,9 +48,11 @@ export const Search = ({submitHandler}) => {
     }
 
     return (
-            <SearchWrap>
-                <TextField variant="outlined" fullWidth={true} value={qry} onChange={handleOnChange} onKeyPress={handleKeyPress} />
-                <Button variant='outlined' type="submit" onClick={handleClick} ><SearchIcon /></Button>
-            </SearchWrap>
+        <SearchWrap style={{
+            border: `1px solid ${hasSearched ? 'white' : 'gray'}`
+        }}>
+            <TextField variant="outlined" fullWidth={true} value={qry} onChange={handleOnChange} onKeyPress={handleKeyPress} />
+            <Button variant='outlined' type="submit" onClick={handleClick} ><SearchIcon /></Button>
+        </SearchWrap>
     )
 }

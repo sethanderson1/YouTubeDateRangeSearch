@@ -10,10 +10,11 @@ import fetchData from '../utils/fetchData';
 const NavWrap = styled.div`
     display:flex;
     justify-content:center;
-    margin-top:30px;
+    margin-top:50px;
+    margin-bottom:50px;
     /* border: 1px solid red; */
 `
-export const PageNav = () => {
+export const PageNav = ({ executeScroll }) => {
     console.log('%cPageNav renders', 'color:green')
     const [nextUndef, setNextUndef] = useState(false)
 
@@ -59,25 +60,27 @@ export const PageNav = () => {
     }
 
     const handleClickNext = async () => {
-        // const nextPageToken = pageTokens[pageTokens.length - 1];
         const nextPageToken = pageTokens[curPage];
         const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
         setRes(res)
         setCurPage(prevPage => prevPage + 1)
+        executeScroll();
     }
-    
+
     const handleClickPrev = async () => {
-        // const prevPageToken = pageTokens[pageTokens.length - 1 - 1 - 1];
-        const prevPageToken = pageTokens[curPage-2];
-        const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: prevPageToken })
-        setRes(res)
-        setCurPage(prevPage => prevPage - 1)
+        const prevPageToken = pageTokens[curPage - 2];
+        const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: prevPageToken });
+        setRes(res);
+        setCurPage(prevPage => prevPage - 1);
+        executeScroll();
+
     }
 
     const handleClickPageNum = async (token, i) => {
-        const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: token })
-        setRes(res)
-        setCurPage(i + 1)
+        const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: token });
+        setRes(res);
+        setCurPage(i + 1);
+        executeScroll();
     }
 
     const isCurrentPage = (token, i) => {

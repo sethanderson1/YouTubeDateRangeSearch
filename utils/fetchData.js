@@ -5,8 +5,8 @@ export default async function fetchData({ query, sortOption, start, end, maxResu
     console.log('query in fetch data', query)
 
     const params = {
-        // key: process.env.NEXT_PUBLIC_API_KEY,
-        key: process.env.NEXT_PUBLIC_API_KEY1,
+        key: process.env.NEXT_PUBLIC_API_KEY,
+        // key: process.env.NEXT_PUBLIC_API_KEY1,
         q: query,
         // part: 'contentDetails',
         part: 'snippet',
