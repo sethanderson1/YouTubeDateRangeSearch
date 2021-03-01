@@ -30,7 +30,7 @@ export const CardList = () => {
     console.log('%cCardList renders', 'color:green')
 
     const { res, setRes } = useContext(FormContext);
-    console.log('res', res)
+    // console.log('res', res)
     let items = res && res.items;
 
     const renderList = () => {

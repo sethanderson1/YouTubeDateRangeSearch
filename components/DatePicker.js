@@ -21,7 +21,7 @@ export default function DatePicker({ label }) {
     // console.log('%cDatePicker renders', 'color:green')
     const classes = useStyles();
     const context = useContext(FormContext);
-    const { start, setStart, end, setEnd, date, setDate } = context;
+    const { start, setStart, end, setEnd, setDate } = context;
 
     useEffect(() => {
         label === 'start' ? setDate(start) : setDate(end);

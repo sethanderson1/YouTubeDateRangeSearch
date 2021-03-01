@@ -4,7 +4,7 @@ export const FormContext = createContext();
 
 export const FormContextProvider = ({ children }) => {
 
-    const [theme, setTheme] = useState('white');
+    const [theme, setTheme] = useState('gray');
     const [query, setQuery] = useState("");
     const [maxResults, setMaxResults] = useState(1);
     const [sortOption, setSortOption] = useState('relevance');

@@ -26,7 +26,9 @@ export const Results = () => {
     return (
         <ResOuterWrap>
             <CardList />
-            <PageNav />
+            {/* <QueryContextProvider> */}
+                <PageNav />
+            {/* </QueryContextProvider> */}
         </ResOuterWrap>
     )
 }

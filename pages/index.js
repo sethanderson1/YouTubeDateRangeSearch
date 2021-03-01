@@ -26,18 +26,6 @@ const Video = styled.video`
 export default function Home() {
   console.log('%cHome renders', 'color:green')
 
-  const context = useContext(FormContext);
-  // const { hasSearched } = context;
-  // console.log('hasSearched', hasSearched)
-  // const hasSearched = true;
-
-
-
-  useEffect(() => {
-
-    console.log('context?.hasSearched', context?.hasSearched)
-  }, [context?.hasSearched])
-
   const theme = 'white';
 
   const H1 = styled.h1`
@@ -45,18 +33,6 @@ export default function Home() {
     /* color: ${theme}; */
     color: gray;
 `
-
-  const renderVideo = () => {
-    if (!context?.hasSearched) {
-      return (<Video autoPlay loop muted id='video' >
-        <source src={'/keyboard_cat.mp4'} type="video/mp4" />
-        {/* <source src={'/kitten.mp4'} type="video/mp4" /> */}
-      </Video>)
-    } else {
-      null
-    }
-
-  }
 
   return (
     <>
@@ -67,11 +43,10 @@ export default function Home() {
       <FormContextProvider>
         <VideoBackground />
         <main>
-          {/* {renderVideo()} */}
           <Heading>
             <H1>YouTube Date Range Search</H1>
           </Heading>
-          <Form />
+            <Form />
           <Results />
         </main>
       </FormContextProvider>

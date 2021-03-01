@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
 import axios from 'axios';
 
+// export default async function fetchData() {
 export default async function fetchData({ query, sortOption, start, end, maxResults, pageToken }) {
+    console.log('query in fetch data', query)
 
     const params = {
         // key: process.env.NEXT_PUBLIC_API_KEY,
@@ -16,7 +17,6 @@ export default async function fetchData({ query, sortOption, start, end, maxResu
         publishedBefore: `${end}T05:55:00Z`
     };
 
-
     function formatQueryParams(params) {
         if (pageToken) params.pageToken = pageToken;
         console.log('pageToken', pageToken)
@@ -29,8 +29,6 @@ export default async function fetchData({ query, sortOption, start, end, maxResu
     const queryString = formatQueryParams(params);
     const url = searchURL + '?' + queryString;
 
-
-
     console.log('url in fetchData', url)
     try {
         const res = await axios(url);
@@ -40,6 +38,4 @@ export default async function fetchData({ query, sortOption, start, end, maxResu
     } catch (e) {
         console.log('e', e)
     }
-
-
 }
