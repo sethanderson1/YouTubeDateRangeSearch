@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-// export default async function fetchData() {
 export default async function fetchData({ query, sortOption, start, end, maxResults, pageToken }) {
     console.log('query in fetch data', query)
 
@@ -18,7 +17,7 @@ export default async function fetchData({ query, sortOption, start, end, maxResu
     };
 
     function formatQueryParams(params) {
-        if (pageToken) params.pageToken = pageToken;
+        if (pageToken && pageToken !== 'DUMMY') params.pageToken = pageToken;
         console.log('pageToken', pageToken)
         const queryItems = Object.keys(params)
             .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`);
@@ -30,6 +29,19 @@ export default async function fetchData({ query, sortOption, start, end, maxResu
     const url = searchURL + '?' + queryString;
 
     console.log('url in fetchData', url)
+    // try {
+    //     const res = await axios(url);
+    //     console.log('res', res)
+    //     console.log('res.data.nextPageToken', res.data.nextPageToken)
+    //     if (res.data.items > 0) {
+    //         return res.data;
+    //     } else {
+    //         fetchData({ query, sortOption, start, end, maxResults, pageToken });
+    //     }
+    // } catch (e) {
+    //     console.log('e', e)
+    // }
+
     try {
         const res = await axios(url);
         console.log('res', res)

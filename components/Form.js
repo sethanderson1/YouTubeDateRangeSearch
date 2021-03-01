@@ -24,7 +24,7 @@ const OuterWrap = styled.div`
 icon {
     color:${theme};
 }
-margin: 0 auto;
+    margin: 0 auto;
     width: 60vw;
     min-width:320px;
     max-width:600px;

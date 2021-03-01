@@ -5,7 +5,9 @@ import { PageNav } from './PageNav';
 
 const ResOuterWrap = styled.div`
     width: 100%;
+    /* margin: 0 auto; */
     margin-top: 40px;
+
 `
 
 const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);

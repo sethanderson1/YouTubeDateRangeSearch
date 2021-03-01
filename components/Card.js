@@ -19,23 +19,49 @@ import styled from 'styled-components'
 
 
 const CardOuterWrap = styled.div`
-    width: 100%;
-    /* border: 1px solid black; */
-    /* margin: 20px 10px 0px 10px; */
-    /* padding: 20px 10px 0px 10px; */
-
+    margin-top: 10px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
     a {
-        display:flex;
-        justify-content:space-around;
-        max-width: 1200px;
-        /* margin:50px; */
+        :hover {
+            background-color:rgb(0,0,0,0.2);
+            filter: brightness(70%);
+        }
     }
+`
 
+const ImgAndTextWrap = styled.div`
+    border: 1px solid blue;
+    @media screen and (min-width: 900px) {
+        display: flex;
+        justify-content: center;
+        
+    }
+`
+
+const ImageWrap = styled.div`
+
+    img {
+        width: 100%;
+        @media screen and (min-width: 480px) {
+            width: 480px;
+        }
+    }
 `
 
 const TitleAndDescription = styled.div`
-    width: 50%;
+    border: 1px solid red;
+    text-align: center;
+    margin:20px;
+    max-width: 450px;
+    max-height: 309px;
+    overflow: hidden;
+    @media screen and (min-width: 900px) {
+        width: 450px;   
+    }
 `
+
 
 
 export const Card = ({ data }) => {
@@ -44,24 +70,30 @@ export const Card = ({ data }) => {
     const { snippet: { title, description, thumbnails }, id: { videoId } } = data;
     const { medium, high } = thumbnails
 
-    // responseJson.items[i].snippet.thumbnails.medium.url
-    // "https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}"
-    // responseJson.items[i].snippet.description
-    // responseJson.items[i].snippet.title
-
-
-
-
+    // const renderThumbnail = () => {
+    //     if (window.innerWidth < 500) {
+    //         return (
+    //             <img src={medium.url} />
+    //         )
+    //     }
+    //     return (
+    //         <img src={high.url} />
+    //     )
+    // }
 
 
     return (
         <CardOuterWrap>
             <a href={`https://www.youtube.com/watch?v=${videoId}`} target="_blank">
-                <img src={high.url} />
-                <TitleAndDescription>
-                    <h2>{title}</h2>
-                    <p>{description}</p>
-                </TitleAndDescription>
+                <ImgAndTextWrap>
+                    <ImageWrap>
+                        <img src={high.url} />
+                    </ImageWrap>
+                    <TitleAndDescription>
+                        <h2>{title}</h2>
+                        <p>{description}</p>
+                    </TitleAndDescription>
+                </ImgAndTextWrap>
             </a>
         </CardOuterWrap>
     )
