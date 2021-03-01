@@ -27,6 +27,7 @@ const CardOuterWrap = styled.div`
     a {
         display:flex;
         justify-content:space-around;
+        max-width: 1200px;
         /* margin:50px; */
     }
 

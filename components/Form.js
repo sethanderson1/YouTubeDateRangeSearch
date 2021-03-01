@@ -28,7 +28,6 @@ margin: 0 auto;
     width: 60vw;
     min-width:320px;
     max-width:600px;
-
     form {
         width: 100%;
         /* fieldset {

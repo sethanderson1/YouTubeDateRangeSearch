@@ -10,7 +10,8 @@ import fetchData from '../utils/fetchData';
 const NavWrap = styled.div`
     display:flex;
     justify-content:center;
-    border: 1px solid red;
+    margin-top:30px;
+    /* border: 1px solid red; */
 `
 export const PageNav = () => {
     console.log('%cPageNav renders', 'color:green')
