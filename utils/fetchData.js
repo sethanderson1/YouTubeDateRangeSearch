@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export default async function fetchData({ query, sortOption, start, end, maxResults, pageToken }) {
     console.log('query in fetch data', query)
-    fetch('https://nsbnp2cbfi.execute-api.us-west-1.amazonaws.com/idk/item/')
+    // fetch('https://nsbnp2cbfi.execute-api.us-west-1.amazonaws.com/idk/item/')
 
 
     const params = {
