@@ -24,7 +24,7 @@ const CardOuterWrap = styled.div`
     display: flex;
     justify-content: center;
     a {
-        :hover {
+        :hover  {
             background-color:rgb(0,0,0,0.2);
             filter: brightness(70%);
         }

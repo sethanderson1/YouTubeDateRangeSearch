@@ -16,12 +16,15 @@ const Heading = styled.div`
     text-align:center;
     `
 
-const Video = styled.video`
-    position:fixed;
-    width: 100%;
-    z-index: -1;
-    filter:brightness(30%);
-    `
+// const Video = styled.video`
+//     position:fixed;
+//     z-index: -1;
+//     filter:brightness(30%);
+//     height: 100%;
+//     @media screen and (min-width: 480px) {
+//       width: 100%;
+//     }
+//     `
 
 export default function Home() {
   console.log('%cHome renders', 'color:green')
@@ -44,9 +47,11 @@ export default function Home() {
         <VideoBackground />
         <main>
           <Heading>
-            <H1>YouTube Date Range Search</H1>
+            <a href="https://gracious-leakey-87c1dd.netlify.app/">
+              <H1>YouTube Date Range Search</H1>
+            </a>
           </Heading>
-            <Form />
+          <Form />
           <Results />
         </main>
       </FormContextProvider>
