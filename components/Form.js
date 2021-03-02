@@ -66,15 +66,20 @@ const SortOptionWrap = styled.div`
 `
 
 const DatesWrap = styled.div`
-    display: flex;
+    /* display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-around; */
     label {
         color: ${theme};
     }
     #date {
         color: ${theme};
     }
+    input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.5);
+    /* background-color: gray; */
+    /* color: gray; */
+}
 `
 
 export const Form = () => {

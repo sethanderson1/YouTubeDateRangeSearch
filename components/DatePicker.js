@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { FormContext } from '../context/FormContext';
 import moment from 'moment';
+// import MobileDatePicker from '@material-ui/lab/MobileDatePicker';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -14,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(1),
         width: 200,
     },
-    color:theme.palette.success,
+    color: theme.palette.success,
 }));
 
 export default function DatePicker({ label }) {
@@ -44,20 +45,28 @@ export default function DatePicker({ label }) {
     }
 
     return (
-        <TextField
-            // color="primary"
-            // style={{color:'white'}}
-            id="date"
-            label={label}
-            type="date"
-            value={label === 'start' ? start : end}
-            className={classes.textField}
-            InputLabelProps={{
-                shrink: true,
-            }}
-            onChange={handleDateChange}
+        <>
+            {/* <MobileDatePicker
+                label="For mobile"
+                value={label === 'start' ? start : end}
+                onChange={handleDateChange}
+                renderInput={(params) => <TextField {...params} margin="normal" />}
+            /> */}
+            <TextField
+                // color="primary"
+                // style={{color:'white'}}
+                id="date"
+                label={label}
+                type="date"
+                value={label === 'start' ? start : end}
+                className={classes.textField}
+                InputLabelProps={{
+                    shrink: true,
+                }}
+                onChange={handleDateChange}
             // color={classes.color}
-            
-        />
+
+            />
+        </>
     );
 }
