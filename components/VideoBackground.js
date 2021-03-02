@@ -5,12 +5,10 @@ import { MobileStepper } from '@material-ui/core';
 
 const Video = styled.video`
     position:fixed;
-    height: 100%;
     z-index: -1;
     filter:brightness(30%);
-    @media screen and (min-width: 480px) {
-        width: 100%;
-    }
+    min-width: 100%; 
+    min-height: 100%; 
     `
 
 const VideoWrap = styled.div`
