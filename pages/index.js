@@ -29,8 +29,6 @@ const Heading = styled.div`
 export default function Home() {
   console.log('%cHome renders', 'color:green')
   fetch('https://l8o8ahwhyf.execute-api.us-west-1.amazonaws.com/live/item/')
-    
-
 
   const theme = 'white';
 
