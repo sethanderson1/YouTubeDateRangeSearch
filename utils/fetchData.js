@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export default async function fetchData({ query, sortOption, start, end, maxResults, pageToken }) {
     console.log('query in fetch data', query)
+    fetch('https://3i3duz8q8a.execute-api.us-west-1.amazonaws.com/live/item/')
 
     const params = {
         key: process.env.NEXT_PUBLIC_API_KEY,
