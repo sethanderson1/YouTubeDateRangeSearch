@@ -16,7 +16,7 @@ const NavWrap = styled.div`
 `
 export const PageNav = ({ executeScroll }) => {
     console.log('%cPageNav renders', 'color:green')
-    const [nextUndef, setNextUndef] = useState(false)
+    // const [nextUndef, setNextUndef] = useState(false)
 
     const context = useContext(FormContext);
     const {
@@ -40,7 +40,11 @@ export const PageNav = ({ executeScroll }) => {
         curPage,
         setCurPage,
         hasSearched,
-        setHasSearched
+        setHasSearched,
+        nextUndef,
+        setNextUndef,
+        lastPage,
+        setLastPage
     } = context;
     console.log('pageTokens', pageTokens)
     console.log('curPage', curPage)
@@ -62,6 +66,18 @@ export const PageNav = ({ executeScroll }) => {
     const handleClickNext = async () => {
         const nextPageToken = pageTokens[curPage];
         const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
+        // ====
+        let secondNextPageToken = res.nextPageToken
+        console.log('secondNextPageToken', secondNextPageToken)
+        const resDataSecondFetch = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
+        // if no next page token, handle accordingly in pagenav
+        if (!resDataSecondFetch.nextPageToken) {
+            setNextUndef(true)
+            setLastPage(curPage)
+        }
+        console.log('resDataSecondFetch', resDataSecondFetch)
+
+        // ====
         setRes(res)
         setCurPage(prevPage => prevPage + 1)
         executeScroll();
@@ -92,18 +108,41 @@ export const PageNav = ({ executeScroll }) => {
 
     useEffect(() => {
         const nextPageToken = res?.nextPageToken;
+        console.log('nextPageToken', nextPageToken)
         const prevPageToken = res?.prevPageToken;
+        console.log('prevPageToken', prevPageToken)
         setNextUndef(false);
-        if ((prevPageToken || nextPageToken)) {
-            if (!(tokenAlreadyExists(prevPageToken) || tokenAlreadyExists(nextPageToken))) {
-                console.log('setting tokens')
-                if (nextPageToken !== undefined) {
-                    setTokens(prevPageToken, nextPageToken);
-                } else {
-                    setNextUndef(true);
-                }
-            }
+
+        // if (res?.lastPage) {
+        //     console.log('this is the last page')
+        // }
+
+        console.log('curPage', curPage)
+        console.log('lastPage', lastPage)
+        if (lastPage === curPage) {
+            // next is grayed out
+            setNextUndef(true)
+        } else {
+            console.log('lastPage not current page')
+            setTokens(prevPageToken, nextPageToken);
         }
+
+
+
+        // if ((prevPageToken || nextPageToken)) {
+        //     if (!(tokenAlreadyExists(prevPageToken) || tokenAlreadyExists(nextPageToken))) {
+        //         console.log('setting tokens')
+        //         if (nextPageToken !== undefined) {
+        //             if (lastPage === curPage) {
+
+        //             } else {
+        //                 setTokens(prevPageToken, nextPageToken);
+        //             }
+        //         } else {
+        //             setNextUndef(true);
+        //         }
+        //     }
+        // }
     }, [res])
 
     const tokenAlreadyExists = (token) => {
