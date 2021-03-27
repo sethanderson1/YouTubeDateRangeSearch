@@ -10,13 +10,14 @@ export const FormContextProvider = ({ children }) => {
     const [theme, setTheme] = useState('gray');
 
     const [query, setQuery] = useState("");
-    const [maxResults, setMaxResults] = useState(25);
+    const [maxResults, setMaxResults] = useState(2);
     const [sortOption, setSortOption] = useState('relevance');
     const [start, setStart] = useState("2005-04-23");
     const [end, setEnd] = useState("2005-06-16");
     const [date, setDate] = useState("");
 
     const [res, setRes] = useState({});
+    console.log('res in context', res)
     const [hasSearched, setHasSearched] = useState(false);
     const [pageTokens, setPageTokens] = useState(['DUMMY']);
     const [curPage, setCurPage] = useState(1);

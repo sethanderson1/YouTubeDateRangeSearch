@@ -125,15 +125,15 @@ export const Form = () => {
         // console.log('query in finally fetch', query)
 
         let pageToken = undefined;
-        const resData = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken });
-        // const resData = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken });
+        // const resData = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken });
+        const resData = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken });
         console.log('resData', resData)
         // got data for first page
         // use next page token on second fetch
         let secondNextPageToken = resData.nextPageToken
         console.log('secondNextPageToken', secondNextPageToken)
-        const resDataSecondFetch = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
-        // const resDataSecondFetch = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
+        // const resDataSecondFetch = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
+        const resDataSecondFetch = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
         // if no next page token, set last page to current page
         if (!resDataSecondFetch.nextPageToken) {
             console.log('no next token')
@@ -142,6 +142,7 @@ export const Form = () => {
 
         }
         console.log('resDataSecondFetch', resDataSecondFetch)
+        
 
         return resData;
     }
@@ -164,7 +165,7 @@ export const Form = () => {
 
                 const resData = await fetchTwice(query);
                 console.log('resData', resData)
-    
+
                 setHasSearched(true);
                 setRes(resData);
                 setClickedSubmit(false)

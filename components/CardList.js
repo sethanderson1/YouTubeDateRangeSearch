@@ -30,8 +30,17 @@ export const CardList = () => {
     console.log('%cCardList renders', 'color:green')
 
     const { res, setRes } = useContext(FormContext);
+    const [items, setItems] = useState([])
     // console.log('res', res)
-    let items = res && res.items;
+    // let items = res && res.items;
+    console.log('items in CardList', items)
+
+    useEffect(() => {
+        console.log('res.items', res.items)
+        setItems(res.items)
+    }, [res])
+
+    
 
     const renderList = () => {
         return (
