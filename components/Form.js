@@ -111,8 +111,6 @@ export const Form = () => {
         setCurPage,
         hasSearched,
         setHasSearched,
-        nextUndef,
-        setNextUndef,
         lastPage,
         setLastPage
     } = context;
@@ -123,21 +121,22 @@ export const Form = () => {
         }
     }, [hasSearched])
 
-    const fetchTwice = async (qry) => {
-        // console.log('query in finally fetch', qry)
+    const fetchTwice = async (query) => {
+        // console.log('query in finally fetch', query)
 
         let pageToken = undefined;
-        const resData = await fetchDataDummy({ query: qry, maxResults, sortOption, start, end, pageToken });
+        // const resData = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken });
+        const resData = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken });
         console.log('resData', resData)
         // got data for first page
         // use next page token on second fetch
         let secondNextPageToken = resData.nextPageToken
         console.log('secondNextPageToken', secondNextPageToken)
-        const resDataSecondFetch = await fetchDataDummy({ query: qry, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
+        // const resDataSecondFetch = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
+        const resDataSecondFetch = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
         // if no next page token, set last page to current page
         if (!resDataSecondFetch.nextPageToken) {
             console.log('no next token')
-            setNextUndef(true)
             console.log('curPage in fetchtwice', curPage)
             setLastPage(curPage)
 
@@ -147,10 +146,10 @@ export const Form = () => {
         return resData;
     }
 
-    const submitHandler = async (qry) => {
-        // console.log('qry', qry)
+    const submitHandler = async (query) => {
+        // console.log('query', query)
         // console.log('context', context)
-        setQuery(qry);
+        setQuery(query);
 
         reset()
 

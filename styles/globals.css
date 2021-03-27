@@ -1,3 +1,8 @@
+html {
+  height: 100vh;
+  background-color: #444;
+}
+
 html,
 body {
   padding: 0;

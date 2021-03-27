@@ -8,23 +8,41 @@ export default async function fetchDataDummy({ query, sortOption, start, end, ma
     let dummyPageTokens
     const res = {}
 
-    if (query === '') {
-        dummyPageTokens = ['A', 'B', 'C']
-        
-        if (!pageToken) {
-            res.nextPageToken = 'B'
-            res.prevPageToken = 'A'
-        } else if (pageToken === 'B') {
-            res.nextPageToken = 'C'
-            res.prevPageToken = 'A'
-        } else if (pageToken === 'C') {
+    const setPageTokens = (dummyPageTokens) => {
+        let index = dummyPageTokens.findIndex(el => el === pageToken)
+        if (index === dummyPageTokens.length - 1) {
+            res.prevPageToken = dummyPageTokens[index - 1]
             res.nextPageToken = undefined
-            res.prevPageToken = 'B'
-        } else if (pageToken === 'A') {
-            res.nextPageToken = 'B'
+        } else if (index === 0){
             res.prevPageToken = undefined
+            res.nextPageToken = dummyPageTokens[index + 1]
+        } else {
+            res.prevPageToken = dummyPageTokens[index - 1]
+            res.nextPageToken = dummyPageTokens[index + 1]
         }
-        
+    }
+
+    if (query === '') {
+        dummyPageTokens = ['A', 'B', 'C', 'D']
+        // dummyPageTokens = ['A', 'B', 'C']
+
+
+        if (!pageToken) {
+            res.prevPageToken = dummyPageTokens[0]
+            res.nextPageToken = dummyPageTokens[1]
+            // } else if (pageToken === 'B') {
+            //     res.prevPageToken = 'A'
+            //     res.nextPageToken = 'C'
+            // } else if (pageToken === 'C') {
+            //     res.prevPageToken = 'B'
+            //     res.nextPageToken = undefined
+            // } else if (pageToken === 'A') {
+            //     res.prevPageToken = undefined
+            //     res.nextPageToken = 'B'
+        } else {
+            setPageTokens(dummyPageTokens)
+        }
+
     } else {
         console.log('query is non empty --> ???', query)
         dummyPageTokens = ['A', 'B']
