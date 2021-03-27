@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export default async function fetchData({ query, sortOption, start, end, maxResults, pageToken }) {
+export default async function fetchDataNext({ query, sortOption, start, end, maxResults, pageToken }) {
     console.log('maxResults', maxResults)
     console.log('%c pageToken','color:purple', pageToken)
     console.log('query in fetch data', query)
@@ -32,7 +32,7 @@ export default async function fetchData({ query, sortOption, start, end, maxResu
     const queryString = formatQueryParams(params);
     const url = searchURL + '?' + queryString;
 
-    console.log('url in fetchData', url)
+    console.log('url in fetchDataNext', url)
 
     try {
         const res = await axios(url);

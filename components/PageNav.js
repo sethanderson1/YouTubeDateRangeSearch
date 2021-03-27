@@ -6,6 +6,7 @@ import {
 import styled from 'styled-components'
 import { FormContext } from '../context/FormContext';
 import fetchData from '../utils/fetchData';
+import fetchDataDummy from '../utils/fetchDataDummy';
 // import { nanoid } from 'nanoid'
 
 const NavWrap = styled.div`
@@ -59,43 +60,42 @@ export const PageNav = ({ executeScroll }) => {
         if (pageTokens[0] === 'DUMMY' && pageTokens.length === 1) {
             setPageTokens([prevPageToken, nextPageToken])
         }
-        // if (prevPageToken && pageTokens[0] === 'DUMMY') {
-        //     // console.log('handleSetTokens opt 1')
-        //     // setPageTokens(formerTokens => [prevPageToken, ...formerTokens])
-        //     const newTokenArr = [prevPageToken, pageTokens[1], nextPageToken];
-        //     // console.log('newTokenArr', newTokenArr)
-        //     setPageTokens(newTokenArr);
-        // } else {
-        //     // console.log('handleSetTokens opt 2')
-        //     // console.log('pageTokens', pageTokens)
-        //     setPageTokens(formerTokens => [...formerTokens, nextPageToken]);
-        // }
+
+        if (pageTokens[0] !== 'DUMMY') {
+            setPageTokens(formerTokens => [...formerTokens, nextPageToken])
+        }
     }
 
     const handleClickNext = async () => {
         console.log('%c handleClickNext ran', 'color:orange')
 
-        console.log('curPage', curPage)
+        console.log('curPage in handleClickNext', curPage)
         const nextPageToken = pageTokens[curPage];
-        const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
+        const res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
         let secondNextPageToken = res.nextPageToken
         console.log('secondNextPageToken', secondNextPageToken)
-        const resDataSecondFetch = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
+        const resDataSecondFetch = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
         console.log('resDataSecondFetch', resDataSecondFetch)
         if (!resDataSecondFetch.nextPageToken) {
-            setNextUndef(true)
+            // setNextUndef(true)
+            console.log('second fetch next page token not null')
+            console.log('about to set curPage')
             setCurPage(prevPage => prevPage + 1)
+            console.log('about to set lastPage')
+            
+            console.log('curPage in handleClickNext', curPage)
             setLastPage(curPage + 1)
+        } else {
+            console.log('second fetch next page token is null')
+            setCurPage(prevPage => prevPage + 1)
         }
-
-        setCurPage(prevPage => prevPage + 1)
         setRes(res)
         executeScroll();
     }
 
     const handleClickPrev = async () => {
         const prevPageToken = pageTokens[curPage - 2];
-        const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: prevPageToken });
+        const res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: prevPageToken });
         setRes(res);
         setCurPage(prevPage => prevPage - 1);
         executeScroll();
@@ -107,7 +107,7 @@ export const PageNav = ({ executeScroll }) => {
         if (pageTokens.length === i + 1) {
             handleClickNext()
         } else {
-            const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: token });
+            const res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: token });
             setRes(res);
             setCurPage(i + 1);
             executeScroll();
@@ -125,24 +125,24 @@ export const PageNav = ({ executeScroll }) => {
         console.log('useEffect in PageNav ran')
         console.log('res in useeffect', res)
 
-        // if (res) {
-        const nextPageToken = res?.nextPageToken;
-        console.log('nextPageToken', nextPageToken)
-        const prevPageToken = res?.prevPageToken;
-        console.log('prevPageToken', prevPageToken)
-        setNextUndef(false);
+        if (Object.keys(res).length !== 0) {
+            const nextPageToken = res?.nextPageToken;
+            console.log('nextPageToken', nextPageToken)
+            const prevPageToken = res?.prevPageToken;
+            console.log('prevPageToken', prevPageToken)
+            // setNextUndef(false);
 
-        console.log('curPage in useeffect', curPage)
-        console.log('lastPage in useeffect', lastPage)
-        if (lastPage === curPage) {
-            setNextUndef(true)
-        } else {
-            if (!tokenAlreadyExists(nextPageToken)) {
-                console.log('about to set tokens')
-                handleSetTokens(prevPageToken, nextPageToken)
+            console.log('curPage in useeffect', curPage)
+            console.log('lastPage in useeffect', lastPage)
+            if (lastPage === curPage) {
+                // setNextUndef(true)
+            } else {
+                if (!tokenAlreadyExists(nextPageToken)) {
+                    console.log('about to set tokens')
+                    handleSetTokens(prevPageToken, nextPageToken)
+                }
             }
         }
-        // }
 
 
     }, [res])

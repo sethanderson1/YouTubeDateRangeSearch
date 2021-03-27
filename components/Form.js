@@ -16,6 +16,7 @@ import styled from 'styled-components'
 import { FormContext } from '../context/FormContext';
 // import useFetch from '../hooks/useFetch'
 import fetchData from '../utils/fetchData'
+import fetchDataDummy from '../utils/fetchDataDummy'
 import { Search } from './Search';
 
 const theme = 'gray';
@@ -85,6 +86,7 @@ const DatesWrap = styled.div`
 export const Form = () => {
     console.log('%cForm renders', 'color:green')
     const context = useContext(FormContext);
+    const [clickedSubmit, setClickedSubmit] = useState(false)
     const {
         theme,
         setTheme,
@@ -108,7 +110,12 @@ export const Form = () => {
         curPage,
         setCurPage,
         hasSearched,
-        setHasSearched } = context;
+        setHasSearched,
+        nextUndef,
+        setNextUndef,
+        lastPage,
+        setLastPage
+    } = context;
 
     useEffect(() => {
         if (hasSearched) {
@@ -116,24 +123,56 @@ export const Form = () => {
         }
     }, [hasSearched])
 
-    const finallyFetch = async (qry) => {
-        console.log('query in finally fetch', qry)
-        reset();
+    const fetchTwice = async (qry) => {
+        // console.log('query in finally fetch', qry)
 
         let pageToken = undefined;
-        const resData = await fetchData({ query: qry, maxResults, sortOption, start, end, pageToken });
+        const resData = await fetchDataDummy({ query: qry, maxResults, sortOption, start, end, pageToken });
+        console.log('resData', resData)
+        // got data for first page
+        // use next page token on second fetch
+        let secondNextPageToken = resData.nextPageToken
+        console.log('secondNextPageToken', secondNextPageToken)
+        const resDataSecondFetch = await fetchDataDummy({ query: qry, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
+        // if no next page token, set last page to current page
+        if (!resDataSecondFetch.nextPageToken) {
+            console.log('no next token')
+            setNextUndef(true)
+            console.log('curPage in fetchtwice', curPage)
+            setLastPage(curPage)
+
+        }
+        console.log('resDataSecondFetch', resDataSecondFetch)
+
         return resData;
     }
 
     const submitHandler = async (qry) => {
-        console.log('qry', qry)
-        console.log('context', context)
+        // console.log('qry', qry)
+        // console.log('context', context)
         setQuery(qry);
 
-        const resData = await finallyFetch(qry);
-        setHasSearched(true);
-        setRes(resData);
+        reset()
+
+        setClickedSubmit(true)
+
+
     }
+
+    useEffect(() => {
+        const asyncFunc = async () => {
+            if (curPage === 1 && clickedSubmit) {
+
+                const resData = await fetchTwice(query);
+                console.log('resData', resData)
+    
+                setHasSearched(true);
+                setRes(resData);
+                setClickedSubmit(false)
+            }
+        }
+        asyncFunc()
+    }, [curPage, query, clickedSubmit])
 
     return (
         <OuterWrap>

@@ -65,7 +65,7 @@ const TitleAndDescription = styled.div`
 
 
 export const Card = ({ data }) => {
-    console.log('data', data)
+    // console.log('data', data)
 
     const { snippet: { title, description, thumbnails }, id: { videoId } } = data;
     const { medium, high } = thumbnails
