@@ -16,6 +16,8 @@ const NavWrap = styled.div`
     margin-bottom:50px;
     /* border: 1px solid red; */
 `
+
+// TODO: refactor
 export const PageNav = ({ executeScroll }) => {
     console.log('%cPageNav renders', 'color:green')
 
@@ -45,8 +47,6 @@ export const PageNav = ({ executeScroll }) => {
         lastPage,
         setLastPage
     } = context;
-    // console.log('pageTokens', pageTokens)
-    console.log('curPage', curPage)
 
     const handleSetTokens = (prevPageToken, nextPageToken) => {
         console.log('handleSetTokens ran')
@@ -76,50 +76,16 @@ export const PageNav = ({ executeScroll }) => {
         const resDataSecondFetch = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
         console.log('resDataSecondFetch', resDataSecondFetch)
         if (!resDataSecondFetch.nextPageToken) {
-            console.log('second fetch next page token not null')
             console.log('about to set curPage')
             setCurPage(curPage + 1)
-            // setCurPage(prevPage => prevPage + 1)
-            console.log('about to set lastPage')
-
             console.log('curPage in handleClickNext', curPage)
             setLastPage(curPage + 1)
         } else {
-            console.log('second fetch next page token is null')
             setCurPage(prevPage => prevPage + 1)
         }
-
         return res
-
     }
 
-    const handleClickNext = async () => {
-        console.log('%c handleClickNext ran', 'color:orange')
-
-        console.log('curPage in handleClickNext', curPage)
-        const nextPageToken = pageTokens[curPage];
-        // const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
-        const res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
-        let secondNextPageToken = res.nextPageToken
-        console.log('secondNextPageToken', secondNextPageToken)
-        // const resDataSecondFetch = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
-        const resDataSecondFetch = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
-        console.log('resDataSecondFetch', resDataSecondFetch)
-        if (!resDataSecondFetch.nextPageToken) {
-            console.log('second fetch next page token not null')
-            console.log('about to set curPage')
-            setCurPage(prevPage => prevPage + 1)
-            console.log('about to set lastPage')
-
-            console.log('curPage in handleClickNext', curPage)
-            setLastPage(curPage + 1)
-        } else {
-            console.log('second fetch next page token is null')
-            setCurPage(prevPage => prevPage + 1)
-        }
-        setRes(res)
-        executeScroll();
-    }
 
     const handleClickPageNum = async (token, i) => {
         console.log('i in pagenum', i)
@@ -145,8 +111,17 @@ export const PageNav = ({ executeScroll }) => {
         setRes(res);
         setCurPage(prevPage => prevPage - 1);
         executeScroll();
-
     }
+
+    const handleClickNext = async () => {
+        console.log('%c handleClickNext ran', 'color:orange')
+        console.log('curPage in handleClickNext', curPage)
+        const res = await fetchTwice(curPage)
+        setRes(res)
+        executeScroll();
+    }
+
+
 
     const isCurrentPage = (token, i) => {
         if (token === 'DUMMY') return true;
