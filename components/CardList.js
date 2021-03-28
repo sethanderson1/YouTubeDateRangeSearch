@@ -31,6 +31,7 @@ export const CardList = () => {
 
     const { res, setRes } = useContext(FormContext);
     const [items, setItems] = useState([])
+    console.log('items', items)
     // console.log('res', res)
     // let items = res && res.items;
     console.log('items in CardList', items)
@@ -40,7 +41,7 @@ export const CardList = () => {
         setItems(res.items)
     }, [res])
 
-    
+
 
     const renderList = () => {
         return (

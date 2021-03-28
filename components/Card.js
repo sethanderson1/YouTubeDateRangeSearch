@@ -65,22 +65,10 @@ const TitleAndDescription = styled.div`
 
 
 export const Card = ({ data }) => {
-    // console.log('data', data)
 
     const { snippet: { title, description, thumbnails }, id: { videoId } } = data;
+    console.log('title', title)
     const { medium, high } = thumbnails
-
-    // const renderThumbnail = () => {
-    //     if (window.innerWidth < 500) {
-    //         return (
-    //             <img src={medium.url} />
-    //         )
-    //     }
-    //     return (
-    //         <img src={high.url} />
-    //     )
-    // }
-
 
     return (
         <CardOuterWrap>
