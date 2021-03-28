@@ -10,7 +10,7 @@ export const FormContextProvider = ({ children }) => {
     const [theme, setTheme] = useState('gray');
 
     const [query, setQuery] = useState("");
-    const [maxResults, setMaxResults] = useState(3);
+    const [maxResults, setMaxResults] = useState(2);
     const [sortOption, setSortOption] = useState('relevance');
     const [start, setStart] = useState("2005-04-23");
     const [end, setEnd] = useState("2005-06-16");

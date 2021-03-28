@@ -80,7 +80,7 @@ export default async function fetchDataDummy({ query, sortOption, start, end, ma
 
             res.prevPageToken = undefined
             res.nextPageToken = dummyPageTokens[index + 1]
-            
+
         } else {
             // TODO: figure out why we're getting to this block 
             // when should be getting to first block upon click next
@@ -93,13 +93,13 @@ export default async function fetchDataDummy({ query, sortOption, start, end, ma
     }
 
     if (query === '') {
-        dummyPageTokens = ['A', 'B', 'C']
+        dummyPageTokens = ['A', 'B', 'C', 'D']
         // dummyPageTokens = ['A', 'B', 'C', 'D']
         // dummyPageTokens = ['A', 'B', 'C']
         if (!pageToken) {
             res.items = items.slice(0, maxResults)
             console.log('res.items', res.items)
-            
+
             res.prevPageToken = dummyPageTokens[0]
             res.nextPageToken = dummyPageTokens[1]
         } else {
