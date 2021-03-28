@@ -99,7 +99,7 @@ export const PageNav = ({ executeScroll }) => {
     const handleClickNext = async () => {
         console.log('%c handleClickNext ran', 'color:orange')
         console.log('curPage in handleClickNext', curPage)
-        debugger
+        // debugger
         const response = await fetchTwice(curPage)
         console.log('response in handleClickNext', response)
         setRes(response)
