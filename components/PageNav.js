@@ -19,6 +19,7 @@ const NavWrapInner = styled.div`
     width: 500px;
     display: flex;
     justify-content: space-between;
+    visibility: ${props => props.pageNumsHidden ? 'hidden' : 'visible'};
 
     /* margin-top:50px; */
     /* margin-bottom:500px; */
@@ -29,6 +30,7 @@ const NavWrapInner = styled.div`
         /* font-size: 2.875rem; */
 
     }
+
 `
 
 const StyledButton = styled(Button)`
@@ -45,8 +47,13 @@ const StyledButton = styled(Button)`
 
 
 // TODO: figure out nav page number flicker upon clicking next
+// update: flicker is caused by low page disappearing in re to 
+// curPage change, then high page appears. They should ideally 
+// happen simultaneously.
+// So maybe i can hide entire page numbers until finished transition
 export const PageNav = ({ executeScroll }) => {
     console.log('%cPageNav renders', 'color:green')
+    const [pageNumsHidden, setPageNumsHidden] = useState(true)
 
     const context = useContext(FormContext);
     const {
@@ -156,7 +163,7 @@ export const PageNav = ({ executeScroll }) => {
     useEffect(() => {
         console.log('useEffect in PageNav ran')
         // console.log('res in useeffect', res)
-
+        setPageNumsHidden(true)
         if (Object.keys(res).length !== 0) {
             const nextPageToken = res?.nextPageToken;
             // console.log('nextPageToken', nextPageToken)
@@ -175,7 +182,15 @@ export const PageNav = ({ executeScroll }) => {
         }
 
 
+
     }, [res])
+
+    // useEffect(()=>setPageNumsHidden(true),[res])
+
+    useEffect(() => {
+        debugger
+        setPageNumsHidden(false)
+    }, [pageTokens])
 
     const isCurrentPage = (token, i) => {
         if (token === 'DUMMY') return true;
@@ -202,7 +217,7 @@ export const PageNav = ({ executeScroll }) => {
         if (hasSearched) {
             return (
                 <NavWrapOuter>
-                    <NavWrapInner>
+                    <NavWrapInner pageNumsHidden={pageNumsHidden}>
                         <Button onClick={() => handleClickPrev()} disabled={curPage === 1 ? true : false} >Prev</Button>
                         {pageTokens.map((token, i) => {
                             // console.log('pageTokens in button', pageTokens)
@@ -210,7 +225,14 @@ export const PageNav = ({ executeScroll }) => {
                             // console.log('token', token)
                             console.log('i', i)
                             console.log('curPage', curPage)
-                            return <StyledButton curPage={curPage} displayNone={shouldBeDisplayNone(i, curPage)} key={i} onClick={() => handleClickPageNum(token, i)} disabled={isCurrentPage(token, i)}>{i + 1}</StyledButton>
+                            return <StyledButton
+                                curPage={curPage}
+                                displayNone={shouldBeDisplayNone(i, curPage)}
+                                key={i}
+                                onClick={() => handleClickPageNum(token, i)}
+                                disabled={isCurrentPage(token, i)}>
+                                {i + 1}
+                            </StyledButton>
                         }
 
                         )}
