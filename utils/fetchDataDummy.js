@@ -82,8 +82,8 @@ export default async function fetchDataDummy({ query, sortOption, start, end, ma
     }
 
     if (query === '') {
-        dummyPageTokens = ['A', 'B', 'C']
         // dummyPageTokens = ['A', 'B', 'C', 'D']
+        dummyPageTokens = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
         // dummyPageTokens = ['A', 'B', 'C']
         if (!pageToken) {
             console.log('went to !pageToken block')

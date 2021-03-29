@@ -9,20 +9,42 @@ import fetchData from '../utils/fetchData';
 import fetchDataDummy from '../utils/fetchDataDummy';
 // import { nanoid } from 'nanoid'
 
-const NavWrap = styled.div`
+const NavWrapOuter = styled.div`
+    /* width:500px; */
     display:flex;
     justify-content:center;
+`
+
+const NavWrapInner = styled.div`
+    width: 500px;
+    display: flex;
+    justify-content: space-between;
+
     /* margin-top:50px; */
     /* margin-bottom:500px; */
     /* margin-bottom:50px; */
     /* border: 1px solid red; */
     .MuiButton-root {
-        font-size: 2.875rem;
+        font-size: 1.2rem;
+        /* font-size: 2.875rem; */
 
     }
 `
 
-// TODO: refactor
+const StyledButton = styled(Button)`
+   && {
+    display: ${props => props.displayNone ? 'none' : null};
+    /* display: ${props => props.displayNone ? 'none' : 'inline-flex'}; */
+    
+    /* font-size: ${props => props.i * 20}px */
+    /* font-size: ${props => props.curPage * 20}px */
+    /* visibility: hidden; */
+   } 
+`
+
+
+
+// TODO: figure out nav page number flicker upon clicking next
 export const PageNav = ({ executeScroll }) => {
     console.log('%cPageNav renders', 'color:green')
 
@@ -168,22 +190,33 @@ export const PageNav = ({ executeScroll }) => {
         return pageTokens.includes(token);
     }
 
+    const shouldBeDisplayNone = (i, curPage) => {
+        const low = curPage - 3
+        const high = curPage + 3
+        // return i + 1 <= low 
+        return i + 1 <= low || i + 1 >= high
+    }
+
     const renderNav = () => {
         // console.log('hasSearched', hasSearched)
         if (hasSearched) {
             return (
-                <NavWrap>
-                    <Button onClick={() => handleClickPrev()} disabled={curPage === 1 ? true : false} >Prev</Button>
-                    {pageTokens.map((token, i) => {
-                        // console.log('pageTokens in button', pageTokens)
-                        // console.log('i in button', i)
-                        // console.log('token', token)
-                        return <Button key={i} onClick={() => handleClickPageNum(token, i)} disabled={isCurrentPage(token, i)}>{i + 1}</Button>
-                    }
+                <NavWrapOuter>
+                    <NavWrapInner>
+                        <Button onClick={() => handleClickPrev()} disabled={curPage === 1 ? true : false} >Prev</Button>
+                        {pageTokens.map((token, i) => {
+                            // console.log('pageTokens in button', pageTokens)
+                            // console.log('i in button', i)
+                            // console.log('token', token)
+                            console.log('i', i)
+                            console.log('curPage', curPage)
+                            return <StyledButton curPage={curPage} displayNone={shouldBeDisplayNone(i, curPage)} key={i} onClick={() => handleClickPageNum(token, i)} disabled={isCurrentPage(token, i)}>{i + 1}</StyledButton>
+                        }
 
-                    )}
-                    <Button onClick={() => handleClickNext()} disabled={curPage === lastPage ? true : false}>Next</Button>
-                </NavWrap>
+                        )}
+                        <Button onClick={() => handleClickNext()} disabled={curPage === lastPage ? true : false}>Next</Button>
+                    </NavWrapInner>
+                </NavWrapOuter>
             )
         } else {
             return null;
