@@ -9,8 +9,8 @@ const imageUris = [
     'https://via.placeholder.com/600/24f355',
     'https://via.placeholder.com/600/d32776',
     'https://via.placeholder.com/600/f66b97',
-    // 'https://via.placeholder.com/600/b0f7cc',
-    // 'https://via.placeholder.com/600/54176f',
+    'https://via.placeholder.com/600/b0f7cc',
+    'https://via.placeholder.com/600/54176f',
     // 'https://via.placeholder.com/600/51aa97',
     // 'https://via.placeholder.com/600/810b14',
     // 'https://via.placeholder.com/600/1ee8a4',
@@ -60,26 +60,23 @@ export default async function fetchDataDummy({ query, sortOption, start, end, ma
         console.log('index in setPageTokens', index)
         // TODO: index needs to refer to the index of the items, NOT the dummyTokens
         // change so that it references correct index of items
-        if (index === 0) {
-            res.items = [items[0],items[1],items[2]]
 
+        const startInd = index * maxResults
+        console.log('startInd', startInd)
+        const endInd = startInd + maxResults
+        console.log('endInd', endInd)
+        
+        if (index === 0) {
             res.prevPageToken = undefined
             res.nextPageToken = dummyPageTokens[index + 1]
-        } else if (index === 1) {
-            res.items = [items[3],items[4]]
-
-            res.prevPageToken = dummyPageTokens[index - 1]
-            res.nextPageToken = dummyPageTokens[index + 1]
-        } else if (index === 2) {
-            res.items = []
-
+        } else if ( index === dummyPageTokens.length - 1) {
             res.prevPageToken = dummyPageTokens[index - 1]
             res.nextPageToken = undefined
+        } else {
+            res.prevPageToken = dummyPageTokens[index - 1]
+            res.nextPageToken = dummyPageTokens[index + 1]
         }
-
-        // if (index === 0) {
-        //     res.items = [items[0],items[1],items[2]]
-        // } 
+        res.items = items.slice(startInd, endInd)
 
 
 
@@ -109,8 +106,8 @@ export default async function fetchDataDummy({ query, sortOption, start, end, ma
     }
 
     if (query === '') {
-        dummyPageTokens = ['A', 'B', 'C']
-        // dummyPageTokens = ['A', 'B', 'C', 'D']
+        // dummyPageTokens = ['A', 'B', 'C']
+        dummyPageTokens = ['A', 'B', 'C', 'D']
         // dummyPageTokens = ['A', 'B', 'C']
         if (!pageToken) {
             console.log('went to !pageToken block')
@@ -122,7 +119,7 @@ export default async function fetchDataDummy({ query, sortOption, start, end, ma
             console.log('went to has pagetoken block with token: ', pageToken)
             setPageTokens(dummyPageTokens)
         }
-        console.log('res.items', res.items)
+        console.log('%c res.items','font-size:20px', res.items)
 
     }
 
