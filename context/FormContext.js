@@ -21,7 +21,7 @@ export const FormContextProvider = ({ children }) => {
     const [pageTokens, setPageTokens] = useState(['DUMMY']);
     const [curPage, setCurPage] = useState(1);
     const [lastPage, setLastPage] = useState(null)
-    debugger
+    // debugger
     console.log('res in context', res)
     // console.log('pageTokens in context', pageTokens)
     // console.log('curPage in context', curPage)

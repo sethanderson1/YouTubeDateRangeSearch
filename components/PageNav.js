@@ -19,7 +19,7 @@ const NavWrapInner = styled.div`
     width: 500px;
     display: flex;
     justify-content: space-between;
-    visibility: ${props => props.pageNumsHidden ? 'hidden' : 'visible'};
+    /* visibility: ${props => props.pageNumsHidden ? 'hidden' : 'visible'}; */
 
     /* margin-top:50px; */
     /* margin-bottom:500px; */
@@ -51,9 +51,13 @@ const StyledButton = styled(Button)`
 // curPage change, then high page appears. They should ideally 
 // happen simultaneously.
 // So maybe i can hide entire page numbers until finished transition
+
+
+// TODO: instead of hiding, figure out how to do array of visible nums
+// and keep rest display none
 export const PageNav = ({ executeScroll }) => {
     console.log('%cPageNav renders', 'color:green')
-    const [pageNumsHidden, setPageNumsHidden] = useState(true)
+    // const [pageNumsHidden, setPageNumsHidden] = useState(true)
 
     const context = useContext(FormContext);
     const {
@@ -105,7 +109,7 @@ export const PageNav = ({ executeScroll }) => {
         // const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
         const res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
         console.log('res first fetch of two', res)
-        debugger
+        // debugger
         let secondNextPageToken = res.nextPageToken
         console.log('secondNextPageToken', secondNextPageToken)
         // TODO: cache res 
@@ -127,12 +131,12 @@ export const PageNav = ({ executeScroll }) => {
     const handleClickNext = async () => {
         console.log('%c handleClickNext ran', 'color:orange')
         console.log('curPage in handleClickNext', curPage)
-        setPageNumsHidden(true)
+        // setPageNumsHidden(true)
         const response = await fetchTwice(curPage)
         console.log('response in handleClickNext', response)
         setRes(response)
         executeScroll();
-        debugger
+        // debugger
     }
 
     const handleClickPrev = async () => {
@@ -165,7 +169,7 @@ export const PageNav = ({ executeScroll }) => {
     useEffect(() => {
         console.log('useEffect in PageNav ran')
         // console.log('res in useeffect', res)
-        setPageNumsHidden(true)
+        // setPageNumsHidden(true)
         if (Object.keys(res).length !== 0) {
             const nextPageToken = res?.nextPageToken;
             // console.log('nextPageToken', nextPageToken)
@@ -183,21 +187,16 @@ export const PageNav = ({ executeScroll }) => {
             }
         }
 
-        debugger
+        // debugger
 
     }, [res])
 
     useEffect(() => {
         // debugger
-        setPageNumsHidden(false)
-        debugger
+        // setPageNumsHidden(false)
+        // debugger
     }, [pageTokens])
 
-    // useEffect(()=>{
-
-    // },[])
-
-    // useEffect(()=>setPageNumsHidden(true),[res])
 
 
 
@@ -219,8 +218,33 @@ export const PageNav = ({ executeScroll }) => {
         const high = curPage + 3
         // return i + 1 <= low 
         const displayNone = i + 1 <= low || i + 1 >= high
-        debugger
+        // debugger
         return displayNone
+    }
+
+    const setPageNums = () => {
+        debugger
+
+        const pageNums = pageTokens
+        return pageTokens.map((token, i) => {
+            // console.log('pageTokens in button', pageTokens)
+            // console.log('i in button', i)
+            // console.log('token', token)
+            console.log('i', i)
+            console.log('curPage', curPage)
+            return <StyledButton
+                curPage={curPage}
+                displayNone={shouldBeDisplayNone(i, curPage)}
+
+                key={i}
+                onClick={() => handleClickPageNum(token, i)}
+                disabled={isCurrentPage(token, i)}>
+                {i + 1}
+            </StyledButton>
+        }
+
+        )
+
     }
 
     const renderNav = () => {
@@ -228,25 +252,11 @@ export const PageNav = ({ executeScroll }) => {
         if (hasSearched) {
             return (
                 <NavWrapOuter>
-                    <NavWrapInner pageNumsHidden={pageNumsHidden}>
+                    <NavWrapInner
+                    // pageNumsHidden={pageNumsHidden}
+                    >
                         <Button onClick={() => handleClickPrev()} disabled={curPage === 1 ? true : false} >Prev</Button>
-                        {pageTokens.map((token, i) => {
-                            // console.log('pageTokens in button', pageTokens)
-                            // console.log('i in button', i)
-                            // console.log('token', token)
-                            console.log('i', i)
-                            console.log('curPage', curPage)
-                            return <StyledButton
-                                curPage={curPage}
-                                displayNone={shouldBeDisplayNone(i, curPage)}
-                                key={i}
-                                onClick={() => handleClickPageNum(token, i)}
-                                disabled={isCurrentPage(token, i)}>
-                                {i + 1}
-                            </StyledButton>
-                        }
-
-                        )}
+                        {setPageNums()}
                         <Button onClick={() => handleClickNext()} disabled={curPage === lastPage ? true : false}>Next</Button>
                     </NavWrapInner>
                 </NavWrapOuter>
