@@ -188,6 +188,6 @@ export const PageNav = ({ executeScroll }) => {
         } else {
             return null;
         }
-    }
+    }    
     return renderNav();
 }
