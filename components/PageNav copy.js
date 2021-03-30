@@ -181,14 +181,14 @@ export const PageNav = ({ executeScroll }) => {
             }
         }
 
-                                
+
 
     }, [res])
 
     // useEffect(()=>setPageNumsHidden(true),[res])
 
     useEffect(() => {
-        debugger
+        // debugger
         setPageNumsHidden(false)
     }, [pageTokens])
 
