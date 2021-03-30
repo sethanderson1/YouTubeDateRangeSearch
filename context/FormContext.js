@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useEffect, useState, useReducer } from 'react'
 
 export const FormContext = createContext();
 
@@ -6,7 +6,7 @@ let renderCount = 0
 
 export const FormContextProvider = ({ children }) => {
     renderCount += 1
-    console.log('%c FormContextProvider ran renderCount','color:pink', renderCount)
+    console.log('%c FormContextProvider ran renderCount', 'color:pink', renderCount)
     const [theme, setTheme] = useState('gray');
 
     const [query, setQuery] = useState("");
@@ -18,21 +18,49 @@ export const FormContextProvider = ({ children }) => {
 
     const [res, setRes] = useState({});
     const [hasSearched, setHasSearched] = useState(false);
-    const [pageTokens, setPageTokens] = useState(['DUMMY']);
-    const [curPage, setCurPage] = useState(1);
-    const [lastPage, setLastPage] = useState(null)
+    const [lastPage, setLastPage] = useState(null);
+    // const [pageTokens, setPageTokens] = useState(['DUMMY']);
+    // const [curPage, setCurPage] = useState(1);
+    // const [pageNums, setPageNums]
+
+    const initialState = {
+        curPage: 1,
+        pageTokens: ['DUMMY']
+    };
+
+    function reducer(state, action) {
+        switch (action.type) {
+            case 'display_new_page_nums':
+                console.log('action', action)
+                console.log('state', state)
+                return {
+                    ...state,
+                    curPage: action.curPage,
+                    pageTokens: [...state.pageTokens, action.pageTokens.nextPageToken]
+                };
+            case 'display_first_new_page_nums':
+                return {
+                    ...state,
+                    curPage: action.curPage,
+                    pageTokens: [action.pageTokens.prevPageToken,action.pageTokens.nextPageToken]
+                }
+            default:
+                return state;
+        }
+    }
+
+    const [state, dispatch] = useReducer(reducer, initialState)
+    console.log('state', state)
+
     // debugger
     console.log('res in context', res)
-    // console.log('pageTokens in context', pageTokens)
-    // console.log('curPage in context', curPage)
-    // console.log('lastPage in context', lastPage)
 
     const reset = async () => {
-        setPageTokens(['DUMMY']);
-        setCurPage(1);
-        setLastPage(null);
-        // console.log('res in reset', res)
-        setRes({})
+        // setPageTokens(['DUMMY']);
+        // setCurPage(1);
+        // setLastPage(null);
+        // // console.log('res in reset', res)
+        // setRes({})
     }
 
     return (
@@ -54,14 +82,16 @@ export const FormContextProvider = ({ children }) => {
             setEnd,
             res,
             setRes,
-            pageTokens,
-            setPageTokens,
-            curPage,
-            setCurPage,
+            pageTokens: state.pageTokens,
+            setPageTokens: state.setPageTokens,
+            curPage: state.curPage,
+            setCurPage: state.setCurPage,
             hasSearched,
             setHasSearched,
             lastPage,
-            setLastPage
+            setLastPage,
+            state,
+            dispatch
         }}>
             {children}
         </FormContext.Provider>
