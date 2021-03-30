@@ -45,9 +45,7 @@ export default async function fetchDataDummy({ query, sortOption, start, end, ma
     // console.log('maxResults', maxResults)
     console.log('%c pageToken in fetch', 'color:purple', pageToken)
     // console.log('items in fetch', items)
-
     await new Promise((resolve) => setTimeout(resolve, 100))
-
     let dummyPageTokens
     const res = {
         // items

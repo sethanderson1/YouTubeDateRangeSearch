@@ -105,6 +105,7 @@ export const PageNav = ({ executeScroll }) => {
         // const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
         const res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
         console.log('res first fetch of two', res)
+        debugger
         let secondNextPageToken = res.nextPageToken
         console.log('secondNextPageToken', secondNextPageToken)
         // TODO: cache res 
@@ -126,11 +127,12 @@ export const PageNav = ({ executeScroll }) => {
     const handleClickNext = async () => {
         console.log('%c handleClickNext ran', 'color:orange')
         console.log('curPage in handleClickNext', curPage)
-        // debugger
+        setPageNumsHidden(true)
         const response = await fetchTwice(curPage)
         console.log('response in handleClickNext', response)
         setRes(response)
         executeScroll();
+        debugger
     }
 
     const handleClickPrev = async () => {
@@ -181,16 +183,23 @@ export const PageNav = ({ executeScroll }) => {
             }
         }
 
-
+        debugger
 
     }, [res])
-
-    // useEffect(()=>setPageNumsHidden(true),[res])
 
     useEffect(() => {
         // debugger
         setPageNumsHidden(false)
+        debugger
     }, [pageTokens])
+
+    // useEffect(()=>{
+
+    // },[])
+
+    // useEffect(()=>setPageNumsHidden(true),[res])
+
+
 
     const isCurrentPage = (token, i) => {
         if (token === 'DUMMY') return true;
@@ -209,7 +218,9 @@ export const PageNav = ({ executeScroll }) => {
         const low = curPage - 3
         const high = curPage + 3
         // return i + 1 <= low 
-        return i + 1 <= low || i + 1 >= high
+        const displayNone = i + 1 <= low || i + 1 >= high
+        debugger
+        return displayNone
     }
 
     const renderNav = () => {
