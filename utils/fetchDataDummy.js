@@ -9,7 +9,7 @@ const imageUris = [
     'https://via.placeholder.com/600/24f355',
     'https://via.placeholder.com/600/d32776',
     'https://via.placeholder.com/600/f66b97',
-    // 'https://via.placeholder.com/600/b0f7cc',
+    'https://via.placeholder.com/600/b0f7cc',
     // 'https://via.placeholder.com/600/54176f',
     // 'https://via.placeholder.com/600/51aa97',
     // 'https://via.placeholder.com/600/810b14',

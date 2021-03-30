@@ -125,6 +125,7 @@ export const PageNav = ({ executeScroll }) => {
         if (!resDataSecondFetch.nextPageToken) {
             // setCurPage(curPage + 1)
             setLastPage(state.curPage + 1)
+            dispatch({ type: 'display_new_page_nums', curPage: state.curPage + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
         } else {
             // console.log('state.curPage', state.curPage)
             // console.log('state', state)
@@ -196,9 +197,14 @@ export const PageNav = ({ executeScroll }) => {
     }
 
     const shouldBeDisplayNone = (i, curPage) => {
+        console.log('curPage', curPage)
         const low = state.curPage - 3
         const high = state.curPage + 3
-        const displayNone = i + 1 <= low || i + 1 >= high
+        let displayNone = i + 1 <= low || i + 1 >= high
+        if (lastPage === i) {
+            displayNone = true
+        }
+        console.log('displayNone', displayNone)
         // debugger
         return displayNone
     }
