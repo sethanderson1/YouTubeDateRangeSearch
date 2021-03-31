@@ -13,6 +13,10 @@ const NavWrapOuter = styled.div`
     /* width:500px; */
     display:flex;
     justify-content:center;
+
+    .MuiButton-root {
+        min-width:20px;
+    }
 `
 
 const NavWrapInner = styled.div`
@@ -115,14 +119,17 @@ export const PageNav = ({ executeScroll }) => {
         return { res, resDataSecondFetch }
     }
 
-    const handleClickNext = async () => {
+    const handleClickNext = async (token, i) => {
         console.log('%c handleClickNext ran', 'color:orange')
         console.log('curPage in handleClickNext', state.curPage)
+
         // console.log('state.curPage', state.curPage)
         // console.log('state.pageTokens.length - 2', state.pageTokens.length - 2)
         if (state.curPage < state.pageTokens.length - 1) {
             // console.log('state.pageTokens.length - 2', state.pageTokens.length - 2)
-            // handleClickPageNum
+            const i = state.curPage
+            const token = state.pageTokens[i]
+            handleClickPageNum(token, i)
         } else {
 
             const { res, resDataSecondFetch } = await fetchTwice(state.curPage)
@@ -141,7 +148,7 @@ export const PageNav = ({ executeScroll }) => {
     }
 
     const handleClickPrev = async () => {
-        const prevPageToken = pageTokens[state.curPage - 2];
+        const prevPageToken = state.pageTokens[state.curPage - 2];
         console.log('prevPageToken', prevPageToken)
         // const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: prevPageToken });
         const res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: prevPageToken });
@@ -156,7 +163,7 @@ export const PageNav = ({ executeScroll }) => {
     const handleClickPageNum = async (token, i) => {
         console.log('i in pagenum', i)
         // console.log('pageTokens.length', pageTokens.length)
-        if (i + 1 === pageTokens.length) {
+        if (i + 1 === state.pageTokens.length) {
             const { res, resDataSecondFetch } = await fetchTwice(state.curPage)
             console.log('res in handleClickNext', res)
             if (!resDataSecondFetch.nextPageToken) {
@@ -206,13 +213,13 @@ export const PageNav = ({ executeScroll }) => {
     }
 
     const tokenAlreadyExists = (token) => {
-        return pageTokens.includes(token);
+        return state.pageTokens.includes(token);
     }
 
     const shouldBeDisplayNone = (i, curPage) => {
         console.log('curPage', curPage)
         const low = state.curPage - 3
-        const high = state.curPage + 3
+        const high = Math.max(state.curPage + 3, lastPage)
         let displayNone = i + 1 <= low || i + 1 >= high
         if (lastPage === i) {
             displayNone = true
@@ -225,7 +232,7 @@ export const PageNav = ({ executeScroll }) => {
     const setPageNums = () => {
         // debugger
         // const pageNums = pageTokens
-        return pageTokens.map((token, i) => {
+        return state.pageTokens.map((token, i) => {
             return <StyledButton
                 curPage={state.curPage}
                 displayNone={shouldBeDisplayNone(i, state.curPage)}
