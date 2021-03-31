@@ -53,8 +53,8 @@ const StyledButton = styled(Button)`
 // So maybe i can hide entire page numbers until finished transition
 
 
-// TODO: instead of hiding, figure out how to do array of visible nums
-// and keep rest display none
+
+// TODO: prevent double click of next. maybe disable next while loading
 export const PageNav = ({ executeScroll }) => {
     console.log('%cPageNav renders', 'color:green')
     // const [pageNumsHidden, setPageNumsHidden] = useState(true)
@@ -98,7 +98,7 @@ export const PageNav = ({ executeScroll }) => {
             dispatch({ type: 'display_first_new_page_nums', curPage: state.curPage, pageTokens: { prevPageToken, nextPageToken } })
         }
         if (pageTokens[0] !== 'DUMMY') {
-            dispatch({ type: 'display_new_page_nums', curPage: state.curPage, pageTokens: { prevPageToken, nextPageToken } })
+            dispatch({ type: 'CLICK_NEXT', curPage: state.curPage, pageTokens: { prevPageToken, nextPageToken } })
             // setPageTokens(formerTokens => [...formerTokens, nextPageToken])
         }
     }
@@ -118,53 +118,66 @@ export const PageNav = ({ executeScroll }) => {
     const handleClickNext = async () => {
         console.log('%c handleClickNext ran', 'color:orange')
         console.log('curPage in handleClickNext', state.curPage)
-        // console.log('state', state)
-        // setPageNumsHidden(true)
-        const { res, resDataSecondFetch } = await fetchTwice(state.curPage)
-        console.log('res in handleClickNext', res)
-        if (!resDataSecondFetch.nextPageToken) {
-            // setCurPage(curPage + 1)
-            setLastPage(state.curPage + 1)
-            dispatch({ type: 'display_new_page_nums', curPage: state.curPage + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
+        // console.log('state.curPage', state.curPage)
+        // console.log('state.pageTokens.length - 2', state.pageTokens.length - 2)
+        if (state.curPage < state.pageTokens.length - 1) {
+            // console.log('state.pageTokens.length - 2', state.pageTokens.length - 2)
+            // handleClickPageNum
         } else {
-            // console.log('state.curPage', state.curPage)
-            // console.log('state', state)
-            console.log('state.pageTokens', state.pageTokens)
-            dispatch({ type: 'display_new_page_nums', curPage: state.curPage + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
-            // setCurPage(prevPage => prevPage + 1)
+
+            const { res, resDataSecondFetch } = await fetchTwice(state.curPage)
+            console.log('res in handleClickNext', res)
+            if (!resDataSecondFetch.nextPageToken) {
+                setLastPage(state.curPage + 1)
+                dispatch({ type: 'CLICK_NEXT', curPage: state.curPage + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
+            } else {
+                console.log('state.pageTokens', state.pageTokens)
+                dispatch({ type: 'CLICK_NEXT', curPage: state.curPage + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
+            }
+            console.log('res in handleClickNext', res)
+            setRes(res)
+            executeScroll();
         }
-        console.log('res in handleClickNext', res)
-        setRes(res)
-        executeScroll();
-        // debugger
     }
 
-    // const handleClickPrev = async () => {
-    //     const prevPageToken = pageTokens[curPage - 2];
-    //     // const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: prevPageToken });
-    //     const res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: prevPageToken });
-    //     setRes(res);
-    //     setCurPage(prevPage => prevPage - 1);
-    //     executeScroll();
-    // }
+    const handleClickPrev = async () => {
+        const prevPageToken = pageTokens[state.curPage - 2];
+        console.log('prevPageToken', prevPageToken)
+        // const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: prevPageToken });
+        const res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: prevPageToken });
+        console.log('res', res)
+        dispatch({ type: 'CLICK_PREV', curPage: state.curPage - 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
 
-    // const handleClickPageNum = async (token, i) => {
-    //     console.log('i in pagenum', i)
-    //     // console.log('pageTokens.length', pageTokens.length)
-    //     if (i + 1 === pageTokens.length) {
-    //         console.log('')
-    //         const res = await fetchTwice(i)
-    //         console.log('res in handleclickpagenum', res)
-    //         setRes(res);
-    //         executeScroll();
-    //     } else {
-    //         // const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: token });
-    //         const res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: token });
-    //         setRes(res);
-    //         setCurPage(i + 1);
-    //         executeScroll();
-    //     }
-    // }
+        setRes(res);
+        // setCurPage(prevPage => prevPage - 1);
+        executeScroll();
+    }
+
+    const handleClickPageNum = async (token, i) => {
+        console.log('i in pagenum', i)
+        // console.log('pageTokens.length', pageTokens.length)
+        if (i + 1 === pageTokens.length) {
+            const { res, resDataSecondFetch } = await fetchTwice(state.curPage)
+            console.log('res in handleClickNext', res)
+            if (!resDataSecondFetch.nextPageToken) {
+                setLastPage(state.curPage + 1)
+                dispatch({ type: 'CLICK_NEXT', curPage: i + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
+            } else {
+                console.log('state.pageTokens', state.pageTokens)
+                dispatch({ type: 'CLICK_NEXT', curPage: i + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
+            }
+            console.log('res in handleClickNext', res)
+            setRes(res)
+            executeScroll();
+        } else {
+            // const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: token });
+            const res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: token });
+            // setCurPage(i + 1);
+            dispatch({ type: 'CLICK_PAGENUM', curPage: i + 1 })
+            setRes(res);
+            executeScroll();
+        }
+    }
 
     useEffect(() => {
         console.log('useEffect in PageNav ran')
@@ -217,7 +230,7 @@ export const PageNav = ({ executeScroll }) => {
                 curPage={state.curPage}
                 displayNone={shouldBeDisplayNone(i, state.curPage)}
                 key={i}
-                // onClick={() => handleClickPageNum(token, i)}
+                onClick={() => handleClickPageNum(token, i)}
                 disabled={isCurrentPage(token, i)}>
                 {i + 1}
             </StyledButton>
@@ -230,7 +243,7 @@ export const PageNav = ({ executeScroll }) => {
                 <NavWrapOuter>
                     <NavWrapInner>
                         <Button
-                            // onClick={() => handleClickPrev()} 
+                            onClick={() => handleClickPrev()}
                             disabled={state.curPage === 1 ? true : false} >Prev</Button>
                         {setPageNums()}
                         <Button onClick={() => handleClickNext()} disabled={state.curPage === lastPage ? true : false}>Next</Button>

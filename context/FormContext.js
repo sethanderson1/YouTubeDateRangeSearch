@@ -31,14 +31,33 @@ export const FormContextProvider = ({ children }) => {
 
     function reducer(state, action) {
         switch (action.type) {
-            case 'display_new_page_nums':
+            case 'CLICK_NEXT':
                 console.log('action', action)
                 console.log('state', state)
+
                 return {
                     ...state,
                     curPage: action.curPage,
                     pageTokens: [...state.pageTokens, action.pageTokens.nextPageToken]
                 };
+            case 'CLICK_PREV':
+                console.log('action', action)
+                console.log('state', state)
+
+                return {
+                    ...state,
+                    curPage: action.curPage,
+                    pageTokens: state.pageTokens
+                };
+            case 'CLICK_PAGENUM':
+                console.log('action', action)
+                console.log('state', state)
+
+                return {
+                    ...state,
+                    curPage: action.curPage,
+                };
+            
             case 'display_first_new_page_nums':
                 return {
                     ...state,
