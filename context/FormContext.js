@@ -10,7 +10,7 @@ export const FormContextProvider = ({ children }) => {
     const [theme, setTheme] = useState('gray');
 
     const [query, setQuery] = useState("");
-    const [maxResults, setMaxResults] = useState(25);
+    const [maxResults, setMaxResults] = useState(1);
     const [sortOption, setSortOption] = useState('relevance');
     const [start, setStart] = useState("2005-04-23");
     const [end, setEnd] = useState("2005-06-16");
@@ -58,11 +58,20 @@ export const FormContextProvider = ({ children }) => {
                     curPage: action.curPage,
                 };
             
-            case 'display_first_new_page_nums':
+            case 'CLICK_SEARCH':
                 return {
                     ...state,
                     curPage: action.curPage,
                     pageTokens: [action.pageTokens.prevPageToken,action.pageTokens.nextPageToken]
+                }
+            case 'RESET':
+                setLastPage(null)
+                setRes({})
+                return {
+                    ...state,
+                    curPage: 1,
+                    pageTokens: ['DUMMY'],
+
                 }
             default:
                 return state;
@@ -76,8 +85,6 @@ export const FormContextProvider = ({ children }) => {
     console.log('res in context', res)
 
     const reset = async () => {
-        // setPageTokens(['DUMMY']);
-        // setCurPage(1);
         // setLastPage(null);
         // // console.log('res in reset', res)
         // setRes({})

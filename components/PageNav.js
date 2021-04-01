@@ -61,7 +61,7 @@ const StyledButton = styled(Button)`
 // TODO: prevent double click of next. maybe disable next while loading
 export const PageNav = ({ executeScroll }) => {
     console.log('%cPageNav renders', 'color:green')
-    // const [pageNumsHidden, setPageNumsHidden] = useState(true)
+    // const [pageNumsHidden, renderPageNumsHidden] = useState(true)
 
     const context = useContext(FormContext);
     const {
@@ -99,7 +99,8 @@ export const PageNav = ({ executeScroll }) => {
         // ['DUMMY', SOMETOKEN]
         if (pageTokens[0] === 'DUMMY' && pageTokens.length === 1) {
             // setPageTokens([prevPageToken, nextPageToken])
-            dispatch({ type: 'display_first_new_page_nums', curPage: state.curPage, pageTokens: { prevPageToken, nextPageToken } })
+            console.log('%c HELLO ?', 'font-size:30px')
+            dispatch({ type: 'CLICK_SEARCH', curPage: state.curPage, pageTokens: { prevPageToken, nextPageToken } })
         }
         if (pageTokens[0] !== 'DUMMY') {
             dispatch({ type: 'CLICK_NEXT', curPage: state.curPage, pageTokens: { prevPageToken, nextPageToken } })
@@ -109,12 +110,12 @@ export const PageNav = ({ executeScroll }) => {
 
     const fetchTwice = async (curPage) => {
         const nextPageToken = pageTokens[curPage]
-        const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
-        // const res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
+        // const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
+        const res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
         let secondNextPageToken = res.nextPageToken
         // TODO: cache res 
-        const resDataSecondFetch = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
-        // const resDataSecondFetch = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
+        // const resDataSecondFetch = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
+        const resDataSecondFetch = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
 
         return { res, resDataSecondFetch }
     }
@@ -150,8 +151,8 @@ export const PageNav = ({ executeScroll }) => {
     const handleClickPrev = async () => {
         const prevPageToken = state.pageTokens[state.curPage - 2];
         console.log('prevPageToken', prevPageToken)
-        const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: prevPageToken });
-        // const res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: prevPageToken });
+        // const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: prevPageToken });
+        const res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: prevPageToken });
         console.log('res', res)
         dispatch({ type: 'CLICK_PREV', curPage: state.curPage - 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
 
@@ -177,8 +178,8 @@ export const PageNav = ({ executeScroll }) => {
             setRes(res)
             executeScroll();
         } else {
-            const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: token });
-            // const res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: token });
+            // const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: token });
+            const res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: token });
             // setCurPage(i + 1);
             dispatch({ type: 'CLICK_PAGENUM', curPage: i + 1 })
             setRes(res);
@@ -218,23 +219,6 @@ export const PageNav = ({ executeScroll }) => {
 
     const isDisplayNone = (i, curPage) => {
 
-
-        // console.log('curPage', curPage)
-        // let low
-        // low = state.curPage - 3
-        // console.log('lastPage', lastPage)
-        // const tokensLen = state.pageTokens.length
-        // console.log('tokensLen', tokensLen)
-
-        // const high = Math.min(state.curPage + 4, tokensLen + state.curPage)
-        // // const high = state.curPage + 3 
-
-        // console.log('high', high)
-        // let displayNone = i + 1 <= low || i + 1 >= high
-        // if (lastPage === i) {
-        //     displayNone = true
-        // }
-        // console.log('displayNone', displayNone)
         let displayNone
         const seen = {}
 
@@ -254,6 +238,7 @@ export const PageNav = ({ executeScroll }) => {
 
     const getVisibleNavPageNums = (pageTokens, curPage, seen, lastPage) => {
 
+        console.log('lastPage', lastPage)
         const { start, end } = seen
         const span = 2
         const maxWinLen = span * 2 + 1
@@ -275,27 +260,27 @@ export const PageNav = ({ executeScroll }) => {
         let low, high
         let index = curPage - 1
         if (curPage === lastPage) {
-            console.log('path1')
+            // console.log('path1')
             low = lastPage - maxWinLen
             high = lastPage - 1
         } else if (curPage === 1) {
-            console.log('path2')
+            // console.log('path2')
             low = 0
             high = index + maxWinLen - 1
         } else if (!pageNums[index - span]) {
-            console.log('path3')
+            // console.log('path3')
             low = 0
             high = index + maxWinLen - curPage
         } else if (!pageNums[index + span]) {
-            console.log('path4')
+            // console.log('path4')
             high = highestSeen
-            console.log('high', high)
+            // console.log('high', high)
             const addTerm = high - index
-            console.log('addTerm', addTerm)
+            // console.log('addTerm', addTerm)
             low = curPage - maxWinLen + addTerm
-            console.log('low', low)
+            // console.log('low', low)
         } else if (pageNums[index - span] && pageNums[index + span]) {
-            console.log('path5')
+            // console.log('path5')
             low = index - span
             high = index + span
         }
@@ -307,12 +292,11 @@ export const PageNav = ({ executeScroll }) => {
     }
 
 
-    const setPageNums = () => {
-        // debugger
-        // const pageNums = pageTokens
+
+    const renderPageNums = () => {
         return state.pageTokens.map((token, i) => {
             return <StyledButton
-                curPage={state.curPage}
+                // curPage={state.curPage}
                 displayNone={isDisplayNone(i, state.curPage)}
                 key={i}
                 onClick={() => handleClickPageNum(token, i)}
@@ -331,7 +315,7 @@ export const PageNav = ({ executeScroll }) => {
                         <Button
                             onClick={() => handleClickPrev()}
                             disabled={state.curPage === 1 ? true : false} >Prev</Button>
-                        {setPageNums()}
+                        {renderPageNums()}
                         <Button onClick={() => handleClickNext()} disabled={state.curPage === lastPage ? true : false}>Next</Button>
                     </NavWrapInner>
                 </NavWrapOuter>
@@ -339,6 +323,6 @@ export const PageNav = ({ executeScroll }) => {
         } else {
             return null;
         }
-    }    
+    }
     return renderNav();
 }
