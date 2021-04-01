@@ -19,10 +19,8 @@ export const FormContextProvider = ({ children }) => {
     const [res, setRes] = useState({});
     const [hasSearched, setHasSearched] = useState(false);
     const [lastPage, setLastPage] = useState(null);
-    console.log('lastPage', lastPage)
-    // const [pageTokens, setPageTokens] = useState(['DUMMY']);
-    // const [curPage, setCurPage] = useState(1);
-    // const [pageNums, setPageNums]
+    const [itemsCache, setItemsCache] = useState({})
+    console.log('itemsCache', itemsCache)
 
     const initialState = {
         curPage: 1,
@@ -32,8 +30,8 @@ export const FormContextProvider = ({ children }) => {
     function reducer(state, action) {
         switch (action.type) {
             case 'CLICK_NEXT':
-                console.log('action', action)
-                console.log('state', state)
+                // console.log('action', action)
+                // console.log('state', state)
 
                 return {
                     ...state,
@@ -41,8 +39,8 @@ export const FormContextProvider = ({ children }) => {
                     pageTokens: [...state.pageTokens, action.pageTokens.nextPageToken]
                 };
             case 'CLICK_PREV':
-                console.log('action', action)
-                console.log('state', state)
+                // console.log('action', action)
+                // console.log('state', state)
 
                 return {
                     ...state,
@@ -50,28 +48,28 @@ export const FormContextProvider = ({ children }) => {
                     pageTokens: state.pageTokens
                 };
             case 'CLICK_PAGENUM':
-                console.log('action', action)
-                console.log('state', state)
+                // console.log('action', action)
+                // console.log('state', state)
 
                 return {
                     ...state,
                     curPage: action.curPage,
                 };
-            
+
             case 'CLICK_SEARCH':
                 return {
                     ...state,
                     curPage: action.curPage,
-                    pageTokens: [action.pageTokens.prevPageToken,action.pageTokens.nextPageToken]
+                    pageTokens: [action.pageTokens.prevPageToken, action.pageTokens.nextPageToken]
                 }
             case 'RESET':
                 setLastPage(null)
                 setRes({})
+                setItemsCache({})
                 return {
                     ...state,
                     curPage: 1,
                     pageTokens: ['DUMMY'],
-
                 }
             default:
                 return state;
@@ -84,17 +82,12 @@ export const FormContextProvider = ({ children }) => {
     // debugger
     console.log('res in context', res)
 
-    const reset = async () => {
-        // setLastPage(null);
-        // // console.log('res in reset', res)
-        // setRes({})
-    }
+
 
     return (
         <FormContext.Provider value={{
             theme,
             setTheme,
-            reset,
             query,
             setQuery,
             maxResults,
@@ -118,7 +111,9 @@ export const FormContextProvider = ({ children }) => {
             lastPage,
             setLastPage,
             state,
-            dispatch
+            dispatch,
+            itemsCache,
+            setItemsCache
         }}>
             {children}
         </FormContext.Provider>

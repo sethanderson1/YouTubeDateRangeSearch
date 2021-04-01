@@ -43,6 +43,7 @@ for (let i = 0; i < imageUris.length; i++) {
 
 export default async function fetchDataDummy({ query, sortOption, start, end, maxResults, pageToken }) {
     // console.log('maxResults', maxResults)
+    console.log('%c performed FETCH', 'font-size:30px')
     console.log('%c pageToken in fetch', 'color:purple', pageToken)
     // console.log('items in fetch', items)
     await new Promise((resolve) => setTimeout(resolve, 100))
@@ -53,14 +54,14 @@ export default async function fetchDataDummy({ query, sortOption, start, end, ma
 
     const setPageTokens = (dummyPageTokens) => {
         let index = dummyPageTokens.findIndex(el => el === pageToken)
-        console.log('dummyPageTokens', dummyPageTokens)
-        console.log('pageToken in setPageTokens', pageToken)
-        console.log('index in setPageTokens', index)
+        // console.log('dummyPageTokens', dummyPageTokens)
+        // console.log('pageToken in setPageTokens', pageToken)
+        // console.log('index in setPageTokens', index)
 
         const startInd = index * maxResults
-        console.log('startInd', startInd)
+        // console.log('startInd', startInd)
         const endInd = startInd + maxResults
-        console.log('endInd', endInd)
+        // console.log('endInd', endInd)
 
         if (index === 0) {
             res.prevPageToken = undefined
@@ -84,21 +85,21 @@ export default async function fetchDataDummy({ query, sortOption, start, end, ma
         dummyPageTokens = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
         // dummyPageTokens = ['A', 'B', 'C']
         if (!pageToken) {
-            console.log('went to !pageToken block')
+            // console.log('went to !pageToken block')
             res.items = items.slice(0, maxResults)
 
             res.prevPageToken = dummyPageTokens[0]
             res.nextPageToken = dummyPageTokens[1]
         } else {
-            console.log('went to has pagetoken block with token: ', pageToken)
+            // console.log('went to has pagetoken block with token: ', pageToken)
             setPageTokens(dummyPageTokens)
         }
-        console.log('%c res.items', 'font-size:20px', res.items)
+        // console.log('%c res.items', 'font-size:20px', res.items)
 
     }
 
     // debugger
-    console.log('res right before return from dummy data fetch', res)
+    // console.log('res right before return from dummy data fetch', res)
     return res
 
 }

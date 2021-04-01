@@ -90,7 +90,6 @@ export const Form = () => {
     const {
         theme,
         setTheme,
-        reset,
         query,
         setQuery,
         maxResults,
@@ -114,7 +113,9 @@ export const Form = () => {
         lastPage,
         setLastPage,
         state,
-        dispatch
+        dispatch,
+        itemsCache,
+        setItemsCache
     } = context;
 
     useEffect(() => {
@@ -125,18 +126,19 @@ export const Form = () => {
 
     const fetchTwice = async (query) => {
         // console.log('query in finally fetch', query)
+        let resData, resDataSecondFetch
 
         let pageToken = undefined;
-        // const resData = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken });
-        const resData = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken });
+        // resData = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken });
+        resData = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken });
         console.log('resData', resData)
         // got data for first page
         // use next page token on second fetch
         let secondNextPageToken = resData.nextPageToken
         console.log('secondNextPageToken', secondNextPageToken)
         // console.log('secondNextPageToken', secondNextPageToken)
-        // const resDataSecondFetch = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
-        const resDataSecondFetch = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
+        // resDataSecondFetch = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
+        resDataSecondFetch = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
         console.log('resDataSecondFetch', resDataSecondFetch)
         // if no next page token, set last page to current page
         if (!resDataSecondFetch.nextPageToken) {
@@ -145,6 +147,18 @@ export const Form = () => {
             setLastPage(curPage)
 
         }
+
+
+        if (resData.items.length) {
+            console.log('there are videos')
+            setItemsCache({ [curPage]: resData })
+            // setItemsCache(prev => ({ ...prev, [curPage]: res }))
+        }
+
+        if (resDataSecondFetch.items.length) {
+            setItemsCache(prev => ({ ...prev, [curPage + 1]: resDataSecondFetch }))
+        }
+
 
 
         return resData;
