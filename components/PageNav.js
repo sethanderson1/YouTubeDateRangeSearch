@@ -216,18 +216,96 @@ export const PageNav = ({ executeScroll }) => {
         return state.pageTokens.includes(token);
     }
 
-    const shouldBeDisplayNone = (i, curPage) => {
-        console.log('curPage', curPage)
-        const low = state.curPage - 3
-        const high = Math.max(state.curPage + 3, lastPage)
-        let displayNone = i + 1 <= low || i + 1 >= high
-        if (lastPage === i) {
+    const isDisplayNone = (i, curPage) => {
+
+
+        // console.log('curPage', curPage)
+        // let low
+        // low = state.curPage - 3
+        // console.log('lastPage', lastPage)
+        // const tokensLen = state.pageTokens.length
+        // console.log('tokensLen', tokensLen)
+
+        // const high = Math.min(state.curPage + 4, tokensLen + state.curPage)
+        // // const high = state.curPage + 3 
+
+        // console.log('high', high)
+        // let displayNone = i + 1 <= low || i + 1 >= high
+        // if (lastPage === i) {
+        //     displayNone = true
+        // }
+        // console.log('displayNone', displayNone)
+        let displayNone
+        const seen = {}
+
+        seen.start = 1
+        seen.end = state.pageTokens.length - 1
+
+        const visiblePageNums = getVisibleNavPageNums(state.pageTokens, state.curPage, seen, lastPage)
+        console.log('visiblePageNums', visiblePageNums)
+
+        if (visiblePageNums.includes(i + 1)) {
+            displayNone = false
+        } else {
             displayNone = true
         }
-        console.log('displayNone', displayNone)
-        // debugger
         return displayNone
     }
+
+    const getVisibleNavPageNums = (pageTokens, curPage, seen, lastPage) => {
+
+        const { start, end } = seen
+        const span = 2
+        const maxWinLen = span * 2 + 1
+        let highestSeen
+        if (lastPage) {
+            highestSeen = end - 1
+        } else {
+            highestSeen = end
+        }
+
+        let pageNums = pageTokens.map((el, i) => i + 1)
+
+        if (lastPage) {
+            pageNums.pop()
+        }
+
+
+        console.log('highestSeen', highestSeen)
+        let low, high
+        let index = curPage - 1
+        if (curPage === lastPage) {
+            console.log('path1')
+            low = lastPage - maxWinLen
+            high = lastPage - 1
+        } else if (curPage === 1) {
+            console.log('path2')
+            low = 0
+            high = index + maxWinLen - 1
+        } else if (!pageNums[index - span]) {
+            console.log('path3')
+            low = 0
+            high = index + maxWinLen - curPage
+        } else if (!pageNums[index + span]) {
+            console.log('path4')
+            high = highestSeen
+            console.log('high', high)
+            const addTerm = high - index
+            console.log('addTerm', addTerm)
+            low = curPage - maxWinLen + addTerm
+            console.log('low', low)
+        } else if (pageNums[index - span] && pageNums[index + span]) {
+            console.log('path5')
+            low = index - span
+            high = index + span
+        }
+        console.log('low', low)
+        console.log('high', high)
+
+        let numsForDisplay = pageNums.slice(Math.max(0, low), high + 1)
+        return numsForDisplay
+    }
+
 
     const setPageNums = () => {
         // debugger
@@ -235,7 +313,7 @@ export const PageNav = ({ executeScroll }) => {
         return state.pageTokens.map((token, i) => {
             return <StyledButton
                 curPage={state.curPage}
-                displayNone={shouldBeDisplayNone(i, state.curPage)}
+                displayNone={isDisplayNone(i, state.curPage)}
                 key={i}
                 onClick={() => handleClickPageNum(token, i)}
                 disabled={isCurrentPage(token, i)}>
@@ -243,6 +321,7 @@ export const PageNav = ({ executeScroll }) => {
             </StyledButton>
         })
     }
+
 
     const renderNav = () => {
         if (hasSearched) {
