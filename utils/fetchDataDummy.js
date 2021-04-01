@@ -9,7 +9,7 @@ const imageUris = [
     'https://via.placeholder.com/600/24f355',
     'https://via.placeholder.com/600/d32776',
     'https://via.placeholder.com/600/f66b97',
-    // 'https://via.placeholder.com/600/b0f7cc',
+    'https://via.placeholder.com/600/b0f7cc',
     // 'https://via.placeholder.com/600/54176f',
     // 'https://via.placeholder.com/600/51aa97',
     // 'https://via.placeholder.com/600/810b14',
@@ -45,9 +45,7 @@ export default async function fetchDataDummy({ query, sortOption, start, end, ma
     // console.log('maxResults', maxResults)
     console.log('%c pageToken in fetch', 'color:purple', pageToken)
     // console.log('items in fetch', items)
-
     await new Promise((resolve) => setTimeout(resolve, 100))
-
     let dummyPageTokens
     const res = {
         // items
@@ -82,8 +80,8 @@ export default async function fetchDataDummy({ query, sortOption, start, end, ma
     }
 
     if (query === '') {
-        dummyPageTokens = ['A', 'B', 'C']
         // dummyPageTokens = ['A', 'B', 'C', 'D']
+        dummyPageTokens = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
         // dummyPageTokens = ['A', 'B', 'C']
         if (!pageToken) {
             console.log('went to !pageToken block')
