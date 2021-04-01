@@ -109,12 +109,12 @@ export const PageNav = ({ executeScroll }) => {
 
     const fetchTwice = async (curPage) => {
         const nextPageToken = pageTokens[curPage]
-        // const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
-        const res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
+        const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
+        // const res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
         let secondNextPageToken = res.nextPageToken
         // TODO: cache res 
-        // const resDataSecondFetch = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
-        const resDataSecondFetch = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
+        const resDataSecondFetch = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
+        // const resDataSecondFetch = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
 
         return { res, resDataSecondFetch }
     }
@@ -150,8 +150,8 @@ export const PageNav = ({ executeScroll }) => {
     const handleClickPrev = async () => {
         const prevPageToken = state.pageTokens[state.curPage - 2];
         console.log('prevPageToken', prevPageToken)
-        // const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: prevPageToken });
-        const res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: prevPageToken });
+        const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: prevPageToken });
+        // const res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: prevPageToken });
         console.log('res', res)
         dispatch({ type: 'CLICK_PREV', curPage: state.curPage - 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
 
@@ -177,8 +177,8 @@ export const PageNav = ({ executeScroll }) => {
             setRes(res)
             executeScroll();
         } else {
-            // const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: token });
-            const res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: token });
+            const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: token });
+            // const res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: token });
             // setCurPage(i + 1);
             dispatch({ type: 'CLICK_PAGENUM', curPage: i + 1 })
             setRes(res);
