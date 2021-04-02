@@ -129,16 +129,16 @@ export const Form = () => {
         let resData, resDataSecondFetch
 
         let pageToken = undefined;
-        // resData = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken });
-        resData = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken });
+        resData = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken });
+        // resData = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken });
         console.log('resData', resData)
         // got data for first page
         // use next page token on second fetch
         let secondNextPageToken = resData.nextPageToken
         console.log('secondNextPageToken', secondNextPageToken)
         // console.log('secondNextPageToken', secondNextPageToken)
-        // resDataSecondFetch = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
-        resDataSecondFetch = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
+        resDataSecondFetch = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
+        // resDataSecondFetch = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
         console.log('resDataSecondFetch', resDataSecondFetch)
         // if no next page token, set last page to current page
         if (!resDataSecondFetch.nextPageToken) {

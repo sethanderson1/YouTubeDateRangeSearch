@@ -76,7 +76,7 @@ export const Card = ({ data }) => {
                 <ImgAndTextWrap>
                     <ImageWrap>
                         <img src={high.url} />
-                        <p>{high.url}</p>
+                        {/* <p>{high.url}</p> */}
                     </ImageWrap>
                     <TitleAndDescription>
                         <h2>{title}</h2>

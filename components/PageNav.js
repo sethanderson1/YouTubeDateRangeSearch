@@ -107,8 +107,8 @@ export const PageNav = ({ executeScroll }) => {
             res = itemsCache[pageNum + 1]
             console.log('res', res)
         } else {
-            // res= await fetchData({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
-            res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
+            res= await fetchData({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
+            // res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
             if (res.items.length) {
                 setItemsCache(prev => ({ ...prev, [pageNum]: res }))
             }
@@ -121,8 +121,8 @@ export const PageNav = ({ executeScroll }) => {
             console.log('%c resDataSecondFetch from cache', 'font-size:30px')
             resDataSecondFetch = itemsCache[pageNum + 2]
         } else {
-            // resDataSecondFetch = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
-            resDataSecondFetch = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
+            resDataSecondFetch = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
+            // resDataSecondFetch = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
             if (resDataSecondFetch.items.length) {
                 setItemsCache(prev => ({ ...prev, [pageNum + 2]: resDataSecondFetch }))
             }
