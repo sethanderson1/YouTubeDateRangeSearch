@@ -21,7 +21,10 @@ export const FormContextProvider = ({ children }) => {
     const [hasSearched, setHasSearched] = useState(false);
     const [lastPage, setLastPage] = useState(null);
     const [itemsCache, setItemsCache] = useState({})
-    console.log('itemsCache', itemsCache)
+
+    const [testPageNum, setTextPageNum] = useState(1)
+    console.log('testPageNum', testPageNum)
+    // console.log('itemsCache', itemsCache)
 
     const initialState = {
         curPage: 1,
@@ -78,10 +81,10 @@ export const FormContextProvider = ({ children }) => {
     }
 
     const [state, dispatch] = useReducer(reducer, initialState)
-    console.log('state', state)
+    // console.log('state', state)
 
     // debugger
-    console.log('res in context', res)
+    // console.log('res in context', res)
 
 
 
@@ -114,7 +117,9 @@ export const FormContextProvider = ({ children }) => {
             state,
             dispatch,
             itemsCache,
-            setItemsCache
+            setItemsCache,
+            testPageNum,
+            setTextPageNum
         }}>
             {children}
         </FormContext.Provider>

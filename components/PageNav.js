@@ -57,7 +57,9 @@ const StyledButton = styled(Button)`
 
 // TODO: when press back and go from /2 to /1, use the 1, ie the route.query.pagenum
 // to update state accordingly. otherwise browser navigation doesn't work.
-export const PageNav = ({ executeScroll }) => {
+export const PageNav = ({ executeScroll, pagenum }) => {
+    console.log('pagenum', pagenum)
+
     console.log('%cPageNav renders', 'color:green')
     // const [pageNumsHidden, renderPageNumsHidden] = useState(true)
 
@@ -92,7 +94,9 @@ export const PageNav = ({ executeScroll }) => {
         state,
         dispatch,
         itemsCache,
-        setItemsCache
+        setItemsCache,
+        testPageNum,
+        setTextPageNum
     } = context;
     // console.log('state', state)
 
@@ -226,6 +230,13 @@ export const PageNav = ({ executeScroll }) => {
         }
     }, [res])
 
+    useEffect(()=>{
+        console.log(`%c testPageNum: ${testPageNum}`,'font-size:30px')
+        dispatch({ type: 'CLICK_PAGENUM', curPage: testPageNum })
+        let newRes = itemsCache[testPageNum]
+        setRes(newRes)
+    },[testPageNum])
+
 
     const isCurrentPage = (token, i) => {
         if (token === 'DUMMY') return true;
@@ -308,7 +319,7 @@ export const PageNav = ({ executeScroll }) => {
         return state.pageTokens.map((token, i) => {
             return (
                 <Link as={`${i + 1}`} href="/[pagenum]">
-                {/* <Link as={`page/${i + 1}`} href="/[eg]/[example]"> */}
+                    {/* <Link as={`page/${i + 1}`} href="/[eg]/[example]"> */}
                     <StyledButton
                         // curPage={state.curPage}
                         displayNone={isDisplayNone(i, state.curPage)}
