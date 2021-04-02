@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { FormContext } from '../../context/FormContext';
+import { FormContext } from '../context/FormContext';
 import { useRouter } from 'next/router'
 
 
@@ -51,7 +51,7 @@ export default function Example() {
     console.log('router', router)
     console.log('router.query', router.query)
     
-    let pagenum = 1
+    let pagenum = JSON.stringify(router.query)
 
     return (
         <div>

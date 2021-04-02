@@ -8,6 +8,8 @@ import { FormContext } from '../context/FormContext';
 import fetchData from '../utils/fetchData';
 import fetchDataDummy from '../utils/fetchDataDummy';
 import { useRouter } from 'next/router'
+import Link from 'next/link'
+
 
 // import { nanoid } from 'nanoid'
 
@@ -52,6 +54,9 @@ const StyledButton = styled(Button)`
 
 
 // TODO: prevent double click of next. maybe disable next while loading
+
+// TODO: when press back and go from /2 to /1, use the 1, ie the route.query.pagenum
+// to update state accordingly. otherwise browser navigation doesn't work.
 export const PageNav = ({ executeScroll }) => {
     console.log('%cPageNav renders', 'color:green')
     // const [pageNumsHidden, renderPageNumsHidden] = useState(true)
@@ -59,7 +64,7 @@ export const PageNav = ({ executeScroll }) => {
     const router = useRouter()
     console.log('router', router)
 
-    
+
     const context = useContext(FormContext);
     const {
         query,
@@ -140,7 +145,7 @@ export const PageNav = ({ executeScroll }) => {
     const handleClickNext = async (token, i) => {
         // console.log('%c handleClickNext ran', 'color:orange')
         // console.log('curPage in handleClickNext', state.curPage)
-        
+
         if (state.curPage < state.pageTokens.length - 1) {
             const i = state.curPage
             const token = state.pageTokens[i]
@@ -180,7 +185,7 @@ export const PageNav = ({ executeScroll }) => {
         console.log('i + 1 in pagenum', i + 1)
         console.log('pageTokens.length', pageTokens.length)
         if (i + 1 === state.pageTokens.length) {
-            const { res, resDataSecondFetch } = await fetchTwice(i )
+            const { res, resDataSecondFetch } = await fetchTwice(i)
             console.log('res in handleClickNext', res)
             if (!resDataSecondFetch.nextPageToken) {
                 setLastPage(state.curPage + 1)
@@ -301,14 +306,19 @@ export const PageNav = ({ executeScroll }) => {
 
     const renderPageNums = () => {
         return state.pageTokens.map((token, i) => {
-            return <StyledButton
-                // curPage={state.curPage}
-                displayNone={isDisplayNone(i, state.curPage)}
-                key={i}
-                onClick={() => handleClickPageNum(token, i)}
-                disabled={isCurrentPage(token, i)}>
-                {i + 1}
-            </StyledButton>
+            return (
+                <Link as={`${i + 1}`} href="/[pagenum]">
+                {/* <Link as={`page/${i + 1}`} href="/[eg]/[example]"> */}
+                    <StyledButton
+                        // curPage={state.curPage}
+                        displayNone={isDisplayNone(i, state.curPage)}
+                        key={i}
+                        onClick={() => handleClickPageNum(token, i)}
+                        disabled={isCurrentPage(token, i)}>
+                        {i + 1}
+                    </StyledButton>
+                </Link>
+            )
         })
     }
 
@@ -322,6 +332,7 @@ export const PageNav = ({ executeScroll }) => {
                             disabled={state.curPage === 1 ? true : false} >Prev</Button>
                         {renderPageNums()}
                         <Button onClick={() => handleClickNext()} disabled={state.curPage === lastPage ? true : false}>Next</Button>
+
                     </NavWrapInner>
                 </NavWrapOuter>
             )

@@ -14,6 +14,7 @@ import { createMemoryHistory } from 'history';
 // import Example from './[example]/[example]'
 const history = createMemoryHistory();
 // const history = createBrowserHistory();
+import Link from 'next/link'
 
 
 const Heading = styled.div`
@@ -54,20 +55,23 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {/* <FormContextProvider> */}
-        {/* <VideoBackground /> */}
-        <main>
-          <Heading>
-            <a href="https://gracious-leakey-87c1dd.netlify.app/">
-              <H1>YouTube Date Range Search</H1>
-            </a>
-          </Heading>
-          <Form />
-          {/* <Router history={history}>
+      {/* <VideoBackground /> */}
+      <main>
+        <Heading>
+          <a href="https://gracious-leakey-87c1dd.netlify.app/">
+            <H1>YouTube Date Range Search</H1>
+          </a>
+        </Heading>
+        <Form />
+        {/* <Router history={history}>
             <Route path={'/'} exact render={(props) => (<Results />)} /> */}
-          {/* <Example /> */}
-          <Results />
-          {/* </Router> */}
-        </main>
+        {/* <Example /> */}
+        {/* <Link as="page/pagenum" href="/[eg]/[example]">
+          <a>Click here</a>
+        </Link> */}
+        <Results />
+        {/* </Router> */}
+      </main>
       {/* </FormContextProvider> */}
     </>
   )
