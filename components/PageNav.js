@@ -163,25 +163,20 @@ export const PageNav = ({ executeScroll, pagenum }) => {
     const handleClickPageNum = async (token, i) => {
         // console.log('i + 1 in pagenum', i + 1)
         // console.log('pageTokens.length', pageTokens.length)
-        // let response
-        // console.log('itemsCache', itemsCache)
-        // if (itemsCache[i + 1]) {
-        //     response = itemsCache[i + 1]
-        //     dispatch({ type: 'CLICK_PAGENUM', curPage: i + 1 })
-        // } else {
-        //     const { res, resDataSecondFetch } = await fetchTwice(i)
-        //     console.log('resDataSecondFetch', resDataSecondFetch)
-        //     response = res
-        //     if (!resDataSecondFetch.nextPageToken) {
-        //         setLastPage(state.curPage + 1)
-        //         dispatch({ type: 'CLICK_NEXT', curPage: i + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
-        //     } else {
-        //         console.log('state.pageTokens', state.pageTokens)
-        //         dispatch({ type: 'CLICK_NEXT', curPage: i + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
-        //     }
-        // }
-        // setRes(response)
-        // executeScroll();
+
+        const { res, resDataSecondFetch } = await fetchTwice(i)
+        console.log('resDataSecondFetch', resDataSecondFetch)
+        if (!resDataSecondFetch.nextPageToken) {
+            console.log('%c setting last page to', state.curPage + 1, 'font-size:30px')
+            setLastPage(state.curPage + 1)
+            dispatch({ type: 'CLICK_NEXT', curPage: i + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
+        } else {
+            console.log('state.pageTokens', state.pageTokens)
+            dispatch({ type: 'CLICK_NEXT', curPage: i + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
+        }
+
+        setRes(res)
+        executeScroll();
     }
 
     useEffect(() => {
@@ -211,13 +206,29 @@ export const PageNav = ({ executeScroll, pagenum }) => {
         }
     }, [testPageNum])
 
+    function scrap() {
+        return (
+            // <Link key={i} as={`${i + 1}`} href="/[pagenum]">
 
+            {/* {isDisplayNone(i, state.curPage, state.pageTokens, lastPage)
+                    ? <StyledButton
+                        style={{ display: "none" }}>
+                    </StyledButton>
+                    : <StyledButton
+                        onClick={() => handleClickPageNum(token, i)}
+                        disabled={isCurrentPage(token, i, state.curPage)}>
+                        {i + 1}
+                    </StyledButton>} */}
+
+            // </Link>
+        )
+    }
 
     const renderPageNums = () => {
         return state.pageTokens.map((token, i) => {
             return (
-                <Link key={i} as={`${i + 1}`} href="/[pagenum]">
-                    {isDisplayNone(i, state.curPage, state.pageTokens, lastPage)
+                <>
+                    { isDisplayNone(i, state.curPage, state.pageTokens, lastPage)
                         ? <StyledButton
                             style={{ display: "none" }}>
                         </StyledButton>
@@ -225,8 +236,9 @@ export const PageNav = ({ executeScroll, pagenum }) => {
                             onClick={() => handleClickPageNum(token, i)}
                             disabled={isCurrentPage(token, i, state.curPage)}>
                             {i + 1}
-                        </StyledButton>}
-                </Link>
+                        </StyledButton>
+                    }
+                </>
             )
         })
     }

@@ -2,9 +2,12 @@
 
 
 const getVisibleNavPageNums = (pageTokens, curPage, seen, lastPage) => {
+    // console.log('seen', seen)
+    // console.log('curPage', curPage)
+    // console.log('pageTokens', pageTokens)
 
     const { start, end } = seen
-    const span = 1
+    const span = 2
     const maxWinLen = span * 2 + 1
     let highestSeen
     if (lastPage) {
@@ -47,11 +50,15 @@ const getVisibleNavPageNums = (pageTokens, curPage, seen, lastPage) => {
         high = index + span
     }
     let numsForDisplay = pageNums.slice(Math.max(0, low), high + 1)
+    // console.log('numsForDisplay', numsForDisplay)
     return numsForDisplay
 }
 
 
 export const isDisplayNone = (i, cur, pageTokens, lastPage) => {
+    // console.log('lastPage', lastPage)
+    // console.log('pageTokens', pageTokens)
+    // console.log('cur', cur)
     let displayNone
     const seen = {}
 
