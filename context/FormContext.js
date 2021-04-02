@@ -23,7 +23,7 @@ export const FormContextProvider = ({ children }) => {
     console.log('lastPage', lastPage)
     const [itemsCache, setItemsCache] = useState({})
 
-    const [testPageNum, setTextPageNum] = useState(1)
+    const [testPageNum, setTestPageNum] = useState(1)
     console.log('testPageNum', testPageNum)
     // console.log('itemsCache', itemsCache)
 
@@ -120,7 +120,7 @@ export const FormContextProvider = ({ children }) => {
             itemsCache,
             setItemsCache,
             testPageNum,
-            setTextPageNum
+            setTestPageNum
         }}>
             {children}
         </FormContext.Provider>

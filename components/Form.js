@@ -165,27 +165,15 @@ export const Form = () => {
     }
 
     const submitHandler = async (query) => {
-        // console.log('query', query)
-        // console.log('context', context)
         setQuery(query);
-
-        // reset()
         dispatch({ type: 'RESET' })
-
-
-
         setClickedSubmit(true)
-
-
     }
 
     useEffect(() => {
         const asyncFunc = async () => {
             if (curPage === 1 && clickedSubmit) {
-
                 const resData = await fetchTwice(query);
-                console.log('resData', resData)
-
                 setHasSearched(true);
                 setRes(resData);
                 setClickedSubmit(false)

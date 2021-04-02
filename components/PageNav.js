@@ -76,7 +76,7 @@ export const PageNav = ({ executeScroll, pagenum }) => {
     } = context;
 
     const handleSetTokens = (prevPageToken, nextPageToken) => {
-        console.log('handleSetTokens ran')
+        // console.log('handleSetTokens ran')
         // if we're at the first fetch, we should end up with
         // ['DUMMY', SOMETOKEN]
         if (pageTokens[0] === 'DUMMY' && pageTokens.length === 1) {
@@ -90,12 +90,12 @@ export const PageNav = ({ executeScroll, pagenum }) => {
     const fetchTwice = async (pageNum) => {
         const nextPageToken = pageTokens[pageNum]
         let res, resDataSecondFetch
-        console.log('pageNum', pageNum)
+        // console.log('pageNum', pageNum)
 
         if (itemsCache[pageNum + 1]) {
-            console.log('%c res from cache', 'font-size:30px')
+            // console.log('%c res from cache', 'font-size:30px')
             res = itemsCache[pageNum + 1]
-            console.log('res', res)
+            // console.log('res', res)
         } else {
             // res= await fetchData({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
             res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
@@ -106,9 +106,9 @@ export const PageNav = ({ executeScroll, pagenum }) => {
 
         let secondNextPageToken = res.nextPageToken
 
-        console.log('pageNum', pageNum)
+        // console.log('pageNum', pageNum)
         if (itemsCache[pageNum + 2]) {
-            console.log('%c resDataSecondFetch from cache', 'font-size:30px')
+            // console.log('%c resDataSecondFetch from cache', 'font-size:30px')
             resDataSecondFetch = itemsCache[pageNum + 2]
         } else {
             // resDataSecondFetch = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
@@ -159,12 +159,12 @@ export const PageNav = ({ executeScroll, pagenum }) => {
         // console.log('pageTokens.length', pageTokens.length)
         if (i + 1 === state.pageTokens.length) {
             const { res, resDataSecondFetch } = await fetchTwice(i)
-            console.log('res in handleClickNext', res)
+            // console.log('res in handleClickNext', res)
             if (!resDataSecondFetch.nextPageToken) {
                 setLastPage(state.curPage + 1)
                 dispatch({ type: 'CLICK_NEXT', curPage: i + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
             } else {
-                console.log('state.pageTokens', state.pageTokens)
+                // console.log('state.pageTokens', state.pageTokens)
                 dispatch({ type: 'CLICK_NEXT', curPage: i + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
             }
             setRes(res)
@@ -198,46 +198,30 @@ export const PageNav = ({ executeScroll, pagenum }) => {
     useEffect(() => {
         console.log(`%c testPageNum: ${testPageNum}`, 'font-size:30px')
         dispatch({ type: 'CLICK_PAGENUM', curPage: testPageNum })
-        let newRes = itemsCache[testPageNum]
-        if (newRes) {
-            console.log('newRes', newRes)
-            setRes(newRes)
-        }
+
+        handleClickPageNum('_', testPageNum - 1)
     }, [testPageNum])
 
-    function scrap() {
-        return (
-            // <Link key={i} as={`${i + 1}`} href="/[pagenum]">
+    useEffect(() => {
+        // if ()
+    }, [])
 
-            {/* {isDisplayNone(i, state.curPage, state.pageTokens, lastPage)
-                    ? <StyledButton
-                        style={{ display: "none" }}>
-                    </StyledButton>
-                    : <StyledButton
-                        onClick={() => handleClickPageNum(token, i)}
-                        disabled={isCurrentPage(token, i, state.curPage)}>
-                        {i + 1}
-                    </StyledButton>} */}
-
-            // </Link>
-        )
-    }
 
     const renderPageNums = () => {
         return state.pageTokens.map((token, i) => {
             return (
-                <>
+                <Link key={i} as={`${i + 1}`} href="/[pagenum]">
                     { isDisplayNone(i, state.curPage, state.pageTokens, lastPage)
                         ? <StyledButton
                             style={{ display: "none" }}>
                         </StyledButton>
                         : <StyledButton
-                            onClick={() => handleClickPageNum(token, i)}
+                            // onClick={() => handleClickPageNum(token, i)}
                             disabled={isCurrentPage(token, i, state.curPage)}>
                             {i + 1}
                         </StyledButton>
                     }
-                </>
+                </Link>
             )
         })
     }
