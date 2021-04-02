@@ -49,15 +49,6 @@ const StyledButton = styled(Button)`
 `
 
 
-
-// TODO: figure out nav page number flicker upon clicking next
-// update: flicker is caused by low page disappearing in re to 
-// curPage change, then high page appears. They should ideally 
-// happen simultaneously.
-// So maybe i can hide entire page numbers until finished transition
-
-
-
 // TODO: prevent double click of next. maybe disable next while loading
 export const PageNav = ({ executeScroll }) => {
     console.log('%cPageNav renders', 'color:green')
@@ -106,34 +97,34 @@ export const PageNav = ({ executeScroll }) => {
         }
     }
 
-    const fetchTwice = async (curPage) => {
-        const nextPageToken = pageTokens[curPage]
+    const fetchTwice = async (pageNum) => {
+        const nextPageToken = pageTokens[pageNum]
         let res, resDataSecondFetch
-        console.log('curPage', curPage)
+        console.log('pageNum', pageNum)
 
-        if (itemsCache[curPage + 1]) {
+        if (itemsCache[pageNum + 1]) {
             console.log('%c res from cache', 'font-size:30px')
-            res = itemsCache[curPage + 1]
+            res = itemsCache[pageNum + 1]
             console.log('res', res)
         } else {
             // res= await fetchData({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
             res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
             if (res.items.length) {
-                setItemsCache(prev => ({ ...prev, [curPage]: res }))
+                setItemsCache(prev => ({ ...prev, [pageNum]: res }))
             }
         }
 
         let secondNextPageToken = res.nextPageToken
 
-        console.log('curPage', curPage)
-        if (itemsCache[curPage + 2]) {
+        console.log('pageNum', pageNum)
+        if (itemsCache[pageNum + 2]) {
             console.log('%c resDataSecondFetch from cache', 'font-size:30px')
-            resDataSecondFetch = itemsCache[curPage + 2]
+            resDataSecondFetch = itemsCache[pageNum + 2]
         } else {
             // resDataSecondFetch = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
             resDataSecondFetch = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
             if (resDataSecondFetch.items.length) {
-                setItemsCache(prev => ({ ...prev, [curPage + 2]: resDataSecondFetch }))
+                setItemsCache(prev => ({ ...prev, [pageNum + 2]: resDataSecondFetch }))
             }
         }
 
@@ -165,9 +156,11 @@ export const PageNav = ({ executeScroll }) => {
 
     const handleClickPrev = async () => {
         const prevPageToken = state.pageTokens[state.curPage - 2];
+        let res
         // console.log('prevPageToken', prevPageToken)
-        // const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: prevPageToken });
-        const res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: prevPageToken });
+        // res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: prevPageToken });
+        // res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: prevPageToken });
+        res = itemsCache[curPage - 1]
         // console.log('res', res)
         dispatch({ type: 'CLICK_PREV', curPage: state.curPage - 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
 
@@ -176,11 +169,11 @@ export const PageNav = ({ executeScroll }) => {
     }
 
     const handleClickPageNum = async (token, i) => {
-        // console.log('i in pagenum', i)
-        // console.log('pageTokens.length', pageTokens.length)
+        console.log('i + 1 in pagenum', i + 1)
+        console.log('pageTokens.length', pageTokens.length)
         if (i + 1 === state.pageTokens.length) {
-            const { res, resDataSecondFetch } = await fetchTwice(state.curPage)
-            // console.log('res in handleClickNext', res)
+            const { res, resDataSecondFetch } = await fetchTwice(i )
+            console.log('res in handleClickNext', res)
             if (!resDataSecondFetch.nextPageToken) {
                 setLastPage(state.curPage + 1)
                 dispatch({ type: 'CLICK_NEXT', curPage: i + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
@@ -192,8 +185,10 @@ export const PageNav = ({ executeScroll }) => {
             setRes(res)
             executeScroll();
         } else {
-            // const res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: token });
-            const res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: token });
+            let res
+            // res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: token });
+            // res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: token });
+            res = itemsCache[i + 1]
             // setCurPage(i + 1);
             dispatch({ type: 'CLICK_PAGENUM', curPage: i + 1 })
             setRes(res);
