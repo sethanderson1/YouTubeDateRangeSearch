@@ -147,13 +147,7 @@ export const PageNav = ({ executeScroll, pagenum }) => {
     }
 
     const handleClickPrev = async () => {
-        const prevPageToken = state.pageTokens[state.curPage - 2];
-        let res
-        // console.log('prevPageToken', prevPageToken)
-        // res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: prevPageToken });
-        // res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: prevPageToken });
-        res = itemsCache[curPage - 1]
-        // console.log('res', res)
+        const res = itemsCache[curPage - 1]
         dispatch({ type: 'CLICK_PREV', curPage: state.curPage - 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
 
         setRes(res);
@@ -163,20 +157,25 @@ export const PageNav = ({ executeScroll, pagenum }) => {
     const handleClickPageNum = async (token, i) => {
         // console.log('i + 1 in pagenum', i + 1)
         // console.log('pageTokens.length', pageTokens.length)
-
-        const { res, resDataSecondFetch } = await fetchTwice(i)
-        console.log('resDataSecondFetch', resDataSecondFetch)
-        if (!resDataSecondFetch.nextPageToken) {
-            console.log('%c setting last page to', state.curPage + 1, 'font-size:30px')
-            setLastPage(state.curPage + 1)
-            dispatch({ type: 'CLICK_NEXT', curPage: i + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
+        if (i + 1 === state.pageTokens.length) {
+            const { res, resDataSecondFetch } = await fetchTwice(i)
+            console.log('res in handleClickNext', res)
+            if (!resDataSecondFetch.nextPageToken) {
+                setLastPage(state.curPage + 1)
+                dispatch({ type: 'CLICK_NEXT', curPage: i + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
+            } else {
+                console.log('state.pageTokens', state.pageTokens)
+                dispatch({ type: 'CLICK_NEXT', curPage: i + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
+            }
+            setRes(res)
         } else {
-            console.log('state.pageTokens', state.pageTokens)
-            dispatch({ type: 'CLICK_NEXT', curPage: i + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
+            const res = itemsCache[i + 1]
+            dispatch({ type: 'CLICK_PAGENUM', curPage: i + 1 })
+            setRes(res);
         }
-
-        setRes(res)
         executeScroll();
+        // setRes(response);
+        // executeScroll();
     }
 
     useEffect(() => {
