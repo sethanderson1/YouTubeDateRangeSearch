@@ -7,6 +7,8 @@ import styled from 'styled-components'
 import { FormContext } from '../context/FormContext';
 import fetchData from '../utils/fetchData';
 import fetchDataDummy from '../utils/fetchDataDummy';
+import { useRouter } from 'next/router'
+
 // import { nanoid } from 'nanoid'
 
 const NavWrapOuter = styled.div`
@@ -54,6 +56,10 @@ export const PageNav = ({ executeScroll }) => {
     console.log('%cPageNav renders', 'color:green')
     // const [pageNumsHidden, renderPageNumsHidden] = useState(true)
 
+    const router = useRouter()
+    console.log('router', router)
+
+    
     const context = useContext(FormContext);
     const {
         query,
@@ -107,8 +113,8 @@ export const PageNav = ({ executeScroll }) => {
             res = itemsCache[pageNum + 1]
             console.log('res', res)
         } else {
-            res= await fetchData({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
-            // res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
+            // res= await fetchData({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
+            res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
             if (res.items.length) {
                 setItemsCache(prev => ({ ...prev, [pageNum]: res }))
             }
@@ -121,8 +127,8 @@ export const PageNav = ({ executeScroll }) => {
             console.log('%c resDataSecondFetch from cache', 'font-size:30px')
             resDataSecondFetch = itemsCache[pageNum + 2]
         } else {
-            resDataSecondFetch = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
-            // resDataSecondFetch = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
+            // resDataSecondFetch = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
+            resDataSecondFetch = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
             if (resDataSecondFetch.items.length) {
                 setItemsCache(prev => ({ ...prev, [pageNum + 2]: resDataSecondFetch }))
             }
@@ -134,6 +140,7 @@ export const PageNav = ({ executeScroll }) => {
     const handleClickNext = async (token, i) => {
         // console.log('%c handleClickNext ran', 'color:orange')
         // console.log('curPage in handleClickNext', state.curPage)
+        
         if (state.curPage < state.pageTokens.length - 1) {
             const i = state.curPage
             const token = state.pageTokens[i]
@@ -152,6 +159,7 @@ export const PageNav = ({ executeScroll }) => {
             setRes(res)
             executeScroll();
         }
+
     }
 
     const handleClickPrev = async () => {

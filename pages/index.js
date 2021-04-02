@@ -7,7 +7,14 @@ import { Results } from '../components/Results'
 import { FormContextProvider } from '../context/FormContext'
 import { FormContext } from '../context/FormContext';
 import { VideoBackground } from '../components/VideoBackground'
- 
+// import { Route } from 'react-router';
+// import { StaticRouter as Router } from 'react-router-dom';
+// import { BrowserRouter as Router } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
+// import Example from './[example]/[example]'
+const history = createMemoryHistory();
+// const history = createBrowserHistory();
+
 
 const Heading = styled.div`
     display:flex;
@@ -36,7 +43,7 @@ const H1 = styled.h1`
 
 export default function Home() {
   console.log('%cHome renders', 'color:green')
-  fetch('https://l8o8ahwhyf.execute-api.us-west-1.amazonaws.com/live/item/')
+  // fetch('https://l8o8ahwhyf.execute-api.us-west-1.amazonaws.com/live/item/')
 
 
 
@@ -46,8 +53,8 @@ export default function Home() {
         <title>YouTube Date Range Search asdf</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <FormContextProvider>
-        <VideoBackground />
+      {/* <FormContextProvider> */}
+        {/* <VideoBackground /> */}
         <main>
           <Heading>
             <a href="https://gracious-leakey-87c1dd.netlify.app/">
@@ -55,9 +62,13 @@ export default function Home() {
             </a>
           </Heading>
           <Form />
+          {/* <Router history={history}>
+            <Route path={'/'} exact render={(props) => (<Results />)} /> */}
+          {/* <Example /> */}
           <Results />
+          {/* </Router> */}
         </main>
-      </FormContextProvider>
+      {/* </FormContextProvider> */}
     </>
   )
 }
