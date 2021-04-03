@@ -4,7 +4,7 @@
 const getVisibleNavPageNums = (pageTokens, curPage, seen, lastPage) => {
     // console.log('seen', seen)
     // console.log('curPage', curPage)
-    // console.log('pageTokens', pageTokens)
+    console.log('pageTokens', pageTokens)
 
     const { start, end } = seen
     const span = 2
@@ -49,8 +49,10 @@ const getVisibleNavPageNums = (pageTokens, curPage, seen, lastPage) => {
         low = index - span
         high = index + span
     }
+    // console.log('low', low)
+    // console.log('high', high)
     let numsForDisplay = pageNums.slice(Math.max(0, low), high + 1)
-    // console.log('numsForDisplay', numsForDisplay)
+    console.log('numsForDisplay', numsForDisplay)
     return numsForDisplay
 }
 

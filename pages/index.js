@@ -67,7 +67,7 @@ export default function Home() {
         {/* <Link as="page/pagenum" href="/[eg]/[example]">
           <a>Click here</a>
         </Link> */}
-        <Results />
+        {/* <Results /> */}
         {/* </Router> */}
       </main>
       {/* </FormContextProvider> */}

@@ -49,8 +49,8 @@ const StyledButton = styled(Button)`
 // TODO: when press back and go from /2 to /1, use the 1, ie the route.query.pagenum
 // to update state accordingly. otherwise browser navigation doesn't work.
 export const PageNav = ({ executeScroll, pagenum }) => {
-    console.log('pagenum', pagenum)
     console.log('%cPageNav renders', 'color:green')
+    console.log('pagenum in PageNav', pagenum)
 
     const router = useRouter()
 
@@ -75,7 +75,10 @@ export const PageNav = ({ executeScroll, pagenum }) => {
         testPageNum,
     } = context;
 
+
     const handleSetTokens = (prevPageToken, nextPageToken) => {
+        console.log('prevPageToken', prevPageToken)
+        console.log('nextPageToken', nextPageToken)
         // console.log('handleSetTokens ran')
         // if we're at the first fetch, we should end up with
         // ['DUMMY', SOMETOKEN]
@@ -83,6 +86,7 @@ export const PageNav = ({ executeScroll, pagenum }) => {
             dispatch({ type: 'CLICK_SEARCH', curPage: state.curPage, pageTokens: { prevPageToken, nextPageToken } })
         }
         if (pageTokens[0] !== 'DUMMY') {
+
             dispatch({ type: 'CLICK_NEXT', curPage: state.curPage, pageTokens: { prevPageToken, nextPageToken } })
         }
     }
@@ -90,7 +94,7 @@ export const PageNav = ({ executeScroll, pagenum }) => {
     const fetchTwice = async (pageNum) => {
         const nextPageToken = pageTokens[pageNum]
         let res, resDataSecondFetch
-        // console.log('pageNum', pageNum)
+        console.log('pageNum', pageNum)
 
         if (itemsCache[pageNum + 1]) {
             // console.log('%c res from cache', 'font-size:30px')
@@ -99,6 +103,7 @@ export const PageNav = ({ executeScroll, pagenum }) => {
         } else {
             // res= await fetchData({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
             res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
+            console.log('res in fetch twice', res)
             if (res.items.length) {
                 setItemsCache(prev => ({ ...prev, [pageNum]: res }))
             }
@@ -132,11 +137,14 @@ export const PageNav = ({ executeScroll, pagenum }) => {
         } else {
             const { res, resDataSecondFetch } = await fetchTwice(state.curPage)
             // console.log('res in handleClickNext', res)
+
             if (!resDataSecondFetch.nextPageToken) {
                 setLastPage(state.curPage + 1)
+
                 dispatch({ type: 'CLICK_NEXT', curPage: state.curPage + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
             } else {
                 // console.log('state.pageTokens', state.pageTokens)
+
                 dispatch({ type: 'CLICK_NEXT', curPage: state.curPage + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
             }
             // console.log('res in handleClickNext', res)
@@ -155,17 +163,27 @@ export const PageNav = ({ executeScroll, pagenum }) => {
     }
 
     const handleClickPageNum = async (token, i) => {
-        // console.log('i + 1 in pagenum', i + 1)
+        console.log('i + 1 in pagenum', i + 1)
         // console.log('pageTokens.length', pageTokens.length)
+        console.log('curPage', curPage)
         if (i + 1 === state.pageTokens.length) {
             const { res, resDataSecondFetch } = await fetchTwice(i)
             // console.log('res in handleClickNext', res)
             if (!resDataSecondFetch.nextPageToken) {
                 setLastPage(state.curPage + 1)
+
                 dispatch({ type: 'CLICK_NEXT', curPage: i + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
             } else {
                 // console.log('state.pageTokens', state.pageTokens)
-                dispatch({ type: 'CLICK_NEXT', curPage: i + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
+                console.log('asdfasdfasdfasdfasdsadfasdffasdddddddddddddddddddddddddddd')
+                // need to not call this just on initial run
+                if (i + 1 === 1) {
+
+                } else {
+                    dispatch({ type: 'CLICK_NEXT', curPage: i + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
+                }
+                // dispatch({ type: 'CLICK_NEXT', curPage: i + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
+
             }
             setRes(res)
         } else {
@@ -180,7 +198,7 @@ export const PageNav = ({ executeScroll, pagenum }) => {
 
     useEffect(() => {
         console.log('useEffect in PageNav ran')
-        if (Object.keys(res).length !== 0) {
+        if (res !== undefined && Object.keys(res).length !== 0) {
             const nextPageToken = res?.nextPageToken;
             // console.log('nextPageToken', nextPageToken)
             const prevPageToken = res?.prevPageToken;
@@ -197,14 +215,11 @@ export const PageNav = ({ executeScroll, pagenum }) => {
 
     useEffect(() => {
         console.log(`%c testPageNum: ${testPageNum}`, 'font-size:30px')
-        dispatch({ type: 'CLICK_PAGENUM', curPage: testPageNum })
-
+        // dispatch({ type: 'CLICK_PAGENUM', curPage: testPageNum })
+        console.log('testPageNum is', testPageNum)
         handleClickPageNum('_', testPageNum - 1)
     }, [testPageNum])
 
-    useEffect(() => {
-        // if ()
-    }, [])
 
 
     const renderPageNums = () => {

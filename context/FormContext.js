@@ -20,12 +20,12 @@ export const FormContextProvider = ({ children }) => {
     const [res, setRes] = useState({});
     const [hasSearched, setHasSearched] = useState(false);
     const [lastPage, setLastPage] = useState(null);
-    console.log('lastPage', lastPage)
     const [itemsCache, setItemsCache] = useState({})
 
     const [testPageNum, setTestPageNum] = useState(1)
+    // console.log('lastPage', lastPage)
     console.log('testPageNum', testPageNum)
-    // console.log('itemsCache', itemsCache)
+    console.log('itemsCache', itemsCache)
 
     const initialState = {
         curPage: 1,
@@ -35,8 +35,9 @@ export const FormContextProvider = ({ children }) => {
     function reducer(state, action) {
         switch (action.type) {
             case 'CLICK_NEXT':
-                // console.log('action', action)
-                // console.log('state', state)
+                console.log('CLICK_NEXT')
+                console.log('action', action)
+                console.log('state', state)
 
                 return {
                     ...state,
@@ -53,8 +54,9 @@ export const FormContextProvider = ({ children }) => {
                     pageTokens: state.pageTokens
                 };
             case 'CLICK_PAGENUM':
-                // console.log('action', action)
-                // console.log('state', state)
+                console.log('CLICK_PAGENUM')
+                console.log('action', action)
+                console.log('state', state)
 
                 return {
                     ...state,
@@ -62,6 +64,9 @@ export const FormContextProvider = ({ children }) => {
                 };
 
             case 'CLICK_SEARCH':
+                console.log('CLICK_SEARCH')
+                console.log('action', action)
+                console.log('state', state)
                 return {
                     ...state,
                     curPage: action.curPage,
@@ -82,7 +87,7 @@ export const FormContextProvider = ({ children }) => {
     }
 
     const [state, dispatch] = useReducer(reducer, initialState)
-    // console.log('state', state)
+    console.log('state.pageTokens', state.pageTokens)
 
     // debugger
     // console.log('res in context', res)

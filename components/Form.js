@@ -18,6 +18,7 @@ import { FormContext } from '../context/FormContext';
 import fetchData from '../utils/fetchData'
 import fetchDataDummy from '../utils/fetchDataDummy'
 import { Search } from './Search';
+import { useRouter } from 'next/router';
 
 const theme = 'gray';
 
@@ -115,17 +116,14 @@ export const Form = () => {
         state,
         dispatch,
         itemsCache,
-        setItemsCache
+        setItemsCache,
+        testPageNum,
+        setTestPageNum
     } = context;
 
-    useEffect(() => {
-        if (hasSearched) {
-            setTheme('black');
-        }
-    }, [hasSearched])
+    const router = useRouter()
 
     const fetchTwice = async (query) => {
-        // console.log('query in finally fetch', query)
         let resData, resDataSecondFetch
 
         let pageToken = undefined;
@@ -145,42 +143,47 @@ export const Form = () => {
             console.log('no next token')
             // console.log('curPage in fetchtwice', curPage)
             setLastPage(curPage)
-
         }
-
 
         if (resData?.items?.length) {
             console.log('there are videos')
             setItemsCache({ [curPage]: resData })
-            // setItemsCache(prev => ({ ...prev, [curPage]: res }))
         }
 
         if (resDataSecondFetch?.items?.length) {
             setItemsCache(prev => ({ ...prev, [curPage + 1]: resDataSecondFetch }))
         }
 
-
-
         return resData;
     }
 
-    const submitHandler = async (query) => {
+    const submitHandler = (query) => {
+        console.log('submitHandler ran')
+        // dispatch({ type: 'RESET' })
         setQuery(query);
-        dispatch({ type: 'RESET' })
         setClickedSubmit(true)
     }
 
     useEffect(() => {
+        if (hasSearched) {
+            setTheme('black');
+        }
+    }, [hasSearched])
+
+    useEffect(() => {
         const asyncFunc = async () => {
+            console.log('step 2')
             if (curPage === 1 && clickedSubmit) {
                 const resData = await fetchTwice(query);
+                console.log('resData', resData)
                 setHasSearched(true);
                 setRes(resData);
                 setClickedSubmit(false)
+                router.push('http://localhost:3000/1')
             }
         }
         asyncFunc()
-    }, [curPage, query, clickedSubmit])
+    }, [clickedSubmit])
 
     return (
         <OuterWrap>
