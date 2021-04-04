@@ -44,6 +44,7 @@ export const CardList = () => {
 
 
     const renderList = () => {
+
         return (
             <ResOuterWrap>
                 {items && items.map(item => <Card key={item.id.videoId} data={item} />)}
