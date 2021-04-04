@@ -101,8 +101,8 @@ export const PageNav = ({ executeScroll, pagenum }) => {
             res = itemsCache[pageNum + 1]
             // console.log('res', res)
         } else {
-            // res= await fetchData({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
-            res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
+            res= await fetchData({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
+            // res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
             console.log('res in fetch twice', res)
             if (res.items.length) {
                 setItemsCache(prev => ({ ...prev, [pageNum]: res }))
@@ -116,8 +116,8 @@ export const PageNav = ({ executeScroll, pagenum }) => {
             // console.log('%c resDataSecondFetch from cache', 'font-size:30px')
             resDataSecondFetch = itemsCache[pageNum + 2]
         } else {
-            // resDataSecondFetch = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
-            resDataSecondFetch = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
+            resDataSecondFetch = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
+            // resDataSecondFetch = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
             if (resDataSecondFetch.items.length) {
                 setItemsCache(prev => ({ ...prev, [pageNum + 2]: resDataSecondFetch }))
             }
@@ -126,41 +126,41 @@ export const PageNav = ({ executeScroll, pagenum }) => {
         return { res, resDataSecondFetch }
     }
 
-    const handleClickNext = async (token, i) => {
-        // console.log('%c handleClickNext ran', 'color:orange')
-        // console.log('curPage in handleClickNext', state.curPage)
+    // const handleClickNext = async (token, i) => {
+    //     // console.log('%c handleClickNext ran', 'color:orange')
+    //     // console.log('curPage in handleClickNext', state.curPage)
 
-        if (state.curPage < state.pageTokens.length - 1) {
-            const i = state.curPage
-            const token = state.pageTokens[i]
-            handleClickPageNum(token, i)
-        } else {
-            const { res, resDataSecondFetch } = await fetchTwice(state.curPage)
-            // console.log('res in handleClickNext', res)
+    //     if (state.curPage < state.pageTokens.length - 1) {
+    //         const i = state.curPage
+    //         const token = state.pageTokens[i]
+    //         handleClickPageNum(token, i)
+    //     } else {
+    //         const { res, resDataSecondFetch } = await fetchTwice(state.curPage)
+    //         // console.log('res in handleClickNext', res)
 
-            if (!resDataSecondFetch.nextPageToken) {
-                setLastPage(state.curPage + 1)
+    //         if (!resDataSecondFetch.nextPageToken) {
+    //             setLastPage(state.curPage + 1)
 
-                dispatch({ type: 'CLICK_NEXT', curPage: state.curPage + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
-            } else {
-                // console.log('state.pageTokens', state.pageTokens)
+    //             dispatch({ type: 'CLICK_NEXT', curPage: state.curPage + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
+    //         } else {
+    //             // console.log('state.pageTokens', state.pageTokens)
 
-                dispatch({ type: 'CLICK_NEXT', curPage: state.curPage + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
-            }
-            // console.log('res in handleClickNext', res)
-            setRes(res)
-            executeScroll();
-        }
+    //             dispatch({ type: 'CLICK_NEXT', curPage: state.curPage + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
+    //         }
+    //         // console.log('res in handleClickNext', res)
+    //         setRes(res)
+    //         executeScroll();
+    //     }
 
-    }
+    // }
 
-    const handleClickPrev = async () => {
-        const res = itemsCache[curPage - 1]
-        dispatch({ type: 'CLICK_PREV', curPage: state.curPage - 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
+    // const handleClickPrev = async () => {
+    //     const res = itemsCache[curPage - 1]
+    //     dispatch({ type: 'CLICK_PREV', curPage: state.curPage - 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
 
-        setRes(res);
-        executeScroll();
-    }
+    //     setRes(res);
+    //     executeScroll();
+    // }
 
     const handleClickPageNum = async (token, i) => {
         console.log('i + 1 in pagenum', i + 1)
@@ -247,9 +247,12 @@ export const PageNav = ({ executeScroll, pagenum }) => {
             return (
                 <NavWrapOuter>
                     <NavWrapInner>
-                        <Button
-                            onClick={() => handleClickPrev()}
-                            disabled={state.curPage === 1 ? true : false} >Prev</Button>
+                        <Link as={`${state.curPage - 1}`} href="/page/[pagenum]">
+
+                            <Button
+                                // onClick={() => handleClickPrev()}
+                                disabled={state.curPage === 1 ? true : false} >Prev</Button>
+                        </Link>
                         {renderPageNums()}
                         <Link as={`${state.curPage + 1}`} href="/page/[pagenum]">
                             <Button

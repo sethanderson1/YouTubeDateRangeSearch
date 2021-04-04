@@ -11,7 +11,7 @@ export const FormContextProvider = ({ children }) => {
 
     const [query, setQuery] = useState("");
     console.log('query', query)
-    const [maxResults, setMaxResults] = useState(1);
+    const [maxResults, setMaxResults] = useState(25);
     const [sortOption, setSortOption] = useState('relevance');
     const [start, setStart] = useState("2005-04-23");
     // const [end, setEnd] = useState("2005-06-16");

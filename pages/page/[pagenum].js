@@ -19,7 +19,9 @@ export default function Results() {
     const context = useContext(FormContext)
     const {
         urlPageNum,
-        setUrlPageNum
+        setUrlPageNum,
+        state,
+        dispatch
     } = context
 
     const router = useRouter()
@@ -30,6 +32,7 @@ export default function Results() {
     useEffect(() => {
         console.log('useEffect in [pagenum] renders')
         console.log('didMount', didMount)
+        // dispatch({ type: 'RESET' })
         setDidMount(true)
     }, [didMount])
 
