@@ -53,7 +53,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {/* <FormContextProvider> */}
-      {/* <VideoBackground /> */}
+      <VideoBackground />
       <main>
         <Heading>
           <a href="https://gracious-leakey-87c1dd.netlify.app/">
