@@ -73,7 +73,11 @@ export const PageNav = ({ executeScroll, pagenum }) => {
         itemsCache,
         setItemsCache,
         urlPageNum,
+        shouldDisplay,
+        setShouldDisplay
     } = context;
+
+    console.log('curPage', curPage)
 
 
     const handleSetTokens = (prevPageToken, nextPageToken) => {
@@ -126,46 +130,12 @@ export const PageNav = ({ executeScroll, pagenum }) => {
         return { res, resDataSecondFetch }
     }
 
-    // const handleClickNext = async (token, i) => {
-    //     // console.log('%c handleClickNext ran', 'color:orange')
-    //     // console.log('curPage in handleClickNext', state.curPage)
 
-    //     if (state.curPage < state.pageTokens.length - 1) {
-    //         const i = state.curPage
-    //         const token = state.pageTokens[i]
-    //         handleClickPageNum(token, i)
-    //     } else {
-    //         const { res, resDataSecondFetch } = await fetchTwice(state.curPage)
-    //         // console.log('res in handleClickNext', res)
-
-    //         if (!resDataSecondFetch.nextPageToken) {
-    //             setLastPage(state.curPage + 1)
-
-    //             dispatch({ type: 'CLICK_NEXT', curPage: state.curPage + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
-    //         } else {
-    //             // console.log('state.pageTokens', state.pageTokens)
-
-    //             dispatch({ type: 'CLICK_NEXT', curPage: state.curPage + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
-    //         }
-    //         // console.log('res in handleClickNext', res)
-    //         setRes(res)
-    //         executeScroll();
-    //     }
-
-    // }
-
-    // const handleClickPrev = async () => {
-    //     const res = itemsCache[curPage - 1]
-    //     dispatch({ type: 'CLICK_PREV', curPage: state.curPage - 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
-
-    //     setRes(res);
-    //     executeScroll();
-    // }
-
-    const handleClickPageNum = async (token, i) => {
+    const handlePageNavClick = async (token, i) => {
         console.log('i + 1 in pagenum', i + 1)
         // console.log('pageTokens.length', pageTokens.length)
         console.log('curPage', curPage)
+
         if (i + 1 === state.pageTokens.length) {
             const { res, resDataSecondFetch } = await fetchTwice(i)
             // console.log('res in handleClickNext', res)
@@ -185,15 +155,17 @@ export const PageNav = ({ executeScroll, pagenum }) => {
                 // dispatch({ type: 'CLICK_NEXT', curPage: i + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
 
             }
+            // debugger
+
             setRes(res)
         } else {
             const res = itemsCache[i + 1]
             dispatch({ type: 'CLICK_PAGENUM', curPage: i + 1 })
             setRes(res);
         }
-        executeScroll();
-        // setRes(response);
-        // executeScroll();
+
+
+        // executeScroll();s
     }
 
     useEffect(() => {
@@ -217,7 +189,7 @@ export const PageNav = ({ executeScroll, pagenum }) => {
         console.log(`%c urlPageNum: ${urlPageNum}`, 'font-size:30px')
         // dispatch({ type: 'CLICK_PAGENUM', curPage: urlPageNum })
         console.log('urlPageNum is', urlPageNum)
-        handleClickPageNum('_', urlPageNum - 1)
+        handlePageNavClick('_', urlPageNum - 1)
     }, [urlPageNum])
 
 
@@ -232,7 +204,7 @@ export const PageNav = ({ executeScroll, pagenum }) => {
                             style={{ display: "none" }}>
                         </StyledButton>
                         : <StyledButton
-                            // onClick={() => handleClickPageNum(token, i)}
+                            onClick={() => setShouldDisplay(false)}
                             disabled={isCurrentPage(token, i, state.curPage)}>
                             {i + 1}
                         </StyledButton>
@@ -243,20 +215,20 @@ export const PageNav = ({ executeScroll, pagenum }) => {
     }
 
     const renderNav = () => {
-        if (hasSearched) {
+        if (hasSearched && shouldDisplay) {
             return (
                 <NavWrapOuter>
                     <NavWrapInner>
                         <Link as={`${state.curPage - 1}`} href="/page/[pagenum]">
 
                             <Button
-                                // onClick={() => handleClickPrev()}
+                                onClick={() => setShouldDisplay(false)}
                                 disabled={state.curPage === 1 ? true : false} >Prev</Button>
                         </Link>
                         {renderPageNums()}
                         <Link as={`${state.curPage + 1}`} href="/page/[pagenum]">
                             <Button
-                                // onClick={() => handleClickNext()}
+                                onClick={() => setShouldDisplay(false)}
                                 disabled={state.curPage === lastPage ? true : false}>
                                 Next
                                 </Button>

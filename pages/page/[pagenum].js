@@ -16,18 +16,26 @@ const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 export default function Results() {
     console.log('%c [pagenum] renders', 'color:green')
     const [didMount, setDidMount] = useState(false)
+    // const [shouldDisplay, setShouldDisplay] = useState(true)
     const context = useContext(FormContext)
     const {
         urlPageNum,
         setUrlPageNum,
         state,
-        dispatch
+        dispatch,
+        shouldDisplay,
+        setShouldDisplay,
+        res,
+        curPage
     } = context
 
     const router = useRouter()
     console.log('urlPageNum', urlPageNum)
 
     const pagenum = router.query.pagenum
+
+    const myRef = useRef(null);
+    const executeScroll = () => scrollToRef(myRef);
 
     useEffect(() => {
         console.log('useEffect in [pagenum] renders')
@@ -42,16 +50,34 @@ export default function Results() {
         setUrlPageNum(pagenum)
     })
 
-    const myRef = useRef(null);
-    const executeScroll = () => scrollToRef(myRef);
+    useEffect(() => {
+        console.log('curPage', curPage)
+        setShouldDisplay(true)
+    }, [curPage])
+
+
+
+    const renderCardList = () => {
+        // debugger
+        if (shouldDisplay) {
+            return (
+                <>
+                    <CardList />
+                </>
+            )
+        } else {
+            return null
+        }
+    }
 
     const renderResults = () => {
         if (didMount) {
+
             return (
                 <ResOuterWrap>
                     <Form />
                     <div ref={myRef}></div>
-                    <CardList />
+                    {renderCardList()}
                     <PageNav executeScroll={executeScroll} pagenum={pagenum} />
                 </ResOuterWrap>
             )
