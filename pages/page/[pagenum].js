@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router';
 import React, { useContext, useRef, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { CardList } from '../components/CardList';
-import { Form } from '../components/Form';
-import { PageNav } from '../components/PageNav';
-import { FormContext } from '../context/FormContext'
+import { CardList } from '../../components/CardList';
+import { Form } from '../../components/Form';
+import { PageNav } from '../../components/PageNav';
+import { FormContext } from '../../context/FormContext'
 
 const ResOuterWrap = styled.div`
     width: 100%;

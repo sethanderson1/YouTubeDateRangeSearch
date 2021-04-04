@@ -179,7 +179,8 @@ export const Form = () => {
                 setHasSearched(true);
                 setRes(resData);
                 setClickedSubmit(false)
-                router.push('http://localhost:3000/1')
+                // router.push('/1')
+                router.push('http://localhost:3000/page/1')
             }
         }
         asyncFunc()

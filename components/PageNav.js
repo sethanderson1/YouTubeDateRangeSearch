@@ -225,7 +225,8 @@ export const PageNav = ({ executeScroll, pagenum }) => {
     const renderPageNums = () => {
         return state.pageTokens.map((token, i) => {
             return (
-                <Link key={i} as={`${i + 1}`} href="/[pagenum]">
+                <Link key={i} as={`${i + 1}`} href="/page/[pagenum]">
+                {/* <Link key={i} as={`${i + 1}`} href="/[pagenum]"> */}
                     { isDisplayNone(i, state.curPage, state.pageTokens, lastPage)
                         ? <StyledButton
                             style={{ display: "none" }}>
