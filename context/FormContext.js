@@ -23,9 +23,9 @@ export const FormContextProvider = ({ children }) => {
     const [lastPage, setLastPage] = useState(null);
     const [itemsCache, setItemsCache] = useState({})
 
-    const [testPageNum, setTestPageNum] = useState(1)
+    const [urlPageNum, setUrlPageNum] = useState(1)
     // console.log('lastPage', lastPage)
-    console.log('testPageNum', testPageNum)
+    console.log('urlPageNum', urlPageNum)
     console.log('itemsCache', itemsCache)
 
     const initialState = {
@@ -88,6 +88,7 @@ export const FormContextProvider = ({ children }) => {
     }
 
     const [state, dispatch] = useReducer(reducer, initialState)
+    console.log('state.curPage', state.curPage)
     console.log('state.pageTokens', state.pageTokens)
 
     // debugger
@@ -125,8 +126,8 @@ export const FormContextProvider = ({ children }) => {
             dispatch,
             itemsCache,
             setItemsCache,
-            testPageNum,
-            setTestPageNum
+            urlPageNum,
+            setUrlPageNum
         }}>
             {children}
         </FormContext.Provider>

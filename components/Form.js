@@ -172,7 +172,6 @@ export const Form = () => {
 
     useEffect(() => {
         const asyncFunc = async () => {
-            console.log('step 2')
             if (curPage === 1 && clickedSubmit) {
                 const resData = await fetchTwice(query);
                 console.log('resData', resData)
@@ -180,6 +179,7 @@ export const Form = () => {
                 setRes(resData);
                 setClickedSubmit(false)
                 // router.push('/1')
+                // router.push('http://localhost:3000/page/1', { shallow: true })
                 router.push('http://localhost:3000/page/1')
             }
         }

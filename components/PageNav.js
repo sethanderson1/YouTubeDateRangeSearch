@@ -72,7 +72,7 @@ export const PageNav = ({ executeScroll, pagenum }) => {
         dispatch,
         itemsCache,
         setItemsCache,
-        testPageNum,
+        urlPageNum,
     } = context;
 
 
@@ -175,7 +175,7 @@ export const PageNav = ({ executeScroll, pagenum }) => {
                 dispatch({ type: 'CLICK_NEXT', curPage: i + 1, pageTokens: { prevPageToken: res.prevPageToken, nextPageToken: res.nextPageToken } })
             } else {
                 // console.log('state.pageTokens', state.pageTokens)
-                console.log('asdfasdfasdfasdfasdsadfasdffasdddddddddddddddddddddddddddd')
+                console.log('not last page')
                 // need to not call this just on initial run
                 if (i + 1 === 1) {
 
@@ -214,11 +214,11 @@ export const PageNav = ({ executeScroll, pagenum }) => {
     }, [res])
 
     useEffect(() => {
-        console.log(`%c testPageNum: ${testPageNum}`, 'font-size:30px')
-        // dispatch({ type: 'CLICK_PAGENUM', curPage: testPageNum })
-        console.log('testPageNum is', testPageNum)
-        handleClickPageNum('_', testPageNum - 1)
-    }, [testPageNum])
+        console.log(`%c urlPageNum: ${urlPageNum}`, 'font-size:30px')
+        // dispatch({ type: 'CLICK_PAGENUM', curPage: urlPageNum })
+        console.log('urlPageNum is', urlPageNum)
+        handleClickPageNum('_', urlPageNum - 1)
+    }, [urlPageNum])
 
 
 
@@ -226,7 +226,7 @@ export const PageNav = ({ executeScroll, pagenum }) => {
         return state.pageTokens.map((token, i) => {
             return (
                 <Link key={i} as={`${i + 1}`} href="/page/[pagenum]">
-                {/* <Link key={i} as={`${i + 1}`} href="/[pagenum]"> */}
+                    {/* <Link key={i} as={`${i + 1}`} href="/[pagenum]"> */}
                     { isDisplayNone(i, state.curPage, state.pageTokens, lastPage)
                         ? <StyledButton
                             style={{ display: "none" }}>
@@ -251,7 +251,14 @@ export const PageNav = ({ executeScroll, pagenum }) => {
                             onClick={() => handleClickPrev()}
                             disabled={state.curPage === 1 ? true : false} >Prev</Button>
                         {renderPageNums()}
-                        <Button onClick={() => handleClickNext()} disabled={state.curPage === lastPage ? true : false}>Next</Button>
+                        <Link as={`${state.curPage + 1}`} href="/page/[pagenum]">
+                            <Button
+                                // onClick={() => handleClickNext()}
+                                disabled={state.curPage === lastPage ? true : false}>
+                                Next
+                                </Button>
+                        </Link>
+
                     </NavWrapInner>
                 </NavWrapOuter>
             )

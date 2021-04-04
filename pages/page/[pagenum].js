@@ -18,12 +18,12 @@ export default function Results() {
     const [didMount, setDidMount] = useState(false)
     const context = useContext(FormContext)
     const {
-        testPageNum,
-        setTestPageNum
+        urlPageNum,
+        setUrlPageNum
     } = context
 
     const router = useRouter()
-    console.log('testPageNum', testPageNum)
+    console.log('urlPageNum', urlPageNum)
 
     const pagenum = router.query.pagenum
 
@@ -36,7 +36,7 @@ export default function Results() {
     useEffect(() => {
         console.log('router.query.pagenum', router.query.pagenum)
 
-        setTestPageNum(pagenum)
+        setUrlPageNum(pagenum)
     })
 
     const myRef = useRef(null);
