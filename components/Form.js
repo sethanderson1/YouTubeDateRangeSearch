@@ -181,7 +181,8 @@ export const Form = () => {
                 setClickedSubmit(false)
                 // router.push('/1')
                 // router.push('http://localhost:3000/page/1', { shallow: true })
-                router.push('http://localhost:3000/page/1')
+                router.push('https://gracious-leakey-87c1dd.netlify.app/page/1')
+                // router.push('http://localhost:3000/page/1')
             }
         }
         asyncFunc()
