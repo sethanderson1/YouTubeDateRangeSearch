@@ -172,10 +172,7 @@ export const Form = () => {
         // reset()
         dispatch({ type: 'RESET' })
 
-
-
         setClickedSubmit(true)
-
 
     }
 

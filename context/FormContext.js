@@ -33,7 +33,6 @@ export const FormContextProvider = ({ children }) => {
             case 'CLICK_NEXT':
                 // console.log('action', action)
                 // console.log('state', state)
-
                 return {
                     ...state,
                     curPage: action.curPage,
@@ -42,7 +41,6 @@ export const FormContextProvider = ({ children }) => {
             case 'CLICK_PREV':
                 // console.log('action', action)
                 // console.log('state', state)
-
                 return {
                     ...state,
                     curPage: action.curPage,
@@ -51,12 +49,10 @@ export const FormContextProvider = ({ children }) => {
             case 'CLICK_PAGENUM':
                 // console.log('action', action)
                 // console.log('state', state)
-
                 return {
                     ...state,
                     curPage: action.curPage,
                 };
-
             case 'CLICK_SEARCH':
                 return {
                     ...state,
@@ -82,8 +78,6 @@ export const FormContextProvider = ({ children }) => {
 
     // debugger
     console.log('res in context', res)
-
-
 
     return (
         <FormContext.Provider value={{
