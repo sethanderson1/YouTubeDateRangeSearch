@@ -7,7 +7,15 @@ import { Results } from '../components/Results'
 import { FormContextProvider } from '../context/FormContext'
 import { FormContext } from '../context/FormContext';
 import { VideoBackground } from '../components/VideoBackground'
- 
+// import { Route } from 'react-router';
+// import { StaticRouter as Router } from 'react-router-dom';
+// import { BrowserRouter as Router } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
+// import Example from './[example]/[example]'
+const history = createMemoryHistory();
+// const history = createBrowserHistory();
+import Link from 'next/link'
+
 
 const Heading = styled.div`
     display:flex;
@@ -36,9 +44,7 @@ const H1 = styled.h1`
 
 export default function Home() {
   console.log('%cHome renders', 'color:green')
-  fetch('https://l8o8ahwhyf.execute-api.us-west-1.amazonaws.com/live/item/')
-
-
+  // fetch('https://l8o8ahwhyf.execute-api.us-west-1.amazonaws.com/live/item/')
 
   return (
     <>
@@ -46,18 +52,25 @@ export default function Home() {
         <title>YouTube Date Range Search asdf</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <FormContextProvider>
-        <VideoBackground />
-        <main>
-          <Heading>
-            <a href="https://gracious-leakey-87c1dd.netlify.app/">
-              <H1>YouTube Date Range Search</H1>
-            </a>
-          </Heading>
-          <Form />
-          <Results />
-        </main>
-      </FormContextProvider>
+      {/* <FormContextProvider> */}
+      {/* <VideoBackground /> */}
+      <main>
+        <Heading>
+          <a href="https://gracious-leakey-87c1dd.netlify.app/">
+            <H1>YouTube Date Range Search</H1>
+          </a>
+        </Heading>
+        <Form />
+        {/* <Router history={history}>
+            <Route path={'/'} exact render={(props) => (<Results />)} /> */}
+        {/* <Example /> */}
+        {/* <Link as="page/pagenum" href="/[eg]/[example]">
+          <a>Click here</a>
+        </Link> */}
+        {/* <Results /> */}
+        {/* </Router> */}
+      </main>
+      {/* </FormContextProvider> */}
     </>
   )
 }

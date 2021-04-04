@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Link from 'next/link'
 import {
     Button,
     TextField,
@@ -52,7 +53,11 @@ export const Search = ({ submitHandler, hasSearched }) => {
             border: `1px solid ${hasSearched ? 'white' : 'gray'}`
         }}>
             <TextField variant="outlined" fullWidth={true} value={qry} onChange={handleOnChange} onKeyPress={handleKeyPress} />
-            <Button variant='outlined' type="submit" onClick={handleClick} ><SearchIcon /></Button>
+            {/* <Link as={`${1}`} href="/[pagenum]"> */}
+            <Button variant='outlined' type="submit"
+                onClick={handleClick}
+            ><SearchIcon /></Button>
+            {/* </Link> */}
         </SearchWrap>
     )
 }
