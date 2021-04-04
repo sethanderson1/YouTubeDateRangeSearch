@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import React, { useContext, useRef, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { CardList } from '../components/CardList';
+import { Form } from '../components/Form';
 import { PageNav } from '../components/PageNav';
 import { FormContext } from '../context/FormContext'
 
@@ -45,6 +46,7 @@ export default function Results() {
         if (didMount) {
             return (
                 <ResOuterWrap>
+                    <Form />
                     <div ref={myRef}></div>
                     <CardList />
                     <PageNav executeScroll={executeScroll} pagenum={pagenum} />
