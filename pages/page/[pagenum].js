@@ -11,6 +11,19 @@ const ResOuterWrap = styled.div`
     margin-top: 40px;
 `
 
+const Heading = styled.div`
+    display:flex;
+    justify-content:center;
+    margin: 0px 20px 30px 20px;
+    text-align:center;
+`
+
+const H1 = styled.h1`
+font-weight: 100;
+/* color: ${theme}; */
+color: gray;
+`
+
 const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 
 export default function Results() {
@@ -75,6 +88,11 @@ export default function Results() {
 
             return (
                 <ResOuterWrap>
+                    <Heading>
+                        <a href="https://gracious-leakey-87c1dd.netlify.app/">
+                            <H1>YouTube Date Range Search</H1>
+                        </a>
+                    </Heading>
                     <Form />
                     <div ref={myRef}></div>
                     {renderCardList()}

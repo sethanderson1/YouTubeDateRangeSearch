@@ -3,6 +3,8 @@ import {
     Button,
     Form as MaterialForm,
 } from '@material-ui/core'
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import styled from 'styled-components'
 import { FormContext } from '../context/FormContext';
 import fetchData from '../utils/fetchData';
@@ -26,10 +28,17 @@ const NavWrapInner = styled.div`
     width: 500px;
     display: flex;
     justify-content: space-between;
+    margin-top: 80px;
+    margin-bottom: 80px;
 
     .MuiButton-root {
-        font-size: 1.2rem;
+        /* font-size: 1.2rem; */
+        font-size: 1.3rem;
         /* font-size: 2.875rem; */
+    }
+
+    .MuiSvgIcon-root {
+        font-size:2.5rem;
     }
 `
 
@@ -46,8 +55,8 @@ const StyledButton = styled(Button)`
 
 // TODO: prevent double click of next. maybe disable next while loading
 
-// TODO: when press back and go from /2 to /1, use the 1, ie the route.query.pagenum
-// to update state accordingly. otherwise browser navigation doesn't work.
+//handle 403 response
+
 export const PageNav = ({ executeScroll, pagenum }) => {
     console.log('%cPageNav renders', 'color:green')
     console.log('pagenum in PageNav', pagenum)
@@ -105,7 +114,7 @@ export const PageNav = ({ executeScroll, pagenum }) => {
             res = itemsCache[pageNum + 1]
             // console.log('res', res)
         } else {
-            res= await fetchData({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
+            res = await fetchData({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
             // res = await fetchDataDummy({ query, maxResults, sortOption, start, end, pageToken: nextPageToken })
             console.log('res in fetch twice', res)
             if (res.items.length) {
@@ -223,15 +232,15 @@ export const PageNav = ({ executeScroll, pagenum }) => {
 
                             <Button
                                 onClick={() => setShouldDisplay(false)}
-                                disabled={state.curPage === 1 ? true : false} >Prev</Button>
+                                disabled={state.curPage === 1 ? true : false} ><ChevronLeftIcon /></Button>
                         </Link>
                         {renderPageNums()}
                         <Link as={`${state.curPage + 1}`} href="/page/[pagenum]">
                             <Button
                                 onClick={() => setShouldDisplay(false)}
                                 disabled={state.curPage === lastPage ? true : false}>
-                                Next
-                                </Button>
+                                <ChevronRightIcon />
+                            </Button>
                         </Link>
 
                     </NavWrapInner>
