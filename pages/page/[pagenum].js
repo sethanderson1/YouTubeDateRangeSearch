@@ -8,7 +8,7 @@ import { FormContext } from '../../context/FormContext'
 
 const ResOuterWrap = styled.div`
     width: 100%;
-    margin-top: 40px;
+    /* margin-top: 40px; */
 `
 
 const Heading = styled.div`
@@ -23,6 +23,10 @@ font-weight: 100;
 /* color: ${theme}; */
 color: gray;
 `
+
+// TODO: upon browser back navigation, hide cardlist right before 
+// page transitions. Next router should have a method to do this.
+// Look into routeChangeStart on https://nextjs.org/docs/api-reference/next/router 
 
 const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 
@@ -39,7 +43,9 @@ export default function Results() {
         shouldDisplay,
         setShouldDisplay,
         res,
-        curPage
+        curPage,
+        justSearched,
+        setJustSearched
     } = context
 
     const router = useRouter()
@@ -49,6 +55,28 @@ export default function Results() {
 
     const myRef = useRef(null);
     const executeScroll = () => scrollToRef(myRef);
+
+
+    useEffect(() => {
+        const handleRouteChange = (url, { shallow }) => {
+            console.log('urlPageNum curPage', urlPageNum, curPage)
+
+            setShouldDisplay(false)
+            console.log(
+                `%c App is changing to ${url} ${shallow ? 'with' : 'without'
+                } shallow routing`, 'font-size:30px'
+            )
+        }
+
+        router.events.on('routeChangeStart', handleRouteChange)
+
+        // If the component is unmounted, unsubscribe
+        // from the event with the `off` method:
+        return () => {
+            router.events.off('routeChangeStart', handleRouteChange)
+        }
+    }, [])
+
 
     useEffect(() => {
         console.log('useEffect in [pagenum] renders')
@@ -65,22 +93,25 @@ export default function Results() {
 
     useEffect(() => {
         console.log('curPage', curPage)
-        setShouldDisplay(true)
-    }, [curPage])
-
+        console.log('justSearched', justSearched)
+        if (!justSearched) {
+            console.log('here')
+            setShouldDisplay(true)
+        } else {
+            setJustSearched(false)
+        }
+    }, [curPage, justSearched])
 
 
     const renderCardList = () => {
         // debugger
+        console.log('shouldDisplay', shouldDisplay)
         if (shouldDisplay) {
-            return (
-                <>
-                    <CardList />
-                </>
-            )
+            return <CardList visibility={'visible'} />
         } else {
-            return null
+            return <CardList visibility={'hidden'} />
         }
+
     }
 
     const renderResults = () => {

@@ -55,7 +55,7 @@ const TitleAndDescription = styled.div`
     text-align: center;
     margin:20px;
     max-width: 450px;
-    /* max-height: 309px; */
+    max-height: 309px;
     overflow: hidden;
     @media screen and (min-width: 900px) {
         width: 450px;   

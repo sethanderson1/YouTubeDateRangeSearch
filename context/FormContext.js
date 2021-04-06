@@ -24,6 +24,10 @@ export const FormContextProvider = ({ children }) => {
     
     const [urlPageNum, setUrlPageNum] = useState(1)
     const [shouldDisplay, setShouldDisplay] = useState(true)
+    const [justSearched, setJustSearched] = useState(false)
+
+    // const [displayCards, setDisplayCards] = useState(false)
+
     
     console.log('urlPageNum', urlPageNum)
     console.log('shouldDisplay', shouldDisplay)
@@ -75,6 +79,8 @@ export const FormContextProvider = ({ children }) => {
                 setLastPage(null)
                 setRes({})
                 setItemsCache({})
+                setShouldDisplay(true)
+                setHasSearched(false)
                 return {
                     ...state,
                     curPage: 1,
@@ -125,7 +131,9 @@ export const FormContextProvider = ({ children }) => {
             urlPageNum,
             setUrlPageNum,
             shouldDisplay,
-            setShouldDisplay
+            setShouldDisplay,
+            justSearched,
+            setJustSearched
         }}>
             {children}
         </FormContext.Provider>
