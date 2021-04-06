@@ -74,9 +74,9 @@ export const Card = ({ data }) => {
         <CardOuterWrap>
             <a href={`https://www.youtube.com/watch?v=${videoId}`} target="_blank">
                 <ImgAndTextWrap>
-                    <ImageWrap>
+                    {/* <ImageWrap>
                         <img src={high.url} />
-                    </ImageWrap>
+                    </ImageWrap> */}
                     <TitleAndDescription>
                         <h2>{title}</h2>
                         <p>{description}</p>

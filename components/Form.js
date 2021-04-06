@@ -118,7 +118,9 @@ export const Form = () => {
         itemsCache,
         setItemsCache,
         testPageNum,
-        setTestPageNum
+        setTestPageNum,
+        justSearched,
+        setJustSearched
     } = context;
 
     const router = useRouter()
@@ -127,26 +129,26 @@ export const Form = () => {
         let resData, resDataSecondFetch
 
         let pageToken = undefined;
-        resData = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken });
-        // resData = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken });
-        console.log('resData', resData)
+        // resData = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken });
+        resData = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken });
+        // console.log('resData', resData)
         // got data for first page
         // use next page token on second fetch
         let secondNextPageToken = resData.nextPageToken
-        console.log('secondNextPageToken', secondNextPageToken)
         // console.log('secondNextPageToken', secondNextPageToken)
-        resDataSecondFetch = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
-        // resDataSecondFetch = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
-        console.log('resDataSecondFetch', resDataSecondFetch)
+        // console.log('secondNextPageToken', secondNextPageToken)
+        // resDataSecondFetch = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
+        resDataSecondFetch = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
+        // console.log('resDataSecondFetch', resDataSecondFetch)
         // if no next page token, set last page to current page
         if (!resDataSecondFetch.nextPageToken) {
-            console.log('no next token')
+            // console.log('no next token')
             // console.log('curPage in fetchtwice', curPage)
             setLastPage(curPage)
         }
 
         if (resData?.items?.length) {
-            console.log('there are videos')
+            // console.log('there are videos')
             setItemsCache({ [curPage]: resData })
         }
 
@@ -158,7 +160,7 @@ export const Form = () => {
     }
 
     const submitHandler = (query) => {
-        console.log('submitHandler ran')
+        // console.log('submitHandler ran')
         dispatch({ type: 'RESET' })
 
         setQuery(query);
@@ -179,6 +181,7 @@ export const Form = () => {
                 setHasSearched(true);
                 setRes(resData);
                 setClickedSubmit(false)
+                setJustSearched(true)
                 // router.push('/1')
                 // router.push('http://localhost:3000/page/1', { shallow: true })
                 // router.push('https://gracious-leakey-87c1dd.netlify.app/page/1')

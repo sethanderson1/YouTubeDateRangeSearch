@@ -10,7 +10,7 @@ export const FormContextProvider = ({ children }) => {
     const [theme, setTheme] = useState('gray');
 
     const [query, setQuery] = useState("");
-    const [maxResults, setMaxResults] = useState(25);
+    const [maxResults, setMaxResults] = useState(1);
     const [sortOption, setSortOption] = useState('relevance');
     const [start, setStart] = useState("2005-04-23");
     // const [end, setEnd] = useState("2005-06-16");
@@ -24,8 +24,9 @@ export const FormContextProvider = ({ children }) => {
     
     const [urlPageNum, setUrlPageNum] = useState(1)
     const [shouldDisplay, setShouldDisplay] = useState(true)
+    const [justSearched, setJustSearched] = useState(false)
 
-    const [displayCards, setDisplayCards] = useState(false)
+    // const [displayCards, setDisplayCards] = useState(false)
 
     
     console.log('urlPageNum', urlPageNum)
@@ -78,6 +79,8 @@ export const FormContextProvider = ({ children }) => {
                 setLastPage(null)
                 setRes({})
                 setItemsCache({})
+                setShouldDisplay(true)
+                setHasSearched(false)
                 return {
                     ...state,
                     curPage: 1,
@@ -128,7 +131,9 @@ export const FormContextProvider = ({ children }) => {
             urlPageNum,
             setUrlPageNum,
             shouldDisplay,
-            setShouldDisplay
+            setShouldDisplay,
+            justSearched,
+            setJustSearched
         }}>
             {children}
         </FormContext.Provider>

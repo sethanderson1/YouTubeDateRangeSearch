@@ -43,7 +43,9 @@ export default function Results() {
         shouldDisplay,
         setShouldDisplay,
         res,
-        curPage
+        curPage,
+        justSearched,
+        setJustSearched
     } = context
 
     const router = useRouter()
@@ -57,6 +59,8 @@ export default function Results() {
 
     useEffect(() => {
         const handleRouteChange = (url, { shallow }) => {
+            console.log('urlPageNum curPage', urlPageNum, curPage)
+
             setShouldDisplay(false)
             console.log(
                 `%c App is changing to ${url} ${shallow ? 'with' : 'without'
@@ -89,12 +93,19 @@ export default function Results() {
 
     useEffect(() => {
         console.log('curPage', curPage)
-        setShouldDisplay(true)
-    }, [curPage])
+        console.log('justSearched', justSearched)
+        if (!justSearched) {
+            console.log('here')
+            setShouldDisplay(true)
+        } else {
+            setJustSearched(false)
+        }
+    }, [curPage, justSearched])
 
 
     const renderCardList = () => {
         // debugger
+        console.log('shouldDisplay', shouldDisplay)
         if (shouldDisplay) {
             return <CardList visibility={'visible'} />
         } else {
