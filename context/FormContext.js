@@ -24,6 +24,9 @@ export const FormContextProvider = ({ children }) => {
     
     const [urlPageNum, setUrlPageNum] = useState(1)
     const [shouldDisplay, setShouldDisplay] = useState(true)
+
+    const [displayCards, setDisplayCards] = useState(false)
+
     
     console.log('urlPageNum', urlPageNum)
     console.log('shouldDisplay', shouldDisplay)

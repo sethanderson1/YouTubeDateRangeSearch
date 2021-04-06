@@ -213,7 +213,7 @@ export const PageNav = ({ executeScroll, pagenum }) => {
                             style={{ display: "none" }}>
                         </StyledButton>
                         : <StyledButton
-                            onClick={() => setShouldDisplay(false)}
+                            // onClick={() => setShouldDisplay(false)}
                             disabled={isCurrentPage(token, i, state.curPage)}>
                             {i + 1}
                         </StyledButton>
@@ -231,13 +231,13 @@ export const PageNav = ({ executeScroll, pagenum }) => {
                         <Link as={`${state.curPage - 1}`} href="/page/[pagenum]">
 
                             <Button
-                                onClick={() => setShouldDisplay(false)}
+                                // onClick={() => setShouldDisplay(false)}
                                 disabled={state.curPage === 1 ? true : false} ><ChevronLeftIcon /></Button>
                         </Link>
                         {renderPageNums()}
                         <Link as={`${state.curPage + 1}`} href="/page/[pagenum]">
                             <Button
-                                onClick={() => setShouldDisplay(false)}
+                                // onClick={() => setShouldDisplay(false)}
                                 disabled={state.curPage === lastPage ? true : false}>
                                 <ChevronRightIcon />
                             </Button>

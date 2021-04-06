@@ -23,10 +23,13 @@ import { FormContext } from '../context/FormContext';
 
 const ResOuterWrap = styled.div`
     width: 100%;
+    margin-top: 40px;
+
     /* border: 1px solid black; */
 `
 
-export const CardList = () => {
+export const CardList = ({ visibility }) => {
+    console.log('visibility', visibility)
     console.log('%cCardList renders', 'color:green')
 
     const { res, setRes } = useContext(FormContext);
@@ -46,7 +49,7 @@ export const CardList = () => {
     const renderList = () => {
 
         return (
-            <ResOuterWrap>
+            <ResOuterWrap style={{ visibility: `${visibility}` }}>
                 {items && items.map(item => <Card key={item.id.videoId} data={item} />)}
             </ResOuterWrap>
         )

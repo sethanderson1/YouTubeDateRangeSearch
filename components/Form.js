@@ -186,6 +186,7 @@ export const Form = () => {
             }
         }
         asyncFunc()
+        console.log('form mounts')
     }, [clickedSubmit])
 
     return (
