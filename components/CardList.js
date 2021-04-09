@@ -51,6 +51,9 @@ export const CardList = ({ visibility }) => {
         return (
             <ResOuterWrap style={{ visibility: `${visibility}` }}>
                 {items && items.map(item => <Card key={item.id.videoId} data={item} />)}
+                {/* <pre>
+                    {res && JSON.stringify(res, null, 2)}
+                </pre> */}
             </ResOuterWrap>
         )
     }

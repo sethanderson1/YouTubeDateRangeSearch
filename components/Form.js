@@ -19,6 +19,7 @@ import fetchData from '../utils/fetchData'
 import fetchDataDummy from '../utils/fetchDataDummy'
 import { Search } from './Search';
 import { useRouter } from 'next/router';
+import fetchDataDummy2 from '../utils/fetchDataDummy2';
 
 const theme = 'gray';
 
@@ -129,15 +130,16 @@ export const Form = () => {
         let resData, resDataSecondFetch
 
         let pageToken = undefined;
-        resData = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken });
-        // resData = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken });
+        // resData = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken });
+        resData = await fetchDataDummy2({ query: query, maxResults, sortOption, start, end, pageToken });
         // console.log('resData', resData)
         // got data for first page
         // use next page token on second fetch
         let secondNextPageToken = resData.nextPageToken
+        console.log('secondNextPageToken', secondNextPageToken)
         // console.log('secondNextPageToken', secondNextPageToken)
-        resDataSecondFetch = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
-        // resDataSecondFetch = await fetchDataDummy({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
+        // resDataSecondFetch = await fetchData({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
+        resDataSecondFetch = await fetchDataDummy2({ query: query, maxResults, sortOption, start, end, pageToken: secondNextPageToken });
         // console.log('resDataSecondFetch', resDataSecondFetch)
         // if no next page token, set last page to current page
         if (!resDataSecondFetch.nextPageToken) {
@@ -183,8 +185,8 @@ export const Form = () => {
                 setJustSearched(true)
                 // router.push('/1')
                 // router.push('http://localhost:3000/page/1', { shallow: true })
-                router.push('https://gracious-leakey-87c1dd.netlify.app/page/1')
-                // router.push('http://localhost:3000/page/1')
+                // router.push('https://gracious-leakey-87c1dd.netlify.app/page/1')
+                router.push('http://localhost:3000/page/1')
             }
         }
         asyncFunc()

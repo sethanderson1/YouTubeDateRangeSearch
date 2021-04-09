@@ -10,11 +10,11 @@ export const FormContextProvider = ({ children }) => {
     const [theme, setTheme] = useState('gray');
 
     const [query, setQuery] = useState("");
-    const [maxResults, setMaxResults] = useState(25);
+    const [maxResults, setMaxResults] = useState(10);
     const [sortOption, setSortOption] = useState('relevance');
     const [start, setStart] = useState("2005-04-23");
     // const [end, setEnd] = useState("2005-06-16");
-    const [end, setEnd] = useState("2005-06-16");
+    const [end, setEnd] = useState("2005-06-15");
     const [date, setDate] = useState("");
 
     const [res, setRes] = useState({});
